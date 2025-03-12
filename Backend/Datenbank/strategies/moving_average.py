@@ -1,40 +1,53 @@
 import sqlite3
 import pandas as pd
-import numpy as np
+import plotly.graph_objects as go
 
-# Datenbankpfad
-DB_NAME = "backend/db/investment.db"
+DB_NAME = "/Users/jennycao/AQM_Invesment/Backend/Datenbank/DB/investment.db"
 
-def get_stock_data(symbol):
-    """Holt historische Aktienkurse aus der Datenbank"""
+def lade_daten(symbol, start_datum="2010-01-01", end_datum="2020-12-31"):
+    """Lädt die historischen Marktdaten aus der SQLite-Datenbank."""
     conn = sqlite3.connect(DB_NAME)
-    query = f"SELECT date, close FROM market_data WHERE symbol = '{symbol}' ORDER BY date ASC"
+    query = f"""
+        SELECT date, close FROM market_data 
+        WHERE symbol = '{symbol}' 
+        AND date BETWEEN '{start_datum}' AND '{end_datum}'
+    """
     df = pd.read_sql_query(query, conn)
     conn.close()
-    df['date'] = pd.to_datetime(df['date'])  # Datumskonvertierung
-    df.set_index('date', inplace=True)
+
+    df["date"] = pd.to_datetime(df["date"])
+    df.set_index("date", inplace=True)
     return df
 
-def calculate_moving_average(df, short_window=50, long_window=200):
-    """Berechnet den gleitenden Durchschnitt und Handelssignale"""
-    df['SMA_short'] = df['close'].rolling(window=short_window).mean()
-    df['SMA_long'] = df['close'].rolling(window=long_window).mean()
-
-    # Handelssignale generieren
-    df['signal'] = np.where(df['SMA_short'] > df['SMA_long'], 1, 0)  # 1 = Kaufen, 0 = Verkaufen
-    df['crossover'] = df['signal'].diff()  # 1 = Kaufsignal, -1 = Verkaufssignal
-
+def berechne_ma_strategie(df, kurz_fenster=50, lang_fenster=200):
+    """Berechnet die Kauf-/Verkaufsignale basierend auf Moving Averages."""
+    df["MA_kurz"] = df["close"].rolling(window=kurz_fenster).mean()
+    df["MA_lang"] = df["close"].rolling(window=lang_fenster).mean()
+    df["signal"] = (df["MA_kurz"] > df["MA_lang"]).astype(int)  # 1: Kaufen, 0: Verkaufen
     return df
 
-def get_moving_average_strategy(symbol):
-    """Wendet die Moving Average Strategie auf eine Aktie an"""
-    df = get_stock_data(symbol)
-    df = calculate_moving_average(df)
-    
-    # Nur die letzten 100 Einträge zurückgeben
-    return df.tail(100).to_dict(orient='records')
+def visualisiere_ma_strategie(df, symbol):
+    """Visualisiert die Moving Average Crossover-Strategie mit Plotly."""
+    fig = go.Figure()
+
+    # Kursverlauf
+    fig.add_trace(go.Scatter(x=df.index, y=df["close"], mode="lines", name="Schlusskurs"))
+    fig.add_trace(go.Scatter(x=df.index, y=df["MA_kurz"], mode="lines", name="MA 50"))
+    fig.add_trace(go.Scatter(x=df.index, y=df["MA_lang"], mode="lines", name="MA 200"))
+
+    # Kaufsignale
+    kauf_signale = df[df["signal"] == 1]
+    fig.add_trace(go.Scatter(
+        x=kauf_signale.index, y=kauf_signale["close"],
+        mode="markers", marker=dict(color="green", size=8),
+        name="Kaufen"
+    ))
+
+    fig.update_layout(title=f"Moving Average Crossover - {symbol}", xaxis_title="Datum", yaxis_title="Preis")
+    fig.show()
 
 if __name__ == "__main__":
-    symbol = "AAPL"  # Test mit Apple
-    result = get_moving_average_strategy(symbol)
-    print(result)  # Ausgabe der Ergebnisse
+    symbol = "AAPL"
+    df = lade_daten(symbol)
+    df = berechne_ma_strategie(df)
+    visualisiere_ma_strategie(df, symbol)

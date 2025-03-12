@@ -1,33 +1,58 @@
 import sqlite3
 import pandas as pd
-import numpy as np
+import plotly.graph_objects as go
 
-# Pfad zur SQLite-Datenbank
-DB_NAME = "backend/db/investment.db"
+DB_NAME = "/Users/jennycao/AQM_Invesment/Backend/Datenbank/DB/investment.db"
 
-def get_stock_data(symbol):
-    """Lädt historische Daten einer Aktie aus der Datenbank"""
+def lade_daten(symbol, start_datum="2010-01-01", end_datum="2020-12-31"):
+    """Lädt die historischen Marktdaten aus der SQLite-Datenbank."""
     conn = sqlite3.connect(DB_NAME)
-    query = f"SELECT date, close FROM market_data WHERE symbol = '{symbol}' ORDER BY date ASC"
+    query = f"""
+        SELECT date, close FROM market_data 
+        WHERE symbol = '{symbol}' 
+        AND date BETWEEN '{start_datum}' AND '{end_datum}'
+    """
     df = pd.read_sql_query(query, conn)
     conn.close()
-    df['date'] = pd.to_datetime(df['date'])  # Konvertiere Datum in DateTime-Format
-    df.set_index('date', inplace=True)
+
+    df["date"] = pd.to_datetime(df["date"])
+    df.set_index("date", inplace=True)
     return df
 
-def calculate_momentum(df, window=10):
-    """Berechnet das Momentum anhand der prozentualen Preisänderung über ein bestimmtes Zeitfenster"""
-    df['momentum'] = df['close'].pct_change(periods=window) * 100  # % Preisänderung
-    df['signal'] = np.where(df['momentum'] > 5, 'KAUFEN', np.where(df['momentum'] < -5, 'VERKAUFEN', 'HALTEN'))
+def berechne_momentum_strategie(df, fenster=10):
+    """Berechnet die Momentum-Strategie basierend auf Preisänderungen."""
+    df["momentum"] = df["close"].diff(periods=fenster)
+    df["signal"] = df["momentum"].apply(lambda x: 1 if x > 0 else -1)
     return df
 
-def get_momentum_strategy(symbol):
-    """Berechnet die Momentum-Strategie für eine Aktie"""
-    df = get_stock_data(symbol)
-    df = calculate_momentum(df)
-    return df.tail(50).to_dict(orient='records')  # Gibt die letzten 50 Tage zurück
+def visualisiere_momentum_strategie(df, symbol):
+    """Visualisiert die Strategie mit Plotly."""
+    fig = go.Figure()
+
+    # Kursverlauf
+    fig.add_trace(go.Scatter(x=df.index, y=df["close"], mode="lines", name="Schlusskurs"))
+
+    # Kaufsignale
+    kauf_signale = df[df["signal"] == 1]
+    fig.add_trace(go.Scatter(
+        x=kauf_signale.index, y=kauf_signale["close"],
+        mode="markers", marker=dict(color="green", size=8),
+        name="Kaufen"
+    ))
+
+    # Verkaufssignale
+    verkauf_signale = df[df["signal"] == -1]
+    fig.add_trace(go.Scatter(
+        x=verkauf_signale.index, y=verkauf_signale["close"],
+        mode="markers", marker=dict(color="red", size=8),
+        name="Verkaufen"
+    ))
+
+    fig.update_layout(title=f"Momentum-Strategie - {symbol}", xaxis_title="Datum", yaxis_title="Preis")
+    fig.show()
 
 if __name__ == "__main__":
-    symbol = "AAPL"  # Test mit Apple-Aktie
-    result = get_momentum_strategy(symbol)
-    print(result)  # Ausgabe der Daten
+    symbol = "AAPL"
+    df = lade_daten(symbol)
+    df = berechne_momentum_strategie(df)
+    visualisiere_momentum_strategie(df, symbol)
