@@ -61,11 +61,66 @@ def get_data_from_db(asset_type, symbol, start_date="2010-01-01", end_date="2020
 
 if __name__ == "__main__":
     # Liste von Aktien, ETFs und Kryptowährungen
-    stocks_etfs = ["AAPL", "TSLA", "SPY"]  # Beispiel: Apple, Tesla, S&P 500 ETF
-    cryptos = ["BTC", "ETH", "SOL"]  # Beispiel: Bitcoin, Ethereum, Solana
+    stocks = [
+    "AAPL", "MSFT", "AMZN", "GOOGL", "TSLA", "META", "NVDA", "JNJ", "V", "JPM",
+    "WMT", "PG", "DIS", "MA", "HD", "BAC", "XOM", "PFE", "KO", "CSCO",
+    "PEP", "INTC", "MRK", "ABT", "CMCSA", "ADBE", "NFLX", "NKE", "ORCL", "T",
+    "CRM", "LLY", "MCD", "AMD", "IBM", "HON", "UNH", "CVX", "BA", "COST",
+    "AVGO", "TXN", "QCOM", "AMGN", "MDT", "LIN", "UPS", "NEE", "PM", "SPGI",
+    "GS", "MS", "BLK", "AXP", "BKNG", "NOW", "ISRG", "LMT", "GE", "CAT",
+    "MMM", "DE", "F", "GM", "SBUX", "PYPL", "DHR", "GILD", "PLD", "ADP",
+    "CI", "MO", "SCHW", "ZTS", "SYK", "MMC", "TJX", "C", "DUK", "BDX",
+    "TMO", "LOW", "USB", "RTX", "SLB", "COP", "AMT", "CCI", "CL", "D",
+    "SO", "SRE", "ETN", "ECL", "ITW", "APD", "SHW", "FIS", "FISV", "BK",
+    "ICE", "CME", "MCO", "SPG", "PSA", "FDX", "EMR", "AON", "MET", "PRU",
+    "TRV", "ALL", "AIG", "LRCX", "KLAC", "ADI", "MU", "NXPI", "WDAY", "SNPS",
+    "CDNS", "ANSS", "FTNT", "PANW", "ZM", "DOCU", "CRWD", "DDOG", "OKTA", "ZS",
+    "TEAM", "MDB", "TWLO", "NET", "SNOW", "U", "SHOP", "SQ", "ROKU", "TTD"
+]
+  # Beispiel: Apple, Tesla, S&P 500 ETF
+    etfs = [
+    "CSPX", "ISF", "EIMI", "IUSA", "VGK", "VUSA", "XDWD", "XDEQ", "SPY5", "ZPRS",
+    "EQQQ", "IQQQ", "SXR8", "IWDA", "EUNL", "VWRL", "VEUR", "VJPN", "VFEM", "XCS5",
+    "XMME", "XESX", "XSPX", "XDUK", "XDJP", "XDEM", "XD9U", "XGGB", "XGSC", "XGEM",
+    "XMID", "XSMI", "XDTF", "XFR", "XIT", "XAT", "XNL", "XSE", "XBE", "XFI", "XNO",
+    "XLV", "XLY", "XLF", "XLE", "XLB", "XLU", "XLP", "XLI", "XRE", "XDWG", "XEUR",
+    "XDUS", "XDGB", "XDEW", "XDWE", "XSX5", "XSX4", "XSX3", "XSX2", "XSX1", "XLRE",
+    "XSDJ", "XSTOXX", "XSME", "XJPN", "XEMB", "XEME", "XEMD", "XEMX", "XUSA", "XHKG",
+    "XCHN", "XIND", "XBRZ", "XMEX", "XSAU", "XSGP", "XNZL", "XISR", "XTHA", "XPHL",
+    "XDWD", "XDJP", "XUSA", "XEUR", "XREU", "XGLO", "XUKX", "XMSCI", "XACWI", "XWO",
+    "XIEE", "XETF", "XWLD", "XSUS", "XGER", "XFRA", "XITL", "XUK", "XFDX", "XDX2",
+    "XNXE", "XDNQ", "XFTSE", "XFTD", "XFUK", "XEME", "XEMT", "XEFA", "XFEE", "XD5E"
+]
 
-    # Abruf von Aktien & ETFs
-    for symbol in stocks_etfs:
+    cryptos = [
+    "BTC", "ETH", "USDT", "BNB", "XRP", "ADA", "SOL", "DOGE", "DOT", "LTC",
+    "USDC", "LINK", "BCH", "XLM", "UNI", "ATOM", "ALGO", "MATIC", "AVAX", "TRX",
+    "ETC", "FTT", "NEAR", "XMR", "VET", "EOS", "AAVE", "KSM", "FIL", "XTZ",
+    "THETA", "CRO", "DAI", "HBAR", "MKR", "SUSHI", "COMP", "ZEC", "DASH", "ENJ",
+    "BAT", "GRT", "CHZ", "YFI", "SNX", "RUNE", "ZIL", "ONT", "QTUM", "OMG",
+    "ICX", "STX", "NANO", "BTT", "SC", "ANKR", "RVN", "KAVA", "CEL", "FTM",
+    "HNT", "ONE", "LRC", "REN", "BAL", "SRM", "CVC", "OCEAN", "STORJ", "UMA",
+    "BAND", "KNC", "REP", "PAXG", "NEXO", "GNO", "AR", "LPT", "RSR", "SXP",
+    "ZEN", "WRX", "CKB", "DGB", "COTI", "STMX", "FUN", "MTL", "TRAC", "AKRO",
+    "PERP", "ORN", "MLN", "MIR", "ALPHA", "RLC", "ANT", "WNXM", "KEEP", "BADGER",
+    "FET", "CTSI", "DIA", "AVA", "POLY", "MANA", "SAND", "AXS", "GALA", "ILV",
+    "YGG", "FLOW", "CHR", "UOS", "WAXP", "LOOM", "C98", "XVS", "BAKE", "BEL",
+    "TWT", "DODO", "EPS", "AUTO", "ALICE", "DEGO", "LINA", "FARM", "RENBTC", "DIGG",
+    "MITH", "DOGE", "SHIB", "ELON", "SAFEMOON", "BABYDOGE", "FLOKI", "KISHU", "AKITA",
+    "HOGE", "SAMO", "PIT", "FEG", "HUSKY", "KEANU", "ELD", "KUMA", "SHIBA", "SHIBX",
+    "SHIBU"
+]
+  # Beispiel: Bitcoin, Ethereum, Solana
+
+    # Abruf von Aktien 
+    for symbol in stocks:
+        print(f"Abrufen von Daten für {symbol}...")
+        df = fetch_stock_etf_data(symbol)
+        save_to_database("Stock/ETF", symbol, df)
+        print(f"Daten für {symbol} gespeichert!")
+
+    # Abruf von ETFs
+    for symbol in etfs:
         print(f"Abrufen von Daten für {symbol}...")
         df = fetch_stock_etf_data(symbol)
         save_to_database("Stock/ETF", symbol, df)
