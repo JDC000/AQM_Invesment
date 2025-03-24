@@ -1,14 +1,19 @@
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 import sqlite3
 import pandas as pd
+from Backend.strategies.momentum import berechne_momentum_strategie
 
 # Verbindung zur SQLite-Datenbank
 DB_NAME = "/Users/jennycao/AQM_Invesment/Backend/Datenbank/DB/investment.db"
 
-# Startkapital
+# Startkapital für Vergleichsstrategie
 STARTKAPITAL = 100000  
 
 def get_all_symbols():
@@ -19,7 +24,7 @@ def get_all_symbols():
     conn.close()
     return df["symbol"].tolist()
 
-# Liste der Assets aus der Datenbank
+# Liste der verfügbaren Symbole aus der Datenbank
 symbols = get_all_symbols()
 assets = [{"label": symbol, "value": symbol} for symbol in symbols]
 
@@ -34,7 +39,7 @@ app = dash.Dash(__name__)
 
 # Dashboard-Layout
 app.layout = html.Div([
-    html.H1("Dashboard Gleitender Durchschnitt Crossover", style={"textAlign": "center"}),
+    html.H1(id="dashboard-title", style={"textAlign": "center"}),
 
     html.Div([
         html.Label("Wählen Sie eine Strategie aus:"),
@@ -66,8 +71,8 @@ app.layout = html.Div([
 
     html.Div([
         html.H3("Ergebnis"),
-        html.P("Gesamtwert: €", id="total-value"),
-        html.P("Gewinn: €", id="profit-value"),
+        html.P(id="total-value"),
+        html.P(id="profit-value"),
     ], style={"textAlign": "left", "marginTop": "20px"}),
 ])
 
@@ -102,6 +107,19 @@ def calculate_portfolio(symbol):
     final_value = df["portfolio_value"].iloc[-1]
     profit = final_value - STARTKAPITAL
     return df, final_value, profit
+
+# Callback zur Aktualisierung des Dashboard-Titels basierend auf der gewählten Strategie
+@app.callback(
+    Output("dashboard-title", "children"),
+    Input("strategy-dropdown", "value")
+)
+def update_dashboard_title(selected_strategy):
+    """Aktualisiert den Titel des Dashboards basierend auf der gewählten Strategie"""
+    if selected_strategy == "moving_average":
+        return "Gleitender Durchschnitt Crossover"
+    elif selected_strategy == "momentum":
+        return " Momentum-Strategie"
+    return "Investment-Strategie"
 
 # Callback zur Aktualisierung der Diagramme
 @app.callback(
