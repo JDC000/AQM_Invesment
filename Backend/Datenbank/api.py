@@ -1,21 +1,24 @@
-from flask import Flask, jsonify, request
 import sqlite3
 import pandas as pd
+from pathlib import Path
 
-app = Flask(__name__)
+DB_PATH = Path(__file__).resolve().parent / "DB" / "investment.db"
 
-@app.route("/get_data", methods=["GET"])
-def get_data():
-    symbol = request.args.get("symbol", "").upper()
-    if not symbol:
-        return jsonify({"error": "Symbol is required"}), 400
+def get_connection():
+    return sqlite3.connect("/Users/jennycao/Desktop/AQM_Invesment/Backend/Datenbank/DB/investment.db")
 
-    conn = sqlite3.connect("backend/db/investment.db")
-    query = f"SELECT * FROM market_data WHERE symbol = '{symbol}'"
-    df = pd.read_sql_query(query, conn)
-    conn.close()
+def get_available_stocks():
+    with get_connection() as conn:
+        query = "SELECT DISTINCT symbol FROM market_data"
+        rows = conn.execute(query).fetchall()
+        return [row[0] for row in rows]
 
-    return jsonify(df.to_dict(orient="records"))
-
-if __name__ == "__main__":
-    app.run(debug=True)
+def load_stock_data(symbol, start_date, end_date):
+    with get_connection() as conn:
+        query = """
+        SELECT date, close
+        FROM market_data
+        WHERE symbol = ?  AND date BETWEEN ? AND ?
+        ORDER BY date
+        """
+        return pd.read_sql_query(query, conn, params=[symbol, str(start_date), str(end_date)], parse_dates=['date'])
