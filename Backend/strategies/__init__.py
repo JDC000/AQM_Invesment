@@ -4,6 +4,7 @@ from strategies.bollinger_bands import run_strategy as strat_bollinger
 from strategies.breakout_strategie import run_strategy as strat_breakout
 from strategies.fibonacci import run_strategy as strat_fibonacci
 from strategies.relative_strength import run_strategy as strat_rs
+from strategies.buy_and_hold import run_strategy as strat_buyhold
 from strategies.september_december import run_strategy as strat_septdec
 
 STRATEGIES = {
@@ -13,5 +14,6 @@ STRATEGIES = {
     "Breakout Strategie": strat_breakout,
     "Fibonacci": strat_fibonacci,
     "Relative Strength": strat_rs,
+    "Buy & Hold": strat_buyhold,
     "September/December": strat_septdec,
 }

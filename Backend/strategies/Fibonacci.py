@@ -6,6 +6,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_NAME = os.path.join(BASE_DIR, "DB", "investment.db")
 
+
 def run_strategy(df: pd.DataFrame, fenster=50, tolerance=0.01, start_kapital=100000):
     """
     Fibonacci-Retracement-Strategie mit einfacher Trade-Simulation.

@@ -15,6 +15,14 @@ def run_strategy(df: pd.DataFrame, start_kapital=100000):
     """
     df = df.copy()
 
+    # --- Sicherstellen, dass der Index ein DatetimeIndex ist ---
+    if not isinstance(df.index, pd.DatetimeIndex):
+        try:
+            df.index = pd.to_datetime(df.index)
+        except Exception as e:
+            raise ValueError("Der DataFrame-Index konnte nicht in einen DatetimeIndex umgewandelt werden. "
+                             "Bitte stellen Sie sicher, dass der Index Datumsinformationen enthält.") from e
+
     # --- 1) Signale generieren ---
     df["signal"] = 0
     grouped = df.groupby([df.index.year, df.index.month])
@@ -50,7 +58,7 @@ def run_strategy(df: pd.DataFrame, start_kapital=100000):
     # --- 3) Plotly-Figuren ---
     # fig1: Schlusskurs + Kauf-/Verkaufspunkte
     fig1 = go.Figure()
-    fig1.add_trace(go.Scatter(x=df['date'], y=df["close"], mode="lines", name="Schlusskurs"))
+    fig1.add_trace(go.Scatter(x=df.index, y=df["close"], mode="lines", name="Schlusskurs"))
     kauf_signale = df[df["signal"] == 1]
     verkauf_signale = df[df["signal"] == -1]
     fig1.add_trace(go.Scatter(
@@ -68,7 +76,7 @@ def run_strategy(df: pd.DataFrame, start_kapital=100000):
 
     # fig2: Kapitalentwicklung
     fig2 = go.Figure()
-    fig2.add_trace(go.Scatter(x=df['date'], y=df["Equity"], mode="lines", name="Equity"))
+    fig2.add_trace(go.Scatter(x=df.index, y=df["Equity"], mode="lines", name="Equity"))
     fig2.update_layout(title="Buy September / Sell December – Kapitalentwicklung",
                        xaxis_title="Datum", yaxis_title="Kapital")
 
