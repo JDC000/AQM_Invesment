@@ -2,8 +2,11 @@ import pandas as pd
 import plotly.graph_objects as go
 import sqlite3
 
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_NAME = os.path.join(BASE_DIR, "DB", "investment.db")
 
-def lade_daten_aus_db(symbol, start_datum="2010-01-01", end_datum="2020-12-31", db_pfad="/Users/jennycao/Desktop/AQM_Invesment/Backend/Datenbank/DB/investment.db"):
+def lade_daten_aus_db(symbol, start_datum="2010-01-01", end_datum="2020-12-31", db_pfad=DB_NAME):
     conn = sqlite3.connect(db_pfad)
     abfrage = """
         SELECT date, close
