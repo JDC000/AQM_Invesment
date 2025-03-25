@@ -1,11 +1,13 @@
 import sqlite3
 import pandas as pd
 from pathlib import Path
+import os
 
-DB_PATH = Path(__file__).resolve().parent / "DB" / "investment.db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_FILE = os.path.join(BASE_DIR, "DB", "investment.db")
 
 def get_connection():
-    return sqlite3.connect("/Users/jennycao/Desktop/AQM_Invesment/Backend/Datenbank/DB/investment.db")
+    return sqlite3.connect(DB_FILE)
 
 def get_available_stocks():
     with get_connection() as conn:
