@@ -5,21 +5,26 @@ import time
 import os
 
 # Name der SQLite-Datenbank
-DB_NAME = "/Users/jennycao/AQM_Invesment/Backend/Datenbank/DB/investment.db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_dir = os.path.join(BASE_DIR, "DB")
+if not os.path.exists(db_dir):
+    os.makedirs(db_dir)
+
+DB_NAME = os.path.join(db_dir, "investment.db")
 
 # Listen von Aktien, ETFs und Kryptowährungen
 stocks = ["AAPL", "MSFT", "AMZN", "GOOGL", "TSLA", "META", "NVDA", "JNJ", "V", "JPM",
-    "WMT", "PG", "DIS", "MA", "HD", "BAC", "XOM", "PFE", "KO", "CSCO",
-    "PEP", "INTC", "MRK", "ABT", "CMCSA", "ADBE", "NFLX", "NKE", "ORCL", "T",
-    "CRM", "LLY", "MCD", "AMD", "IBM", "HON", "UNH", "CVX", "BA", "COST",
-    "AVGO", "TXN", "QCOM", "AMGN", "MDT", "LIN", "UPS", "NEE", "PM", "SPGI"]
+          "WMT", "PG", "DIS", "MA", "HD", "BAC", "XOM", "PFE", "KO", "CSCO",
+          "PEP", "INTC", "MRK", "ABT", "CMCSA", "ADBE", "NFLX", "NKE", "ORCL", "T",
+          "CRM", "LLY", "MCD", "AMD", "IBM", "HON", "UNH", "CVX", "BA", "COST",
+          "AVGO", "TXN", "QCOM", "AMGN", "MDT", "LIN", "UPS", "NEE", "PM", "SPGI"]
 etfs = [
-    "XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE"
+    "XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE", "VT"
 ]
 cryptos = [
     "BNB", "XRP", "SOL", "DOT", "LTC",
     "USDC", "LINK", "BCH", "XLM", "UNI", "ATOM", "TRX",
-    "ETC", "NEAR", "XMR", "VET", "EOS", "FIL","CRO", "DAI", "DASH", "ENJ"
+    "ETC", "NEAR", "XMR", "VET", "EOS", "FIL", "CRO", "DAI", "DASH", "ENJ"
 ]
 
 # Automatische Erstellung der Datenbank
@@ -40,31 +45,27 @@ def create_database():
             PRIMARY KEY (asset_type, symbol, date)
         )
     """)
+    conn.commit()
     conn.close()
-
 
 def fetch_yfinance_data(symbol, asset_type, start="2010-01-01", end="2020-12-31"):
     """Holt historische Daten von Yahoo Finance und stellt sicher, dass das Datum korrekt formatiert ist."""
     try:
-        df = yf.download(symbol, start=start, end=end)
-
+        df = yf.download(symbol, start=start, end=end, progress=False)
         if df.empty:
             print(f"Keine Daten für {symbol} gefunden.")
             return None
 
-        # Falls DataFrame MultiIndex hat, in einfache Spalten umwandeln
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.droplevel(1)
 
-        # Debugging: Anzeigen der ursprünglichen Spaltennamen nach Anpassung
         print(f"Korrigierte Spalten für {symbol}: {df.columns}")
 
-        # Sicherstellen, dass die Spaltennamen korrekt sind
         df.reset_index(inplace=True)
         df.rename(columns={"Date": "date", "Open": "open", "High": "high",
                            "Low": "low", "Close": "close", "Volume": "volume"}, inplace=True)
 
-        df["date"] = df["date"].astype(str)  # Sicherstellen, dass es als TEXT gespeichert wird
+        df["date"] = df["date"].astype(str)  # als TEXT speichern
         df["asset_type"] = asset_type
         df["symbol"] = symbol
 
@@ -73,7 +74,6 @@ def fetch_yfinance_data(symbol, asset_type, start="2010-01-01", end="2020-12-31"
     except Exception as e:
         print(f"Fehler beim Abrufen von {symbol}: {e}")
         return None
-
 
 def save_to_database(data):
     """Speichert Daten in der SQLite-Datenbank, falls sie existieren."""
@@ -86,9 +86,9 @@ def save_to_database(data):
 
     conn = sqlite3.connect(DB_NAME)
     data.to_sql("market_data", conn, if_exists="append", index=False)
+    conn.commit()
     conn.close()
     print(f"Daten erfolgreich gespeichert für {data['symbol'][0]}")
-
 
 def get_data_from_db(asset_type, symbol, start_date="2010-01-01", end_date="2020-12-31"):
     """Holt gespeicherte Daten aus der Datenbank."""
@@ -103,20 +103,24 @@ def get_data_from_db(asset_type, symbol, start_date="2010-01-01", end_date="2020
     return df
 
 if __name__ == "__main__":
-    #Datenbank erstellen
+    # Falls die Datenbank bereits existiert, löschen wir sie vorab
+    if os.path.exists(DB_NAME):
+        os.remove(DB_NAME)
+        print(f"Alte Datenbank {DB_NAME} wurde gelöscht.")
+
+    # Datenbank neu erstellen
     create_database()
 
-    #Aktien & ETFs abrufen
+    # Aktien & ETFs abrufen
     for symbol in stocks + etfs:
         print(f"Abrufen von Daten für {symbol}...")
         df = fetch_yfinance_data(symbol, "Stock/ETF")
         save_to_database(df)
         time.sleep(2)  # API-Limit vermeiden
 
-    #Kryptowährungen abrufen
+    # Kryptowährungen abrufen
     for symbol in cryptos:
         print(f"Abrufen von Daten für Kryptowährung: {symbol}...")
         df = fetch_yfinance_data(symbol, "Crypto")
         save_to_database(df)
         time.sleep(2)  # API-Limit vermeiden
-
