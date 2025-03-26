@@ -12,18 +12,22 @@ def run_strategy(df: pd.DataFrame, start_kapital: float = 100000):
     - Simuliert Trades (alles rein, alles raus) und gibt (gesamtwert, gewinn) zurück.
     """
     df = df.copy()
-    # Sicherstellen, dass der Index ein DatetimeIndex ist und nur das Datum enthält
+    # Falls vorhanden, setze die "date"-Spalte als Index
+    if "date" in df.columns:
+        df.set_index("date", inplace=True)
+    # Sicherstellen, dass der Index ein DatetimeIndex ist
     if not isinstance(df.index, pd.DatetimeIndex):
         df.index = pd.to_datetime(df.index)
-    df.index = df.index.normalize()  # Entfernt Zeitinformationen, sodass nur das Datum übrig bleibt
+    # Normalisiere den Index (entfernt Zeitinformationen)
+    df.index = df.index.normalize()
 
     # Signale initialisieren
     df["signal"] = 0
     grouped = df.groupby([df.index.year, df.index.month])
     for (year, month), group in grouped:
         first_day = group.index.min()
-        # Debug-Ausgabe – bei Bedarf aktivieren:
-        # print(f"Jahr: {year}, Monat: {month}, erster Tag: {first_day}")
+        # Debug-Ausgabe, um die Gruppierung zu überprüfen
+        print(f"Jahr: {year}, Monat: {month}, erster Tag: {first_day}")
         if month == 9:
             df.loc[first_day, "signal"] = 1
         elif month == 12:
@@ -36,11 +40,9 @@ def run_strategy(df: pd.DataFrame, start_kapital: float = 100000):
         preis = df.iloc[i]["close"]
         signal = df.iloc[i]["signal"]
         if signal == 1 and position == 0:
-            # Kaufsignal: Volles Kapital investieren
             position = kapital / preis
             kapital = 0
         elif signal == -1 and position > 0:
-            # Verkaufssignal: Position liquidieren
             kapital = position * preis
             position = 0
 
