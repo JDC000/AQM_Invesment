@@ -4,7 +4,7 @@ import os
 import sys
 
 # Gemeinsame Hilfsfunktionen importieren (sollten in common.py definiert sein)
-from common import ensure_close_column, ensure_datetime_index, format_currency
+from .common import ensure_close_column, ensure_datetime_index, format_currency
 
 def run_strategy(df: pd.DataFrame, start_kapital: float = 100000):
     """

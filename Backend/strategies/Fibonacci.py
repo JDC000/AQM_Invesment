@@ -2,7 +2,7 @@ import pandas as pd
 import sqlite3
 import os
 import sys
-from common import ensure_close_column, ensure_datetime_index, format_currency
+from .common import ensure_close_column, ensure_datetime_index, format_currency
 
 def run_strategy(df: pd.DataFrame, fenster: int = 50, tolerance: float = 0.01, start_kapital: float = 100000):
     """

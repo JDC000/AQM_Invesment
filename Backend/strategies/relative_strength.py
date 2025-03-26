@@ -3,7 +3,7 @@ import sqlite3
 import os
 import sys
 from plotly.subplots import make_subplots  # Wird hier nicht benötigt, da wir keine Diagramme ausgeben
-from common import ensure_close_column, ensure_datetime_index, format_currency
+from .common import ensure_close_column, ensure_datetime_index, format_currency
 
 def run_strategy(df: pd.DataFrame, fenster: int = 14, overkauft: float = 70, oversold: float = 30, start_kapital: float = 100000):
     """
