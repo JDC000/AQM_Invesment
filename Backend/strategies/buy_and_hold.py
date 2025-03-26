@@ -1,97 +1,85 @@
 import pandas as pd
-import plotly.graph_objects as go
+import sqlite3
+import os
+import sys
 
-def run_strategy(df: pd.DataFrame, start_kapital=100000):
+# Gemeinsame Hilfsfunktionen importieren (sollten in common.py definiert sein)
+from common import ensure_close_column, ensure_datetime_index, format_currency
+
+def run_strategy(df: pd.DataFrame, start_kapital: float = 100000):
     """
     Buy and Hold Strategie:
-    - Zum frühestmöglichen Zeitpunkt wird das gesamte Kapital investiert.
-    - Zum spätestmöglichen Zeitpunkt wird die Position verkauft.
-    
-    Parameter:
-        df (pd.DataFrame): DataFrame mit historischen Preisdaten. 
-                           Erwartete Spalten: "date" (Datum) und "close" (Schlusskurs).
-        start_kapital (float): Das initiale Startkapital.
-    
-    Rückgabe:
-        tuple: (fig1, fig2, gesamtwert, gewinn)
-               fig1: Diagramm mit Kursentwicklung und Kauf-/Verkaufspunkten.
-               fig2: Diagramm mit Gesamtvermögen nach den Transaktionen.
-               gesamtwert: Endwert der Strategie.
-               gewinn: Gewinn (oder Verlust) gegenüber dem Startkapital.
+    - Investiert am frühestmöglichen Tag das gesamte Kapital
+    - Verkauft am spätestmöglichen Tag
+    - Gibt (gesamtwert, gewinn) zurück
     """
     df = df.copy()
-
-    # Signale initialisieren: 0 = keine Aktion
+    # Signalspalte initialisieren
     df["signal"] = 0
     if not df.empty:
-        df.loc[df.index[0], "signal"] = 1   # Kauf am frühestmöglichen Zeitpunkt
-        df.loc[df.index[-1], "signal"] = -1   # Verkauf am spätestmöglichen Zeitpunkt
+        df.loc[df.index[0], "signal"] = 1   # Kauf
+        df.loc[df.index[-1], "signal"] = -1   # Verkauf
 
-    # === Simulation von Transaktionen ===
+    # Simulation der Transaktionen
     kapital = start_kapital
     position = 0
-    eigenkapital_punkte = []
-
     for i in range(len(df)):
-        zeile = df.iloc[i]
-        datum = zeile["date"]
-        preis = zeile["close"]
-        signal = zeile["signal"]
-
+        preis = df.iloc[i]["close"]
+        signal = df.iloc[i]["signal"]
         if signal == 1 and position == 0:
             position = kapital / preis
             kapital = 0
-            eigenkapital_punkte.append((datum, position * preis))
         elif signal == -1 and position > 0:
             kapital = position * preis
             position = 0
-            eigenkapital_punkte.append((datum, kapital))
 
-    # Gesamtwert am Ende
-    if position > 0:
-        gesamtwert = kapital + position * df.iloc[-1]["close"]
-    else:
-        gesamtwert = kapital
-
+    # Endwert berechnen
+    gesamtwert = kapital + position * df.iloc[-1]["close"]
     gewinn = gesamtwert - start_kapital
+    return gesamtwert, gewinn
 
-    # === Diagramm 1: Kursentwicklung und Kauf-/Verkaufspunkte ===
-    fig1 = go.Figure()
-    fig1.add_trace(go.Scatter(x=df["date"], y=df["close"], name="Aktienkurs", line=dict(color="gray")))
-    
-    kaufen = df[df["signal"] == 1]
-    verkaufen = df[df["signal"] == -1]
+# -------------------------
+# Test-Main Buy and Hold
+# -------------------------
+if __name__ == "__main__":
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    # Passe den Pfad an: z. B. eine Ebene nach oben in "Datenbank/DB"
+    BASE_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
+    DB_NAME = os.path.join(BASE_DIR, "Datenbank", "DB", "investment.db")
 
-    fig1.add_trace(go.Scatter(
-        x=kaufen["date"], y=kaufen["close"], mode="markers", name="Kaufen",
-        marker=dict(color="green", symbol="triangle-up", size=10)
-    ))
+    symbol = "AAPL"
+    start_date = "2010-01-01"
+    end_date = "2020-12-31"
 
-    fig1.add_trace(go.Scatter(
-        x=verkaufen["date"], y=verkaufen["close"], mode="markers", name="Verkaufen",
-        marker=dict(color="red", symbol="triangle-down", size=10)
-    ))
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        query = """
+            SELECT date, close
+            FROM market_data
+            WHERE symbol = ? AND date BETWEEN ? AND ?
+            ORDER BY date
+        """
+        params = [symbol, start_date, end_date]
+        df_db = pd.read_sql_query(query, conn, params=params, parse_dates=["date"])
+    except Exception as e:
+        print("Fehler beim Laden der Daten:", e)
+        sys.exit(1)
+    finally:
+        conn.close()
 
-    fig1.update_layout(
-        title="Buy and Hold Strategie – Kauf/Verkauf Signale",
-        xaxis_title="Datum", yaxis_title="Aktienkurs (€)"
-    )
-    
-    # === Diagramm 2: Gesamtvermögen nach den Transaktionen ===
-    fig2 = go.Figure()
-    if eigenkapital_punkte:
-        daten, werte = zip(*eigenkapital_punkte)
-        fig2.add_trace(go.Scatter(
-            x=daten, y=werte,
-            mode="lines+markers",
-            name="Gesamtvermögen",
-            marker=dict(color="green", size=8),
-            line=dict(color="green", width=2)
-        ))
+    try:
+        df_db = ensure_close_column(df_db)
+        df_db = ensure_datetime_index(df_db)
+    except Exception as e:
+        print("Fehler bei der Datenaufbereitung:", e)
+        sys.exit(1)
 
-    fig2.update_layout(
-        title="Gesamtvermögen nach jeder Transaktion",
-        xaxis_title="Datum", yaxis_title="Vermögen (€)"
-    )
+    start_value = 100000
+    end_value, profit = run_strategy(df_db, start_kapital=start_value)
+    percent_change = (end_value - start_value) / start_value * 100
 
-    return fig1, fig2, gesamtwert, gewinn
+    print("Buy and Hold Strategie:")
+    print("Startwert: €" + format_currency(start_value))
+    print("Endwert: €" + format_currency(end_value))
+    print("Gewinn/Verlust: €" + format_currency(profit))
+    print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")

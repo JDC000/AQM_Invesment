@@ -1,48 +1,35 @@
-import sqlite3
 import pandas as pd
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+import sqlite3
 import os
+import sys
+from plotly.subplots import make_subplots  # Wird hier nicht benötigt, da wir keine Diagramme ausgeben
+from common import ensure_close_column, ensure_datetime_index, format_currency
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_NAME = os.path.join(BASE_DIR, "DB", "investment.db")
-
-def run_strategy(df: pd.DataFrame, fenster=14, overkauft=70, oversold=30, start_kapital=100000):
+def run_strategy(df: pd.DataFrame, fenster: int = 14, overkauft: float = 70, oversold: float = 30, start_kapital: float = 100000):
     """
-    RSI-Strategie mit einfacher Trade-Simulation.
-    
-    - 'fenster': Anzahl Tage für die RSI-Berechnung
-    - 'overkauft': RSI-Schwelle für Verkaufssignal
-    - 'oversold': RSI-Schwelle für Kaufsignal
-    - 'start_kapital': Startkapital in €
+    RSI-Strategie:
+    - Berechnet den RSI
+    - Generiert Kaufsignale bei RSI unter 'oversold' und Verkaufssignale bei RSI über 'overkauft'
+    - Simuliert Trades (alles rein, alles raus) und gibt (gesamtwert, gewinn) zurück.
     """
     df = df.copy()
-
-    # --- 1) RSI berechnen ---
     delta = df["close"].diff()
     gain = delta.clip(lower=0)
     loss = -delta.clip(upper=0)
-
     avg_gain = gain.rolling(window=fenster, min_periods=fenster).mean()
     avg_loss = loss.rolling(window=fenster, min_periods=fenster).mean()
-
     rs = avg_gain / avg_loss
     df["RSI"] = 100 - (100 / (1 + rs))
 
-    # --- 2) Signale ---
     df["signal"] = 0
-    df.loc[df["RSI"] < oversold, "signal"] = 1    # Kaufen
-    df.loc[df["RSI"] > overkauft, "signal"] = -1  # Verkaufen
+    df.loc[df["RSI"] < oversold, "signal"] = 1
+    df.loc[df["RSI"] > overkauft, "signal"] = -1
 
-    # --- 3) Einfache Trade-Simulation ---
     kapital = start_kapital
     position = 0
-    equity_curve = []
-
     for i in range(len(df)):
         preis = df.iloc[i]["close"]
         signal = df.iloc[i]["signal"]
-
         if signal == 1 and position == 0:
             position = kapital / preis
             kapital = 0
@@ -50,58 +37,51 @@ def run_strategy(df: pd.DataFrame, fenster=14, overkauft=70, oversold=30, start_
             kapital = position * preis
             position = 0
 
-        equity_curve.append(kapital + position * preis)
+    gesamtwert = kapital + position * df.iloc[-1]["close"]
+    gewinn = gesamtwert - start_kapital
+    return gesamtwert, gewinn
 
-    df["Equity"] = equity_curve
-    final_value = equity_curve[-1] if equity_curve else start_kapital
-    gewinn = final_value - start_kapital
-
-    # --- 4) Plotly-Figuren ---
-    # fig1: Schlusskurs + Kauf/Verkauf
-    fig1 = go.Figure()
-    fig1.add_trace(go.Scatter(x=df.index, y=df["close"], mode="lines", name="Schlusskurs"))
-    kauf_signale = df[df["signal"] == 1]
-    verkauf_signale = df[df["signal"] == -1]
-    fig1.add_trace(go.Scatter(x=kauf_signale.index, y=kauf_signale["close"], mode="markers",
-                              marker=dict(color="green", size=8), name="Kaufen"))
-    fig1.add_trace(go.Scatter(x=verkauf_signale.index, y=verkauf_signale["close"], mode="markers",
-                              marker=dict(color="red", size=8), name="Verkaufen"))
-    fig1.update_layout(title="RSI Strategie – Kursverlauf", xaxis_title="Datum", yaxis_title="Preis")
-
-    # fig2: Subplots für Equity-Kurve (oben) und RSI (unten)
-    fig2 = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.05,
-                         subplot_titles=("Kapitalentwicklung", "RSI"))
-    # -- Equity-Kurve
-    fig2.add_trace(go.Scatter(x=df.index, y=df["Equity"], mode="lines", name="Equity"), row=1, col=1)
-    # -- RSI
-    fig2.add_trace(go.Scatter(x=df.index, y=df["RSI"], mode="lines", name="RSI"), row=2, col=1)
-    # Overbought/Oversold-Linien
-    fig2.add_hline(y=overkauft, line_dash="dash", line_color="red", row=2, col=1)
-    fig2.add_hline(y=oversold, line_dash="dash", line_color="green", row=2, col=1)
-
-    fig2.update_layout(title="RSI Strategie – Equity & RSI")
-
-    return fig1, fig2, final_value, gewinn
-
-
-# --- Optionaler Testlauf ---
+# -------------------------
+# Test-Main RSI
+# -------------------------
 if __name__ == "__main__":
-    def lade_daten(symbol, start_datum="2010-01-01", end_datum="2020-12-31"):
-        conn = sqlite3.connect(DB_NAME)
-        query = f"""
-            SELECT date, close FROM market_data 
-            WHERE symbol = '{symbol}' 
-            AND date BETWEEN '{start_datum}' AND '{end_datum}'
-        """
-        df_local = pd.read_sql_query(query, conn)
-        conn.close()
-        df_local["date"] = pd.to_datetime(df_local["date"])
-        df_local.set_index("date", inplace=True)
-        return df_local
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    BASE_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
+    DB_NAME = os.path.join(BASE_DIR, "Datenbank", "DB", "investment.db")
 
     symbol = "AAPL"
-    df_test = lade_daten(symbol)
-    figA, figB, end_value, profit = run_strategy(df_test)
-    figA.show()
-    figB.show()
-    print("Endwert:", end_value, "Gewinn:", profit)
+    start_date = "2010-01-01"
+    end_date = "2020-12-31"
+
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        query = """
+            SELECT date, close
+            FROM market_data
+            WHERE symbol = ? AND date BETWEEN ? AND ?
+            ORDER BY date
+        """
+        params = [symbol, start_date, end_date]
+        df_db = pd.read_sql_query(query, conn, params=params, parse_dates=["date"])
+    except Exception as e:
+        print("Fehler beim Laden der Daten:", e)
+        sys.exit(1)
+    finally:
+        conn.close()
+
+    try:
+        df_db = ensure_close_column(df_db)
+        df_db = ensure_datetime_index(df_db)
+    except Exception as e:
+        print("Fehler bei der Datenaufbereitung:", e)
+        sys.exit(1)
+
+    start_value = 100000
+    end_value, profit = run_strategy(df_db, fenster=14, overkauft=70, oversold=30, start_kapital=start_value)
+    percent_change = (end_value - start_value) / start_value * 100
+
+    print("RSI Strategie:")
+    print("Startwert: €" + format_currency(start_value))
+    print("Endwert: €" + format_currency(end_value))
+    print("Gewinn/Verlust: €" + format_currency(profit))
+    print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")

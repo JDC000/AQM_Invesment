@@ -1,21 +1,27 @@
 import pandas as pd
-import plotly.graph_objects as go
+import sqlite3
+import os
+import sys
+from common import ensure_close_column, ensure_datetime_index, format_currency
 
-def run_strategy(data: pd.DataFrame, window: int = 20, start_kapital: float = 100000):
-    df = data.copy()
+def run_strategy(df: pd.DataFrame, window: int = 20, start_kapital: float = 100000):
+    """
+    Momentum-Strategie:
+    - Berechnet das Momentum als relative Kursänderung über ein Fenster
+    - Generiert ein Kaufsignal, wenn das Momentum positiv und steigend ist,
+      ansonsten wird verkauft.
+    - Simuliert Trades (alles rein, alles raus) und gibt (final_value, gewinn) zurück.
+    """
+    df = df.copy()
     df['Momentum'] = df['close'] / df['close'].shift(window) - 1
-    df['Signal'] = (df['Momentum'] > 0) & (df['Momentum'] > df['Momentum'].shift(1))
-    df['Signal'] = df['Signal'].astype(int)
+    # Signal: 1, wenn aktuelles Momentum positiv und größer als das vorherige
+    df['Signal'] = ((df['Momentum'] > 0) & (df['Momentum'] > df['Momentum'].shift(1))).astype(int)
 
-    # Berechnung des Kapitals
-    position = 0
     kapital = start_kapital
-    eigenkapital = []
-
+    position = 0
     for i in range(len(df)):
-        preis = df.loc[i, 'close']
-        signal = df.loc[i, 'Signal']
-
+        preis = df.iloc[i]['close']
+        signal = df.iloc[i]['Signal']
         if signal == 1 and position == 0:
             position = kapital / preis
             kapital = 0
@@ -23,23 +29,51 @@ def run_strategy(data: pd.DataFrame, window: int = 20, start_kapital: float = 10
             kapital = position * preis
             position = 0
 
-        gesamtwert = kapital + position * preis
-        eigenkapital.append(gesamtwert)
-
-    df['Equity'] = eigenkapital
-    final_value = eigenkapital[-1] if eigenkapital else start_kapital
+    final_value = kapital + position * df.iloc[-1]['close']
     gewinn = final_value - start_kapital
+    return final_value, gewinn
 
-    # --- Diagramm 1: Momentum-Signale ---
-    fig1 = go.Figure()
-    fig1.add_trace(go.Scatter(x=df['date'], y=df['close'], name="Schlusskurs"))
-    fig1.add_trace(go.Scatter(x=df['date'], y=df['Momentum'] * df['close'],
-                              name="Momentum x Preis", line=dict(dash='dot')))
-    fig1.update_layout(title="Momentum Signale", xaxis_title="Datum", yaxis_title="Preis")
+# -------------------------
+# Test-Main Momentum
+# -------------------------
+if __name__ == "__main__":
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    BASE_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
+    DB_NAME = os.path.join(BASE_DIR, "Datenbank", "DB", "investment.db")
 
-    # --- Diagramm 2: Equity-Kurve ---
-    fig2 = go.Figure()
-    fig2.add_trace(go.Scatter(x=df['date'], y=df['Equity'], name="Equity-Kurve"))
-    fig2.update_layout(title="Kapitalentwicklung", xaxis_title="Datum", yaxis_title="Kapital (€)")
+    symbol = "AAPL"
+    start_date = "2010-01-01"
+    end_date = "2020-12-31"
 
-    return fig1, fig2, final_value, gewinn
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        query = """
+            SELECT date, close
+            FROM market_data
+            WHERE symbol = ? AND date BETWEEN ? AND ?
+            ORDER BY date
+        """
+        params = [symbol, start_date, end_date]
+        df_db = pd.read_sql_query(query, conn, params=params, parse_dates=["date"])
+    except Exception as e:
+        print("Fehler beim Laden der Daten:", e)
+        sys.exit(1)
+    finally:
+        conn.close()
+
+    try:
+        df_db = ensure_close_column(df_db)
+        df_db = ensure_datetime_index(df_db)
+    except Exception as e:
+        print("Fehler bei der Datenaufbereitung:", e)
+        sys.exit(1)
+
+    start_value = 100000
+    end_value, profit = run_strategy(df_db, window=20, start_kapital=start_value)
+    percent_change = (end_value - start_value) / start_value * 100
+
+    print("Momentum Strategie:")
+    print("Startwert: €" + format_currency(start_value))
+    print("Endwert: €" + format_currency(end_value))
+    print("Gewinn/Verlust: €" + format_currency(profit))
+    print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")

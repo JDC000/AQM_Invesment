@@ -1,106 +1,94 @@
-import sqlite3
 import pandas as pd
-import plotly.graph_objects as go
+import sqlite3
 import os
+import sys
+from common import ensure_close_column, ensure_datetime_index, format_currency
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_NAME = os.path.join(BASE_DIR, "DB", "investment.db")
-
-def run_strategy(df: pd.DataFrame, start_kapital=100000):
+def run_strategy(df: pd.DataFrame, start_kapital: float = 100000):
     """
-    Buy-September / Sell-December-Strategie:
-    - Am ersten Handelstag im September: Kaufsignal
-    - Am ersten Handelstag im Dezember: Verkaufssignal
-    - Einfache Trade-Simulation
+    Buy-September / Sell-December Strategie:
+    - Setzt am ersten Handelstag im September ein Kaufsignal und
+      am ersten Handelstag im Dezember ein Verkaufssignal.
+    - Simuliert Trades (alles rein, alles raus) und gibt (gesamtwert, gewinn) zurück.
     """
     df = df.copy()
-
-    # --- Sicherstellen, dass der Index ein DatetimeIndex ist ---
+    # Sicherstellen, dass der Index ein DatetimeIndex ist und nur das Datum enthält
     if not isinstance(df.index, pd.DatetimeIndex):
-        try:
-            df.index = pd.to_datetime(df.index)
-        except Exception as e:
-            raise ValueError("Der DataFrame-Index konnte nicht in einen DatetimeIndex umgewandelt werden. "
-                             "Bitte stellen Sie sicher, dass der Index Datumsinformationen enthält.") from e
+        df.index = pd.to_datetime(df.index)
+    df.index = df.index.normalize()  # Entfernt Zeitinformationen, sodass nur das Datum übrig bleibt
 
-    # --- 1) Signale generieren ---
+    # Signale initialisieren
     df["signal"] = 0
     grouped = df.groupby([df.index.year, df.index.month])
     for (year, month), group in grouped:
         first_day = group.index.min()
+        # Debug-Ausgabe – bei Bedarf aktivieren:
+        # print(f"Jahr: {year}, Monat: {month}, erster Tag: {first_day}")
         if month == 9:
             df.loc[first_day, "signal"] = 1
         elif month == 12:
             df.loc[first_day, "signal"] = -1
 
-    # --- 2) Einfache Trade-Simulation ---
+    # Simulation der Transaktionen
     kapital = start_kapital
     position = 0
-    equity_curve = []
-
     for i in range(len(df)):
         preis = df.iloc[i]["close"]
         signal = df.iloc[i]["signal"]
-
         if signal == 1 and position == 0:
+            # Kaufsignal: Volles Kapital investieren
             position = kapital / preis
             kapital = 0
         elif signal == -1 and position > 0:
+            # Verkaufssignal: Position liquidieren
             kapital = position * preis
             position = 0
 
-        equity_curve.append(kapital + position * preis)
+    gesamtwert = kapital + position * df.iloc[-1]["close"]
+    gewinn = gesamtwert - start_kapital
+    return gesamtwert, gewinn
 
-    df["Equity"] = equity_curve
-    final_value = equity_curve[-1] if equity_curve else start_kapital
-    gewinn = final_value - start_kapital
-
-    # --- 3) Plotly-Figuren ---
-    # fig1: Schlusskurs + Kauf-/Verkaufspunkte
-    fig1 = go.Figure()
-    fig1.add_trace(go.Scatter(x=df.index, y=df["close"], mode="lines", name="Schlusskurs"))
-    kauf_signale = df[df["signal"] == 1]
-    verkauf_signale = df[df["signal"] == -1]
-    fig1.add_trace(go.Scatter(
-        x=kauf_signale.index, y=kauf_signale["close"], mode="markers",
-        marker=dict(color="green", size=10),
-        name="Kaufen (September)"
-    ))
-    fig1.add_trace(go.Scatter(
-        x=verkauf_signale.index, y=verkauf_signale["close"], mode="markers",
-        marker=dict(color="red", size=10),
-        name="Verkaufen (Dezember)"
-    ))
-    fig1.update_layout(title="Buy September / Sell December – Kursverlauf",
-                       xaxis_title="Datum", yaxis_title="Preis")
-
-    # fig2: Kapitalentwicklung
-    fig2 = go.Figure()
-    fig2.add_trace(go.Scatter(x=df.index, y=df["Equity"], mode="lines", name="Equity"))
-    fig2.update_layout(title="Buy September / Sell December – Kapitalentwicklung",
-                       xaxis_title="Datum", yaxis_title="Kapital")
-
-    return fig1, fig2, final_value, gewinn
-
-
-# --- Optionaler Testlauf ---
+# -------------------------
+# Test-Main Buy September / Sell December
+# -------------------------
 if __name__ == "__main__":
-    def lade_daten(symbol, start_datum="2010-01-01", end_datum="2020-12-31"):
-        conn = sqlite3.connect(DB_NAME)
-        query = f"""
-            SELECT date, close FROM market_data 
-            WHERE symbol = '{symbol}' 
-            AND date BETWEEN '{start_datum}' AND '{end_datum}'
-        """
-        df_local = pd.read_sql_query(query, conn)
-        conn.close()
-        df_local["date"] = pd.to_datetime(df_local["date"])
-        df_local.set_index("date", inplace=True)
-        return df_local
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    BASE_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
+    DB_NAME = os.path.join(BASE_DIR, "Datenbank", "DB", "investment.db")
 
     symbol = "AAPL"
-    df_test = lade_daten(symbol)
-    figA, figB, end_value, profit = run_strategy(df_test)
-    figA.show()
-    figB.show()
-    print("Endwert:", end_value, "Gewinn:", profit)
+    start_date = "2010-01-01"
+    end_date = "2020-12-31"
+
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        query = """
+            SELECT date, close
+            FROM market_data
+            WHERE symbol = ? AND date BETWEEN ? AND ?
+            ORDER BY date
+        """
+        params = [symbol, start_date, end_date]
+        df_db = pd.read_sql_query(query, conn, params=params, parse_dates=["date"])
+    except Exception as e:
+        print("Fehler beim Laden der Daten:", e)
+        sys.exit(1)
+    finally:
+        conn.close()
+
+    try:
+        df_db = ensure_close_column(df_db)
+        df_db = ensure_datetime_index(df_db)
+    except Exception as e:
+        print("Fehler bei der Datenaufbereitung:", e)
+        sys.exit(1)
+
+    start_value = 100000
+    end_value, profit = run_strategy(df_db, start_kapital=start_value)
+    percent_change = (end_value - start_value) / start_value * 100
+
+    print("Buy-September / Sell-December Strategie:")
+    print("Startwert: €" + format_currency(start_value))
+    print("Endwert: €" + format_currency(end_value))
+    print("Gewinn/Verlust: €" + format_currency(profit))
+    print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")

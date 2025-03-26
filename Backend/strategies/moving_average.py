@@ -1,94 +1,84 @@
 import pandas as pd
-import plotly.graph_objects as go
+import sqlite3
+import os
+import sys
+from common import ensure_close_column, ensure_datetime_index, format_currency
 
-def run_strategy(df: pd.DataFrame, kurz_fenster=50, lang_fenster=200, start_kapital=100000):
+def run_strategy(df: pd.DataFrame, kurz_fenster: int = 50, lang_fenster: int = 200, start_kapital: float = 100000):
     """
     MA Crossover Strategie:
-    - Kaufen, wenn der kurzfristige SMA den langfristigen SMA von unten schneidet
-    - Verkaufen, wenn der kurzfristige SMA den langfristigen SMA von oben schneidet
-    - Gesamtes Kapital bei jedem Signal investieren
+    - Berechnet kurzfristigen und langfristigen gleitenden Durchschnitt (SMA)
+    - Generiert Kauf-/Verkaufssignale anhand des Schnitts der SMAs
+    - Simuliert Trades (alles rein, alles raus) und gibt (gesamtwert, gewinn) zurück.
     """
- 
     df = df.copy()
     df["SMA_kurz"] = df["close"].rolling(window=kurz_fenster).mean()
     df["SMA_lang"] = df["close"].rolling(window=lang_fenster).mean()
 
-    # === Bestimmung der genauen Schnittsignale ===
     df["ma_diff"] = df["SMA_kurz"] - df["SMA_lang"]
     df["ma_diff_prev"] = df["ma_diff"].shift(1)
 
     df["signal"] = 0
-    df.loc[(df["ma_diff"] > 0) & (df["ma_diff_prev"] <= 0), "signal"] = 1   # Kaufen
-    df.loc[(df["ma_diff"] < 0) & (df["ma_diff_prev"] >= 0), "signal"] = -1  # Verkaufen
+    df.loc[(df["ma_diff"] > 0) & (df["ma_diff_prev"] <= 0), "signal"] = 1
+    df.loc[(df["ma_diff"] < 0) & (df["ma_diff_prev"] >= 0), "signal"] = -1
 
-    # === Simulation von Transaktionen ===
     kapital = start_kapital
     position = 0
-    eigenkapital_punkte = []
-
     for i in range(len(df)):
-        zeile = df.iloc[i]
-        datum = zeile["date"]
-        preis = zeile["close"]
-        signal = zeile["signal"]
-
+        preis = df.iloc[i]["close"]
+        signal = df.iloc[i]["signal"]
         if signal == 1 and position == 0:
             position = kapital / preis
             kapital = 0
-            eigenkapital_punkte.append((datum, position * preis))
-
         elif signal == -1 and position > 0:
             kapital = position * preis
             position = 0
-            eigenkapital_punkte.append((datum, kapital))
 
-    # Gesamtwert am Ende
-    if position > 0:
-        gesamtwert = kapital + position * df.iloc[-1]["close"]
-    else:
-        gesamtwert = kapital
-
+    gesamtwert = kapital + position * df.iloc[-1]["close"]
     gewinn = gesamtwert - start_kapital
+    return gesamtwert, gewinn
 
-    # Diagramm 1: Preis, SMA, Kauf/Verkauf Punkte ===
-    fig1 = go.Figure()
-    fig1.add_trace(go.Scatter(x=df["date"], y=df["close"], name="Aktienkurs", line=dict(color="gray")))
-    fig1.add_trace(go.Scatter(x=df["date"], y=df["SMA_kurz"], name=f"SMA {kurz_fenster}", line=dict(color="blue")))
-    fig1.add_trace(go.Scatter(x=df["date"], y=df["SMA_lang"], name=f"SMA {lang_fenster}", line=dict(color="orange")))
+# -------------------------
+# Test-Main MA Crossover
+# -------------------------
+if __name__ == "__main__":
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    BASE_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
+    DB_NAME = os.path.join(BASE_DIR, "Datenbank", "DB", "investment.db")
 
-    kaufen = df[df["signal"] == 1]
-    verkaufen = df[df["signal"] == -1]
+    symbol = "AAPL"
+    start_date = "2010-01-01"
+    end_date = "2020-12-31"
 
-    fig1.add_trace(go.Scatter(
-        x=kaufen["date"], y=kaufen["close"], mode="markers", name="Kaufen",
-        marker=dict(color="green", symbol="triangle-up", size=10)
-    ))
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        query = """
+            SELECT date, close
+            FROM market_data
+            WHERE symbol = ? AND date BETWEEN ? AND ?
+            ORDER BY date
+        """
+        params = [symbol, start_date, end_date]
+        df_db = pd.read_sql_query(query, conn, params=params, parse_dates=["date"])
+    except Exception as e:
+        print("Fehler beim Laden der Daten:", e)
+        sys.exit(1)
+    finally:
+        conn.close()
 
-    fig1.add_trace(go.Scatter(
-        x=verkaufen["date"], y=verkaufen["close"], mode="markers", name="Verkaufen",
-        marker=dict(color="red", symbol="triangle-down", size=10)
-    ))
+    try:
+        df_db = ensure_close_column(df_db)
+        df_db = ensure_datetime_index(df_db)
+    except Exception as e:
+        print("Fehler bei der Datenaufbereitung:", e)
+        sys.exit(1)
 
-    fig1.update_layout(
-        title="MA Crossover Strategie – Kauf/Verkauf Signale",
-        xaxis_title="Datum", yaxis_title="Aktienkurs (€)"
-    )
-    
-    # === Diagramm 2: Gesamtvermögen ===
-    fig2 = go.Figure()
-    if eigenkapital_punkte:
-        daten, werte = zip(*eigenkapital_punkte)
-        fig2.add_trace(go.Scatter(
-            x=daten, y=werte,
-            mode="lines+markers",
-            name="Gesamtvermögen",
-            marker=dict(color="green", size=8),
-            line=dict(color="green", width=2)
-        ))
+    start_value = 100000
+    end_value, profit = run_strategy(df_db, kurz_fenster=50, lang_fenster=200, start_kapital=start_value)
+    percent_change = (end_value - start_value) / start_value * 100
 
-    fig2.update_layout(
-        title="Gesamtvermögen nach jeder Transaktion",
-        xaxis_title="Datum", yaxis_title="Vermögen (€)"
-    )
-
-    return fig1, fig2, gesamtwert, gewinn
+    print("MA Crossover Strategie:")
+    print("Startwert: €" + format_currency(start_value))
+    print("Endwert: €" + format_currency(end_value))
+    print("Gewinn/Verlust: €" + format_currency(profit))
+    print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")
