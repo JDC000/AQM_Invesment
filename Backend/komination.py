@@ -7,8 +7,9 @@ import itertools
 # Erweitere den Pfad, damit Module aus dem übergeordneten Verzeichnis gefunden werden
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from Datenbank.api import get_available_stocks, load_stock_data
-from strategies.momentum import run_strategy as strat_momentum
+
 from strategies.moving_average import run_strategy as strat_ma
+from strategies.momentum import run_strategy as strat_momentum
 from strategies.bollinger_bands import run_strategy as strat_bollinger
 from strategies.breakout_strategie import run_strategy as strat_breakout
 from strategies.fibonacci import run_strategy as strat_fibonacci
