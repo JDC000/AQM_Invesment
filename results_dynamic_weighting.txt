@@ -1,0 +1,47 @@
+Durchschnittliche Performance pro Strategie-Kombination:
+Momentum + Moving Average: Durchschnittlicher Endwert = €426.543,51, Gewinn = €326.543,51, Veränderung = 326,54 %
+    Durchschnittliche Gewichte: Momentum = 0.378, Moving Average = 0.622
+Momentum + Bollinger Bands: Durchschnittlicher Endwert = €298.949,22, Gewinn = €198.949,22, Veränderung = 198,95 %
+    Durchschnittliche Gewichte: Momentum = 0.364, Bollinger Bands = 0.636
+Momentum + Breakout Strategie: Durchschnittlicher Endwert = €349.696,95, Gewinn = €249.696,95, Veränderung = 249,70 %
+    Durchschnittliche Gewichte: Momentum = 0.407, Breakout Strategie = 0.593
+Momentum + Relative Strength: Durchschnittlicher Endwert = €263.119,10, Gewinn = €163.119,10, Veränderung = 163,12 %
+    Durchschnittliche Gewichte: Momentum = 0.393, Relative Strength = 0.607
+Momentum + Buy & Hold: Durchschnittlicher Endwert = €1.054.195,82, Gewinn = €954.195,82, Veränderung = 954,20 %
+    Durchschnittliche Gewichte: Momentum = 0.220, Buy & Hold = 0.780
+Momentum + September/December: Durchschnittlicher Endwert = €210.023,58, Gewinn = €110.023,58, Veränderung = 110,02 %
+    Durchschnittliche Gewichte: Momentum = 0.458, September/December = 0.542
+Moving Average + Bollinger Bands: Durchschnittlicher Endwert = €490.729,46, Gewinn = €390.729,46, Veränderung = 390,73 %
+    Durchschnittliche Gewichte: Moving Average = 0.486, Bollinger Bands = 0.514
+Moving Average + Breakout Strategie: Durchschnittlicher Endwert = €483.304,76, Gewinn = €383.304,76, Veränderung = 383,30 %
+    Durchschnittliche Gewichte: Moving Average = 0.534, Breakout Strategie = 0.466
+Moving Average + Relative Strength: Durchschnittlicher Endwert = €481.237,83, Gewinn = €381.237,83, Veränderung = 381,24 %
+    Durchschnittliche Gewichte: Moving Average = 0.512, Relative Strength = 0.488
+Moving Average + Buy & Hold: Durchschnittlicher Endwert = €1.002.482,02, Gewinn = €902.482,02, Veränderung = 902,48 %
+    Durchschnittliche Gewichte: Moving Average = 0.311, Buy & Hold = 0.689
+Moving Average + September/December: Durchschnittlicher Endwert = €452.647,36, Gewinn = €352.647,36, Veränderung = 352,65 %
+    Durchschnittliche Gewichte: Moving Average = 0.572, September/December = 0.428
+Bollinger Bands + Breakout Strategie: Durchschnittlicher Endwert = €447.262,97, Gewinn = €347.262,97, Veränderung = 347,26 %
+    Durchschnittliche Gewichte: Bollinger Bands = 0.553, Breakout Strategie = 0.447
+Bollinger Bands + Relative Strength: Durchschnittlicher Endwert = €310.863,06, Gewinn = €210.863,06, Veränderung = 210,86 %
+    Durchschnittliche Gewichte: Bollinger Bands = 0.533, Relative Strength = 0.467
+Bollinger Bands + Buy & Hold: Durchschnittlicher Endwert = €1.050.322,16, Gewinn = €950.322,16, Veränderung = 950,32 %
+    Durchschnittliche Gewichte: Bollinger Bands = 0.335, Buy & Hold = 0.665
+Bollinger Bands + September/December: Durchschnittlicher Endwert = €290.544,61, Gewinn = €190.544,61, Veränderung = 190,54 %
+    Durchschnittliche Gewichte: Bollinger Bands = 0.601, September/December = 0.399
+Breakout Strategie + Relative Strength: Durchschnittlicher Endwert = €425.625,62, Gewinn = €325.625,62, Veränderung = 325,63 %
+    Durchschnittliche Gewichte: Breakout Strategie = 0.477, Relative Strength = 0.523
+Breakout Strategie + Buy & Hold: Durchschnittlicher Endwert = €997.302,88, Gewinn = €897.302,88, Veränderung = 897,30 %
+    Durchschnittliche Gewichte: Breakout Strategie = 0.283, Buy & Hold = 0.717
+Breakout Strategie + September/December: Durchschnittlicher Endwert = €378.429,39, Gewinn = €278.429,39, Veränderung = 278,43 %
+    Durchschnittliche Gewichte: Breakout Strategie = 0.539, September/December = 0.461
+Relative Strength + Buy & Hold: Durchschnittlicher Endwert = €1.062.777,82, Gewinn = €962.777,82, Veränderung = 962,78 %
+    Durchschnittliche Gewichte: Relative Strength = 0.312, Buy & Hold = 0.688
+Relative Strength + September/December: Durchschnittlicher Endwert = €255.492,37, Gewinn = €155.492,37, Veränderung = 155,49 %
+    Durchschnittliche Gewichte: Relative Strength = 0.568, September/December = 0.432
+Buy & Hold + September/December: Durchschnittlicher Endwert = €1.070.376,00, Gewinn = €970.376,00, Veränderung = 970,38 %
+    Durchschnittliche Gewichte: Buy & Hold = 0.738, September/December = 0.262
+
+Beste Strategie-Kombination:
+Buy & Hold + September/December mit einem durchschnittlichen Endwert von €1.070.376,00 (Gewinn: €970.376,00, 970,38 %)
+Durchschnittliche Gewichte: Buy & Hold = 0.738, September/December = 0.262

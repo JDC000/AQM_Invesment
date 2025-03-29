@@ -8,15 +8,68 @@ import plotly.graph_objects as go
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from Datenbank.api import get_available_stocks, load_stock_data
 
+
+def ensure_close_column(df):
+    """
+    Überprüft, ob das DataFrame die Spalte 'close' enthält.
+    Falls stattdessen 'Price' vorhanden ist, wird diese umbenannt.
+    """
+    if "close" not in df.columns:
+        if "Price" in df.columns:
+            df = df.rename(columns={"Price": "close"})
+        else:
+            raise ValueError("Das DataFrame enthält weder 'close' noch 'Price'")
+    return df
+
+def ensure_datetime_index(df):
+    """
+    Stellt sicher, dass der Index des DataFrames ein DatetimeIndex ist.
+    Falls nicht, wird versucht, den Index in einen DatetimeIndex zu konvertieren.
+    """
+    if not isinstance(df.index, pd.DatetimeIndex):
+        try:
+            df.index = pd.to_datetime(df.index)
+        except Exception as e:
+            raise ValueError("Index konnte nicht in datetime konvertiert werden: " + str(e))
+    return df
+
+def calculate_buy_and_hold_performance(df, start_kapital):
+    """
+    Berechnet die Buy-&-Hold-Performance:
+    - Startpreis entspricht dem ersten 'close'-Wert,
+    - Endpreis dem letzten 'close'-Wert.
+    Es wird der Endkapitalwert sowie der prozentuale Gewinn zurückgegeben.
+    """
+    start_price = df.iloc[0]["close"]
+    end_price = df.iloc[-1]["close"]
+    total = start_kapital * (end_price / start_price)
+    percent_gain = (total - start_kapital) / start_kapital * 100
+    return total, percent_gain
+
 def filter_stocks(tickers):
     """
     Filtert die Tickerliste, sodass nur Aktien (Stocks) enthalten sind.
-    ETFs und Cryptos werden ausgeklammert.
+    Folgende ETFs und Cryptos werden ausgelassen:
+      ETFS = {"XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE", "VT"}
+      CRYPTOS = {"BNB", "XRP", "SOL", "DOT", "LTC", "USDC", "LINK", "BCH", "XLM", "UNI",
+                 "ATOM", "TRX", "ETC", "NEAR", "XMR", "VET", "EOS", "FIL", "CRO", "DAI", "DASH", "ENJ"}
     """
     ETFS = {"XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE", "VT"}
-    CRYPTOS = {"BNB", "XRP", "SOL", "DOT", "LTC", "USDC", "LINK", "BCH", "XLM", "UNI",
-               "ATOM", "TRX", "ETC", "NEAR", "XMR", "VET", "EOS", "FIL", "CRO", "DAI", "DASH", "ENJ"}
+    CRYPTOS = {"BNB", "XRP", "SOL", "DOT", "LTC",
+               "USDC", "LINK", "BCH", "XLM", "UNI", "ATOM", "TRX",
+               "ETC", "NEAR", "XMR", "VET", "EOS", "FIL", "CRO", "DAI", "DASH", "ENJ"}
     return [ticker for ticker in tickers if ticker not in ETFS and ticker not in CRYPTOS]
+
+def format_currency(value):
+    """
+    Formatiert einen Zahlenwert als Währung:
+    Tausender werden mit einem Punkt getrennt und die Nachkommastellen mit einem Komma.
+    Beispiel: 100000 -> "100.000,00"
+    """
+    s = f"{value:,.2f}"  # Beispiel: 100,000.00 (englisches Format)
+    # Tauschen: Komma -> Temporärmarke, Punkt -> Komma, Temporärmarke -> Punkt
+    s = s.replace(",", "X").replace(".", ",").replace("X", ".")
+    return s
 
 def run_strategy_signal_aggregation(df, start_kapital=100000):
     """
@@ -33,10 +86,11 @@ def run_strategy_signal_aggregation(df, start_kapital=100000):
     df.loc[df['close'] > df['SMA50'], 'signal_A'] = 1
     df.loc[df['close'] < df['SMA50'], 'signal_A'] = -1
 
-    # Strategie B: Bollinger Bands (20-Tage Standardabweichung)
+    # Strategie B: Bollinger Bands mit 20-Tage-SMA
+    df['SMA20'] = df['close'].rolling(window=20).mean()
     df['std20'] = df['close'].rolling(window=20).std()
-    df['upper'] = df['SMA50'] + 2 * df['std20']
-    df['lower'] = df['SMA50'] - 2 * df['std20']
+    df['upper'] = df['SMA20'] + 2 * df['std20']
+    df['lower'] = df['SMA20'] - 2 * df['std20']
     df['signal_B'] = 0
     df.loc[df['close'] < df['lower'], 'signal_B'] = 1
     df.loc[df['close'] > df['upper'], 'signal_B'] = -1
@@ -65,24 +119,52 @@ def run_strategy_signal_aggregation(df, start_kapital=100000):
     return final_value, profit
 
 def main():
-    # Hier holst Du zunächst alle verfügbaren Ticker (z.B. aus einer Liste oder DB)
-    # Beispiel: Angenommen, get_available_stocks() gibt Dir eine Liste von Ticker zurück
-    all_tickers = ["AAPL", "AMZN"]  # Beispiel
+    # Alle verfügbaren Ticker aus der DB laden
+    all_tickers = get_available_stocks()
     tickers = filter_stocks(all_tickers)
     if not tickers:
         print("Keine Aktien verfügbar!")
         return
-    # Für dieses Beispiel nehmen wir den ersten Ticker aus der gefilterten Liste
-    ticker = tickers[0]
+
     start_date = "2010-01-01"
     end_date = "2020-12-31"
-    df = load_stock_data(ticker, start_date, end_date)
-    if "date" in df.columns:
-        df["date"] = pd.to_datetime(df["date"])
-        df.set_index("date", inplace=True)
-        df.index = df.index.normalize()
-    final_value, profit = run_strategy_signal_aggregation(df, start_kapital=100000)
-    print(f"Signal Aggregation Strategy for {ticker}: Final Value = {final_value:.2f}, Profit = {profit:.2f}")
+    
+    # Ergebnisse sammeln und Listen für Durchschnittswerte initialisieren
+    results = []
+    final_values = []
+    profits = []
+    
+    for ticker in tickers:
+        df = load_stock_data(ticker, start_date, end_date)
+        if df is None or df.empty:
+            results.append(f"{ticker}: Keine Daten verfügbar!")
+            continue
+        # Sicherstellen, dass die benötigten Spalten vorhanden sind und der Index ein DatetimeIndex ist
+        df = ensure_close_column(df)
+        if "date" in df.columns:
+            df["date"] = pd.to_datetime(df["date"])
+            df.set_index("date", inplace=True)
+            df.index = df.index.normalize()
+        # Performance der kombinierten Signale berechnen
+        final_value, profit = run_strategy_signal_aggregation(df, start_kapital=100000)
+        result_line = f"Signal Aggregation Strategy for {ticker}: Final Value = {final_value:.2f}, Profit = {profit:.2f}"
+        results.append(result_line)
+        print(result_line)
+        final_values.append(final_value)
+        profits.append(profit)
+    
+    # Durchschnitt berechnen, falls Ergebnisse vorliegen
+    if final_values and profits:
+        avg_final_value = sum(final_values) / len(final_values)
+        avg_profit = sum(profits) / len(profits)
+        avg_line = f"Durchschnittlicher Endwert: {avg_final_value:.2f}, Durchschnittlicher Profit: {avg_profit:.2f}"
+        results.append(avg_line)
+        print(avg_line)
+    
+    # Ergebnisse in eine Textdatei schreiben
+    with open("results_signal_aggregation.txt", "w") as f:
+        for line in results:
+            f.write(line + "\n")
 
 if __name__ == "__main__":
     main()
