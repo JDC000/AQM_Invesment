@@ -1,5 +1,7 @@
 import sys
 import os
+
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import dash
@@ -66,18 +68,23 @@ app.layout = html.Div([
     Input('strategy-dropdown', 'value'),
     Input('ticker-dropdown', 'value'),
 )
+
 def update_graphs(strategy_name, ticker):
     start_date = "2010-01-01"
     end_date = "2020-12-31"
     df = load_stock_data(ticker, start_date, end_date)
     strategy_func = STRATEGIES[strategy_name]
     fig1, fig2, total, profit = strategy_func(df, start_kapital=100000)
-    
     total_str = f"Gesamtwert am Ende: €{total:,.2f}"
     profit_str = f"Gewinn: €{profit:,.2f}"
     
     return fig1, fig2, total_str, profit_str
-
+@app.callback(
+    Output('dashboard-title', 'children'),
+    Input('strategy-dropdown', 'value')
+)
+def update_title(strategy_name):
+    return f"{strategy_name}"
 # === App starten ===
 if __name__ == '__main__':
     app.run(debug=True)
