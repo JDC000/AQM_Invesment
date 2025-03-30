@@ -1,6 +1,10 @@
 import sys
 import os
 import pandas as pd
+import warnings
+
+# Unterdrücke FutureWarnings (sollte nur als temporäre Maßnahme genutzt werden)
+warnings.simplefilter(action="ignore", category=FutureWarning)
 
 # Erweitere den Pfad, damit Module aus dem übergeordneten Verzeichnis gefunden werden
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
