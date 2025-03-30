@@ -2,7 +2,7 @@ import pandas as pd
 import sqlite3
 import os
 import sys
-from common import ensure_close_column, ensure_datetime_index, format_currency
+
 
 def run_strategy(df: pd.DataFrame, fenster: int = 50, tolerance: float = 0.01, start_kapital: float = 100000):
     """
@@ -51,6 +51,7 @@ def run_strategy(df: pd.DataFrame, fenster: int = 50, tolerance: float = 0.01, s
 # Test-Main Fibonacci
 # -------------------------
 if __name__ == "__main__":
+    from common import ensure_close_column, ensure_datetime_index, format_currency
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     BASE_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
     DB_NAME = os.path.join(BASE_DIR, "Datenbank", "DB", "investment.db")
