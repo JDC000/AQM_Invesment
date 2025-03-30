@@ -122,8 +122,8 @@ def main():
             return
 
         # Zeitraum und Startkapital festlegen
-        start_date = "2018-01-01"
-        end_date = "2023-12-31"
+        start_date = "2012-01-01"
+        end_date = "2017-12-31"
         start_kapital = 100000
 
         # Header in der Ausgabe: Handelszeitraum und gehandelten Aktien

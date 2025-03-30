@@ -1,5 +1,0 @@
-Ergebnis der Portfolio-Optimierung:
-Strategie-Kombination: Momentum + Bollinger
-Finaler Endwert: €131,200.72
-Gewinn: €31,200.72 (31.20 %)
-Gewichte: Momentum = 1.886, Bollinger = -0.886
