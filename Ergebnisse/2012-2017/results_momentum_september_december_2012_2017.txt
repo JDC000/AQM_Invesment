@@ -1,0 +1,7 @@
+Handelszeitraum: 2012-01-01 bis 2017-12-31
+Gehandelte Aktien: AAPL, ABT, ADBE, AMD, AMGN, AMZN, AVGO, BA, BAC, CMCSA, COST, CRM, CSCO, CVX, DIS, GOOGL, HD, HON, IBM, INTC, JNJ, JPM, KO, LIN, LLY, MA, MCD, MDT, META, MRK, MSFT, NEE, NFLX, NKE, NVDA, ORCL, PEP, PFE, PG, PM, QCOM, SPGI, T, TSLA, TXN, UNH, UPS, V, WMT, XOM
+
+Durchschnittliche Performance:
+  Durchschnittlicher Endwert = €123.548,23
+  Durchschnittlicher Gewinn = €23.548,23
+  Durchschnittliche Veränderung = 23,55 %

@@ -9,7 +9,7 @@ def run_strategy(df: pd.DataFrame, start_kapital: float = 100000):
     """
     Buy-September / Sell-December Strategie:
     - Setzt am ersten Handelstag im September ein Kaufsignal und
-      am ersten Handelstag im Dezember ein Verkaufssignal.
+      am letzten Handelstag im Dezember ein Verkaufssignal.
     - Simuliert Trades (alles rein, alles raus) und baut eine Equity-Kurve auf
     - Gibt 2 Plotly-Figuren + gesamtwert + gewinn zurück
     """
@@ -24,11 +24,12 @@ def run_strategy(df: pd.DataFrame, start_kapital: float = 100000):
     df["signal"] = 0
     grouped = df.groupby([df.index.year, df.index.month])
     for (year, month), group in grouped:
-        first_day = group.index.min()
         if month == 9:
-            df.loc[first_day, "signal"] = 1
+            buy_day = group.index.min()  # Erster Handelstag im September
+            df.loc[buy_day, "signal"] = 1
         elif month == 12:
-            df.loc[first_day, "signal"] = -1
+            sell_day = group.index.max()  # Letzter Handelstag im Dezember
+            df.loc[sell_day, "signal"] = -1
 
     kapital = start_kapital
     position = 0
