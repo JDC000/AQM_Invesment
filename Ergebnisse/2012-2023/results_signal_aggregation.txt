@@ -1,0 +1,55 @@
+Gehandelte Aktien: AAPL, ABT, ADBE, AMD, AMGN, AMZN, AVGO, BA, BAC, CMCSA, COST, CRM, CSCO, CVX, DIS, GOOGL, HD, HON, IBM, INTC, JNJ, JPM, KO, LIN, LLY, MA, MCD, MDT, META, MRK, MSFT, NEE, NFLX, NKE, NVDA, ORCL, PEP, PFE, PG, PM, QCOM, SPGI, T, TSLA, TXN, UNH, UPS, V, WMT, XOM
+Handelszeitraum: 2012-01-01 bis 2023-12-31
+Durchschnittlicher prozentualer Gewinn: 333.75%
+
+Signal Aggregation Strategy for AAPL: Final Value = 127290.84, Profit = 27290.84
+Signal Aggregation Strategy for ABT: Final Value = 317796.71, Profit = 217796.71
+Signal Aggregation Strategy for ADBE: Final Value = 910413.65, Profit = 810413.65
+Signal Aggregation Strategy for AMD: Final Value = 2717642.43, Profit = 2617642.43
+Signal Aggregation Strategy for AMGN: Final Value = 245552.15, Profit = 145552.15
+Signal Aggregation Strategy for AMZN: Final Value = 1136569.70, Profit = 1036569.70
+Signal Aggregation Strategy for AVGO: Final Value = 1481207.93, Profit = 1381207.93
+Signal Aggregation Strategy for BA: Final Value = 166097.85, Profit = 66097.85
+Signal Aggregation Strategy for BAC: Final Value = 141073.54, Profit = 41073.54
+Signal Aggregation Strategy for CMCSA: Final Value = 187371.32, Profit = 87371.32
+Signal Aggregation Strategy for COST: Final Value = 284675.43, Profit = 184675.43
+Signal Aggregation Strategy for CRM: Final Value = 311793.85, Profit = 211793.85
+Signal Aggregation Strategy for CSCO: Final Value = 96463.33, Profit = -3536.67
+Signal Aggregation Strategy for CVX: Final Value = 107701.85, Profit = 7701.85
+Signal Aggregation Strategy for DIS: Final Value = 349997.69, Profit = 249997.69
+Signal Aggregation Strategy for GOOGL: Final Value = 92367.13, Profit = -7632.87
+Signal Aggregation Strategy for HD: Final Value = 540352.92, Profit = 440352.92
+Signal Aggregation Strategy for HON: Final Value = 300478.84, Profit = 200478.84
+Signal Aggregation Strategy for IBM: Final Value = 89220.80, Profit = -10779.20
+Signal Aggregation Strategy for INTC: Final Value = 127600.38, Profit = 27600.38
+Signal Aggregation Strategy for JNJ: Final Value = 203076.25, Profit = 103076.25
+Signal Aggregation Strategy for JPM: Final Value = 239051.02, Profit = 139051.02
+Signal Aggregation Strategy for KO: Final Value = 124637.18, Profit = 24637.18
+Signal Aggregation Strategy for LIN: Final Value = 173328.96, Profit = 73328.96
+Signal Aggregation Strategy for LLY: Final Value = 342314.22, Profit = 242314.22
+Signal Aggregation Strategy for MA: Final Value = 568634.87, Profit = 468634.87
+Signal Aggregation Strategy for MCD: Final Value = 106549.75, Profit = 6549.75
+Signal Aggregation Strategy for MDT: Final Value = 280900.81, Profit = 180900.81
+Signal Aggregation Strategy for META: Final Value = 1043647.03, Profit = 943647.03
+Signal Aggregation Strategy for MRK: Final Value = 173606.15, Profit = 73606.15
+Signal Aggregation Strategy for MSFT: Final Value = 715787.08, Profit = 615787.08
+Signal Aggregation Strategy for NEE: Final Value = 275274.22, Profit = 175274.22
+Signal Aggregation Strategy for NFLX: Final Value = 1103811.06, Profit = 1003811.06
+Signal Aggregation Strategy for NKE: Final Value = 500226.10, Profit = 400226.10
+Signal Aggregation Strategy for NVDA: Final Value = 2589768.24, Profit = 2489768.24
+Signal Aggregation Strategy for ORCL: Final Value = 121633.80, Profit = 21633.80
+Signal Aggregation Strategy for PEP: Final Value = 178023.00, Profit = 78023.00
+Signal Aggregation Strategy for PFE: Final Value = 149784.67, Profit = 49784.67
+Signal Aggregation Strategy for PG: Final Value = 137913.28, Profit = 37913.28
+Signal Aggregation Strategy for PM: Final Value = 103176.69, Profit = 3176.69
+Signal Aggregation Strategy for QCOM: Final Value = 317740.15, Profit = 217740.15
+Signal Aggregation Strategy for SPGI: Final Value = 310510.52, Profit = 210510.52
+Signal Aggregation Strategy for T: Final Value = 113442.61, Profit = 13442.61
+Signal Aggregation Strategy for TSLA: Final Value = 93380.64, Profit = -6619.36
+Signal Aggregation Strategy for TXN: Final Value = 517864.30, Profit = 417864.30
+Signal Aggregation Strategy for UNH: Final Value = 734380.61, Profit = 634380.61
+Signal Aggregation Strategy for UPS: Final Value = 145223.95, Profit = 45223.95
+Signal Aggregation Strategy for V: Final Value = 334876.22, Profit = 234876.22
+Signal Aggregation Strategy for WMT: Final Value = 168786.56, Profit = 68786.56
+Signal Aggregation Strategy for XOM: Final Value = 88577.79, Profit = -11422.21
+Durchschnittlicher Endwert: 433751.92, Durchschnittlicher Profit: 333751.92

@@ -2,7 +2,13 @@ import pandas as pd
 import sqlite3
 import os
 import sys
-from common import ensure_close_column, ensure_datetime_index, format_currency
+
+try:
+    from .common import ensure_close_column, ensure_datetime_index, format_currency
+except ImportError:
+    from common import ensure_close_column, ensure_datetime_index, format_currency
+
+import plotly.graph_objects as go
 
 def run_strategy(df: pd.DataFrame, fenster: int = 50, tolerance: float = 0.01, start_kapital: float = 100000):
     """
@@ -10,15 +16,16 @@ def run_strategy(df: pd.DataFrame, fenster: int = 50, tolerance: float = 0.01, s
     - Berechnet Fibonacci-Level basierend auf rollierenden Hochs/Tiefs
     - Generiert Kaufsignale, wenn der Kurs nahe dem 38,2%-Level liegt,
       und Verkaufssignale, wenn der Kurs nahe dem 61,8%-Level liegt.
-    - Simuliert Trades (alles rein, alles raus) und gibt (final_value, gewinn) zurück.
+    - Simuliert Trades (alles rein, alles raus), baut eine Equity-Kurve auf
+    - Gibt 2 Plotly-Figuren, final_value und gewinn zurück.
     """
     df = df.copy()
     df["rolling_max"] = df["close"].rolling(window=fenster).max().shift(1)
     df["rolling_min"] = df["close"].rolling(window=fenster).min().shift(1)
     df["diff"] = df["rolling_max"] - df["rolling_min"]
 
-    df["fib_38"]  = df["rolling_max"] - 0.382 * df["diff"]
-    df["fib_62"]  = df["rolling_max"] - 0.618 * df["diff"]
+    df["fib_38"] = df["rolling_max"] - 0.382 * df["diff"]
+    df["fib_62"] = df["rolling_max"] - 0.618 * df["diff"]
 
     def get_signal(row):
         if pd.isna(row["fib_38"]) or pd.isna(row["fib_62"]):
@@ -33,19 +40,48 @@ def run_strategy(df: pd.DataFrame, fenster: int = 50, tolerance: float = 0.01, s
 
     kapital = start_kapital
     position = 0
+    equity_curve = []
+    buy_indices = []
+    sell_indices = []
+    
     for i in range(len(df)):
         preis = df.iloc[i]["close"]
         signal = df.iloc[i]["signal"]
         if signal == 1 and position == 0:
             position = kapital / preis
             kapital = 0
+            buy_indices.append(i)
         elif signal == -1 and position > 0:
             kapital = position * preis
             position = 0
+            sell_indices.append(i)
+        equity_curve.append(kapital + position * preis)
 
-    final_value = kapital + position * df.iloc[-1]["close"]
+    final_value = equity_curve[-1] if equity_curve else start_kapital
     gewinn = final_value - start_kapital
-    return final_value, gewinn
+
+    # Erstelle Figur 1: Kursentwicklung mit Fibonacci-Level und Kauf-/Verkaufspunkten
+    x_values = df["date"] if "date" in df.columns else df.index
+    fig1 = go.Figure()
+    fig1.add_trace(go.Scatter(x=x_values, y=df["close"], mode="lines", name="Schlusskurs"))
+    fig1.add_trace(go.Scatter(x=x_values, y=df["fib_38"], mode="lines", name="Fib 38.2%"))
+    fig1.add_trace(go.Scatter(x=x_values, y=df["fib_62"], mode="lines", name="Fib 61.8%"))
+    fig1.add_trace(go.Scatter(
+        x=[x_values[i] for i in buy_indices],
+        y=[df.iloc[i]["close"] for i in buy_indices],
+        mode="markers", marker=dict(color="green", size=8), name="Kaufen"))
+    fig1.add_trace(go.Scatter(
+        x=[x_values[i] for i in sell_indices],
+        y=[df.iloc[i]["close"] for i in sell_indices],
+        mode="markers", marker=dict(color="red", size=8), name="Verkaufen"))
+    fig1.update_layout(title="Fibonacci-Retracement Strategie", xaxis_title="Datum", yaxis_title="Preis", xaxis_type="date")
+
+    # Erstelle Figur 2: Equity-Kurve
+    fig2 = go.Figure()
+    fig2.add_trace(go.Scatter(x=x_values, y=equity_curve, mode="lines", name="Equity"))
+    fig2.update_layout(title="Kapitalentwicklung", xaxis_title="Datum", yaxis_title="Kapital", xaxis_type="date")
+
+    return fig1, fig2, final_value, gewinn
 
 # -------------------------
 # Test-Main Fibonacci
@@ -55,7 +91,7 @@ if __name__ == "__main__":
     BASE_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
     DB_NAME = os.path.join(BASE_DIR, "Datenbank", "DB", "investment.db")
 
-    symbol = "AAPL"
+    symbol = "AVGO"
     start_date = "2010-01-01"
     end_date = "2020-12-31"
 
@@ -83,11 +119,13 @@ if __name__ == "__main__":
         sys.exit(1)
 
     start_value = 100000
-    end_value, profit = run_strategy(df_db, fenster=50, tolerance=0.01, start_kapital=start_value)
-    percent_change = (end_value - start_value) / start_value * 100
+    fig1, fig2, final_value, profit = run_strategy(df_db, fenster=50, tolerance=0.01, start_kapital=start_value)
+    percent_change = (final_value - start_value) / start_value * 100
 
     print("Fibonacci-Retracement Strategie:")
     print("Startwert: €" + format_currency(start_value))
-    print("Endwert: €" + format_currency(end_value))
+    print("Endwert: €" + format_currency(final_value))
     print("Gewinn/Verlust: €" + format_currency(profit))
     print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")
+    fig1.show()
+    fig2.show()

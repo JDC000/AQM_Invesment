@@ -126,8 +126,8 @@ def main():
         print("Keine Aktien verfügbar!")
         return
 
-    start_date = "2010-01-01"
-    end_date = "2020-12-31"
+    start_date = "2018-01-01"
+    end_date = "2023-12-31"
     
     # Ergebnisse sammeln und Listen für Durchschnittswerte initialisieren
     results = []
@@ -161,8 +161,17 @@ def main():
         results.append(avg_line)
         print(avg_line)
     
-    # Ergebnisse in eine Textdatei schreiben
+    # Header-Zeilen vorbereiten
+    header_lines = []
+    header_lines.append(f"Gehandelte Aktien: {', '.join(tickers)}")
+    header_lines.append(f"Handelszeitraum: {start_date} bis {end_date}")
+    if final_values and profits:
+        avg_percent_gain = (avg_profit / 100000) * 100
+        header_lines.append(f"Durchschnittlicher prozentualer Gewinn: {avg_percent_gain:.2f}%")
+    
+    # Ergebnisse in eine Textdatei schreiben (Header zuerst)
     with open("results_signal_aggregation.txt", "w") as f:
+        f.write("\n".join(header_lines) + "\n\n")
         for line in results:
             f.write(line + "\n")
 

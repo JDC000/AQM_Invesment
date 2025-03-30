@@ -71,17 +71,22 @@ def format_currency(value):
     return s
 
 
-def save_strategy_results(results, output_path="results_strategy_serial.txt"):
+def save_strategy_results(results, traded_stocks, start_date, end_date, output_path="results_strategy_serial.txt"):
     """
     Speichert die Ergebnisse der Strategie für alle Aktien in eine Textdatei.
     Existierende Dateien werden überschrieben.
-    Zusätzlich werden Durchschnittswerte für Endwert, Gewinn/Verlust und prozentuale Veränderung ausgegeben.
+    Am Anfang werden der Handelszeitraum und die gehandelten Aktien ausgegeben.
+    Anschließend folgen die Ergebnisse pro Aktie und am Ende die Durchschnittswerte.
     """
     if os.path.exists(output_path):
         os.remove(output_path)
     
     with open(output_path, "w", encoding="utf-8") as f:
-        f.write("Ergebnisse der Serial-Strategie für alle Aktien:\n")
+        # Kopfzeile mit Handelszeitraum und gehandelten Aktien
+        f.write("Ergebnisse der Serial-Strategie für alle Aktien\n")
+        f.write("Handelszeitraum: " + start_date + " bis " + end_date + "\n")
+        f.write("Gehandelte Aktien: " + ", ".join(traded_stocks) + "\n\n")
+        
         for r in results:
             f.write(f"Symbol: {r['symbol']}\n")
             f.write("Startwert: €" + format_currency(r['start_value']) + "\n")
@@ -204,4 +209,4 @@ if __name__ == "__main__":
         print("Durchschnittliche Prozentuale Veränderung: " + format_currency(avg_percent_change) + " %")
     
     # Ergebnisse für alle verarbeiteten Aktien in einer Textdatei speichern
-    save_strategy_results(results)
+    save_strategy_results(results, filtered_tickers, start_date, end_date)

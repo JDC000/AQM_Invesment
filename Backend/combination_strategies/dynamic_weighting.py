@@ -89,15 +89,20 @@ def extract_numeric_result(result):
             return result
     raise ValueError("Unbekanntes Rückgabeformat der Strategie.")
 
-def save_results(average_results, best_combo, best_metrics, output_path="results_dynamic_weighting.txt"):
+def save_results(average_results, best_combo, best_metrics, start_date, end_date, traded_stocks, output_path="results_dynamic_weighting.txt"):
     """
-    Speichert die durchschnittlichen Ergebnisse und die beste Strategie-Kombination in eine Textdatei.
+    Speichert die durchschnittlichen Ergebnisse, den Handelszeitraum, die gehandelten Aktien 
+    und die beste Strategie-Kombination in eine Textdatei.
     Existierende Dateien werden gelöscht bzw. überschrieben.
     """
     if os.path.exists(output_path):
         os.remove(output_path)
     
     with open(output_path, "w", encoding="utf-8") as f:
+        # Ausgabe des Handelszeitraums und der gehandelten Aktien
+        f.write(f"Handelszeitraum: {start_date} - {end_date}\n")
+        f.write("Gehandelte Aktien: " + ", ".join(traded_stocks) + "\n\n")
+        
         f.write("Durchschnittliche Performance pro Strategie-Kombination:\n")
         for combo, data in average_results.items():
             f.write(f"{combo[0]} + {combo[1]}: Durchschnittlicher Endwert = €{format_currency(data['avg_final'])}, "
@@ -112,6 +117,7 @@ def save_results(average_results, best_combo, best_metrics, output_path="results
             f.write("Keine Kombination konnte erfolgreich ausgewertet werden.\n")
     
     print(f"Ergebnisse wurden in '{output_path}' gespeichert.")
+
 
 def main():
     # Alle verfügbaren Ticker aus der Datenbank abrufen
@@ -128,8 +134,8 @@ def main():
     print(f"Vergleiche kombinierte Strategien für die Ticker: {', '.join(tickers_to_test)}")
 
     # Zeitraum und Startkapital
-    start_date = "2010-01-01"
-    end_date = "2020-12-31"
+    start_date = "2012-01-01"
+    end_date = "2023-12-31"
     start_kapital = 100000
 
     # Erstelle alle paarweisen Kombinationen (ohne Wiederholung)

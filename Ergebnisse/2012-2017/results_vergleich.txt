@@ -1,0 +1,18 @@
+Handelszeitraum: 2012-01-01 bis 2017-12-31
+Verwendete Aktien: AAPL, ABT, ADBE, AMD, AMGN, AMZN, AVGO, BA, BAC, CMCSA, COST, CRM, CSCO, CVX, DIS, GOOGL, HD, HON, IBM, INTC, JNJ, JPM, KO, LIN, LLY, MA, MCD, MDT, META, MRK, MSFT, NEE, NFLX, NKE, NVDA, ORCL, PEP, PFE, PG, PM, QCOM, SPGI, T, TSLA, TXN, UNH, UPS, V, WMT, XOM
+
+Ergebnisse pro Strategie:
+  Momentum: Durchschnittlicher Gesamtwert = 151,663.83 €, Durchschnittlicher prozentualer Gewinn = 51.66 %
+  Moving Average: Durchschnittlicher Gesamtwert = 219,404.10 €, Durchschnittlicher prozentualer Gewinn = 119.40 %
+  Bollinger Bands: Durchschnittlicher Gesamtwert = 186,828.78 €, Durchschnittlicher prozentualer Gewinn = 86.83 %
+  Breakout Strategie: Durchschnittlicher Gesamtwert = 182,468.16 €, Durchschnittlicher prozentualer Gewinn = 82.47 %
+  Fibonacci: Durchschnittlicher Gesamtwert = 195,880.25 €, Durchschnittlicher prozentualer Gewinn = 95.88 %
+  Relative Strength: Durchschnittlicher Gesamtwert = 171,746.62 €, Durchschnittlicher prozentualer Gewinn = 71.75 %
+  Buy & Hold: Durchschnittlicher Gesamtwert = 383,712.97 €, Durchschnittlicher prozentualer Gewinn = 283.71 %
+  September/December: Durchschnittlicher Gesamtwert = 149,580.41 €, Durchschnittlicher prozentualer Gewinn = 49.58 %
+
+Beste Strategie (basierend auf durchschnittlichem Gesamtwert):
+  Buy & Hold mit einem durchschnittlichen Gesamtwert von 383,712.97 €
+
+Buy & Hold Vergleich (VT):
+  VT-Daten konnten nicht geladen werden.

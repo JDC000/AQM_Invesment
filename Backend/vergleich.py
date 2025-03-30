@@ -79,8 +79,8 @@ def main():
     print(f"Vergleiche Strategien für die Ticker: {', '.join(tickers_to_test)}")
 
     # Zeitraum und Startkapital für den Backtest (anpassbar)
-    start_date = "2010-01-01"
-    end_date = "2020-12-31"
+    start_date = "2018-01-01"
+    end_date = "2023-12-31"
     start_kapital = 100000
 
     # Ergebnis-Dictionary zur Speicherung der Performance jeder Strategie pro Ticker
@@ -140,6 +140,7 @@ def main():
         print("Keine Strategie konnte erfolgreich ausgewertet werden.")
 
     # VT als Vergleich: Abruf genau wie bei den anderen Ticker
+    vt_total, vt_profit = None, None
     try:
         print("\nVergleiche mit VT (ETF) per Buy & Hold:")
         vt_df = load_stock_data("VT", start_date, end_date)
@@ -149,6 +150,34 @@ def main():
         print(f"  VT: Gesamtwert = {vt_total:,.2f} €, Prozentualer Gewinn = {vt_profit:,.2f} %")
     except Exception as e:
         print(f"Fehler beim Laden der Daten für VT: {e}")
+
+    # Ergebnisse in eine Textdatei schreiben
+    results_lines = []
+    results_lines.append(f"Handelszeitraum: {start_date} bis {end_date}\n")
+    results_lines.append(f"Verwendete Aktien: {', '.join(tickers_to_test)}\n\n")
+    results_lines.append("Ergebnisse pro Strategie:\n")
+    for strategy_name, metrics in average_results.items():
+        if metrics["avg_total"] is not None:
+            results_lines.append(
+                f"  {strategy_name}: Durchschnittlicher Gesamtwert = {metrics['avg_total']:,.2f} €, "
+                f"Durchschnittlicher prozentualer Gewinn = {metrics['avg_profit']:,.2f} %\n"
+            )
+        else:
+            results_lines.append(f"  {strategy_name}: Keine gültigen Ergebnisse.\n")
+    results_lines.append("\nBeste Strategie (basierend auf durchschnittlichem Gesamtwert):\n")
+    if best_strategy:
+        results_lines.append(f"  {best_strategy} mit einem durchschnittlichen Gesamtwert von {best_avg_total:,.2f} €\n")
+    else:
+        results_lines.append("  Keine Strategie konnte erfolgreich ausgewertet werden.\n")
+    results_lines.append("\nBuy & Hold Vergleich (VT):\n")
+    if vt_total is not None and vt_profit is not None:
+        results_lines.append(f"  VT: Gesamtwert = {vt_total:,.2f} €, Prozentualer Gewinn = {vt_profit:,.2f} %\n")
+    else:
+        results_lines.append("  VT-Daten konnten nicht geladen werden.\n")
+
+    # Schreibe die Ergebnisse in eine neue Datei (überschreibt bei jedem Lauf)
+    with open("results_vergleich.txt", "w", encoding="utf-8") as f:
+        f.writelines(results_lines)
 
 if __name__ == "__main__":
     main()
