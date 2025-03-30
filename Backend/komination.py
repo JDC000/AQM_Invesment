@@ -89,96 +89,119 @@ def extract_numeric_result(result):
     raise ValueError("Unbekanntes Rückgabeformat der Strategie.")
 
 def main():
-    # Alle verfügbaren Ticker abrufen
-    available_tickers = get_available_stocks()
-    if not available_tickers:
-        print("Keine Ticker verfügbar!")
-        return
+    # Ausgabe-Datei definieren
+    output_filename = "results_kombination.txt"
+    with open(output_filename, "w", encoding="utf-8") as f:
+        # Alle verfügbaren Ticker abrufen
+        available_tickers = get_available_stocks()
+        if not available_tickers:
+            print("Keine Ticker verfügbar!", file=f)
+            return
 
-    # Filtere nur Aktien (Stocks)
-    tickers_to_test = filter_stocks(available_tickers)
-    if not tickers_to_test:
-        print("Nach Filterung sind keine Aktien (Stocks) verfügbar!")
-        return
-    print(f"Vergleiche kombinierte Strategien für die Ticker: {', '.join(tickers_to_test)}")
+        # Filtere nur Aktien (Stocks)
+        tickers_to_test = filter_stocks(available_tickers)
+        if not tickers_to_test:
+            print("Nach Filterung sind keine Aktien (Stocks) verfügbar!", file=f)
+            return
 
-    # Zeitraum und Startkapital
-    start_date = "2010-01-01"
-    end_date = "2020-12-31"
-    start_kapital = 100000
+        # Zeitraum und Startkapital festlegen (diese Werte sollten vor der Ausgabe definiert werden)
+        start_date = "2010-01-01"
+        end_date = "2020-12-31"
+        start_kapital = 100000
 
-    # Hole alle Strategien aus dem STRATEGIES-Dictionary
-    strategy_names = list(STRATEGIES.keys())
-    # Erstelle alle paarweisen Kombinationen (ohne Wiederholung)
-    strategy_combinations = list(itertools.combinations(strategy_names, 2))
+        # Header in der Datei: Handelszeitraum und gehandelten Aktien
+        print("Handelszeitraum: {} bis {}".format(start_date, end_date), file=f)
+        print("Gehandelte Aktien: {}\n".format(", ".join(tickers_to_test)), file=f)
+        print("Vergleiche kombinierte Strategien für die Ticker: {}\n".format(", ".join(tickers_to_test)), file=f)
 
-    # Ergebnis-Dictionary zur Speicherung der Performance jeder Kombination (über alle Ticker)
-    combined_results = {combo: {"finals": [], "profits": [], "percents": []} for combo in strategy_combinations}
+        # Hole alle Strategien aus dem STRATEGIES-Dictionary
+        strategy_names = list(STRATEGIES.keys())
+        # Erstelle alle paarweisen Kombinationen (ohne Wiederholung)
+        strategy_combinations = list(itertools.combinations(strategy_names, 2))
 
-    # Für jeden Ticker:
-    for ticker in tickers_to_test:
-        print(f"\nBearbeite Ticker: {ticker}")
-        try:
-            df = load_stock_data(ticker, start_date, end_date)
-            df = ensure_close_column(df)
-            df = ensure_datetime_index(df)
-            # Falls vorhanden, setze die "date"-Spalte als Index und normalisiere
-            if "date" in df.columns:
-                df.set_index("date", inplace=True)
-                df.index = df.index.normalize()
-        except Exception as e:
-            print(f"Fehler beim Laden der Daten für {ticker}: {e}")
-            continue
+        # Ergebnis-Dictionary zur Speicherung der Performance jeder Kombination (über alle Ticker)
+        combined_results = {combo: {"finals": [], "profits": [], "percents": []} for combo in strategy_combinations}
 
-        # Für jede Kombination: 
-        # Wir simulieren, dass jeweils die Hälfte des Kapitals in jede Strategie investiert wird.
-        for combo in strategy_combinations:
-            strat1_name, strat2_name = combo
+        # Für jeden Ticker:
+        for ticker in tickers_to_test:
+            print("\nBearbeite Ticker: {}".format(ticker), file=f)
             try:
-                res1 = STRATEGIES[strat1_name](df, start_kapital=start_kapital/2)
-                res2 = STRATEGIES[strat2_name](df, start_kapital=start_kapital/2)
-                final1, profit1 = extract_numeric_result(res1)
-                final2, profit2 = extract_numeric_result(res2)
-                combined_final = final1 + final2
-                combined_profit = combined_final - start_kapital
-                combined_percent = (combined_final - start_kapital) / start_kapital * 100
-
-                combined_results[combo]["finals"].append(combined_final)
-                combined_results[combo]["profits"].append(combined_profit)
-                combined_results[combo]["percents"].append(combined_percent)
-                print(f"  {strat1_name} + {strat2_name}: Endwert = €{combined_final:,.2f}, Gewinn = €{combined_profit:,.2f}, {combined_percent:,.2f} %")
+                df = load_stock_data(ticker, start_date, end_date)
+                df = ensure_close_column(df)
+                df = ensure_datetime_index(df)
+                # Falls vorhanden, setze die "date"-Spalte als Index und normalisiere
+                if "date" in df.columns:
+                    df.set_index("date", inplace=True)
+                    df.index = df.index.normalize()
             except Exception as e:
-                print(f"  Fehler bei der Kombination '{strat1_name} + {strat2_name}' für {ticker}: {e}")
+                print("Fehler beim Laden der Daten für {}: {}".format(ticker, e), file=f)
+                continue
 
-    # Durchschnittliche Performance pro Kombination
-    print("\nDurchschnittliche Performance pro Strategie-Kombination:")
-    average_results = {}
-    for combo, data in combined_results.items():
-        if data["finals"]:
-            avg_final = sum(data["finals"]) / len(data["finals"])
-            avg_profit = sum(data["profits"]) / len(data["profits"])
-            avg_percent = sum(data["percents"]) / len(data["percents"])
-            average_results[combo] = {"avg_final": avg_final, "avg_profit": avg_profit, "avg_percent": avg_percent}
-            print(f"  {combo[0]} + {combo[1]}: Durchschnittlicher Endwert = €{format_currency(avg_final)}, "
-                  f"Gewinn = €{format_currency(avg_profit)}, Veränderung = {format_currency(avg_percent)} %")
+            # Für jede Kombination: Wir simulieren, dass jeweils die Hälfte des Kapitals in jede Strategie investiert wird.
+            for combo in strategy_combinations:
+                strat1_name, strat2_name = combo
+                try:
+                    res1 = STRATEGIES[strat1_name](df, start_kapital=start_kapital/2)
+                    res2 = STRATEGIES[strat2_name](df, start_kapital=start_kapital/2)
+                    final1, profit1 = extract_numeric_result(res1)
+                    final2, profit2 = extract_numeric_result(res2)
+                    combined_final = final1 + final2
+                    combined_profit = combined_final - start_kapital
+                    combined_percent = (combined_final - start_kapital) / start_kapital * 100
+
+                    combined_results[combo]["finals"].append(combined_final)
+                    combined_results[combo]["profits"].append(combined_profit)
+                    combined_results[combo]["percents"].append(combined_percent)
+                    print("  {} + {}: Endwert = €{}, Gewinn = €{}, {} %".format(
+                        strat1_name,
+                        strat2_name,
+                        format_currency(combined_final),
+                        format_currency(combined_profit),
+                        format_currency(combined_percent)
+                    ), file=f)
+                except Exception as e:
+                    print("  Fehler bei der Kombination '{} + {}' für {}: {}".format(
+                        strat1_name, strat2_name, ticker, e), file=f)
+
+        # Durchschnittliche Performance pro Kombination
+        print("\nDurchschnittliche Performance pro Strategie-Kombination:", file=f)
+        average_results = {}
+        for combo, data in combined_results.items():
+            if data["finals"]:
+                avg_final = sum(data["finals"]) / len(data["finals"])
+                avg_profit = sum(data["profits"]) / len(data["profits"])
+                avg_percent = sum(data["percents"]) / len(data["percents"])
+                average_results[combo] = {"avg_final": avg_final, "avg_profit": avg_profit, "avg_percent": avg_percent}
+                print("  {} + {}: Durchschnittlicher Endwert = €{}, Gewinn = €{}, Veränderung = {} %".format(
+                    combo[0],
+                    combo[1],
+                    format_currency(avg_final),
+                    format_currency(avg_profit),
+                    format_currency(avg_percent)
+                ), file=f)
+            else:
+                print("  {} + {}: Keine gültigen Ergebnisse.".format(combo[0], combo[1]), file=f)
+
+        # Beste Kombination ermitteln (basierend auf durchschnittlichem Endwert)
+        best_combo = None
+        best_avg_final = -float("inf")
+        for combo, metrics in average_results.items():
+            if metrics["avg_final"] > best_avg_final:
+                best_avg_final = metrics["avg_final"]
+                best_combo = combo
+
+        print("\nBeste Strategie-Kombination (basierend auf durchschnittlichem Endwert):", file=f)
+        if best_combo:
+            metrics = average_results[best_combo]
+            print("{} + {} mit einem durchschnittlichen Endwert von €{} (Gewinn: €{}, {} %)".format(
+                best_combo[0],
+                best_combo[1],
+                format_currency(metrics['avg_final']),
+                format_currency(metrics['avg_profit']),
+                format_currency(metrics['avg_percent'])
+            ), file=f)
         else:
-            print(f"  {combo[0]} + {combo[1]}: Keine gültigen Ergebnisse.")
-
-    # Beste Kombination ermitteln (basierend auf durchschnittlichem Endwert)
-    best_combo = None
-    best_avg_final = -float("inf")
-    for combo, metrics in average_results.items():
-        if metrics["avg_final"] > best_avg_final:
-            best_avg_final = metrics["avg_final"]
-            best_combo = combo
-
-    print("\nBeste Strategie-Kombination (basierend auf durchschnittlichem Endwert):")
-    if best_combo:
-        metrics = average_results[best_combo]
-        print(f"{best_combo[0]} + {best_combo[1]} mit einem durchschnittlichen Endwert von €{format_currency(metrics['avg_final'])} "
-              f"(Gewinn: €{format_currency(metrics['avg_profit'])}, {format_currency(metrics['avg_percent'])} %)")
-    else:
-        print("Keine Kombination konnte erfolgreich ausgewertet werden.")
+            print("Keine Kombination konnte erfolgreich ausgewertet werden.", file=f)
 
 if __name__ == "__main__":
     main()

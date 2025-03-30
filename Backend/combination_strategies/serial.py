@@ -130,8 +130,8 @@ if __name__ == "__main__":
     BASE_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
     DB_NAME = os.path.join(BASE_DIR, "Datenbank", "DB", "investment.db")
     
-    start_date = "2010-01-01"
-    end_date = "2020-12-31"
+    start_date = "2018-01-01"
+    end_date = "2023-12-31"
     start_value = 100000
     
     # Verbindung zur Datenbank herstellen und alle existierenden Symbole abfragen

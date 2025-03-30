@@ -1,0 +1,308 @@
+Ergebnisse der Serial-Strategie für alle Aktien
+Handelszeitraum: 2012-01-01 bis 2017-12-31
+Gehandelte Aktien: AAPL, ABT, ADBE, AMD, AMGN, AMZN, AVGO, BA, BAC, CMCSA, COST, CRM, CSCO, CVX, DIS, GOOGL, HD, HON, IBM, INTC, JNJ, JPM, KO, LIN, LLY, MA, MCD, MDT, META, MRK, MSFT, NEE, NFLX, NKE, NVDA, ORCL, PEP, PFE, PG, PM, QCOM, SPGI, T, TSLA, TXN, UNH, UPS, V, WMT, XOM
+
+Symbol: AAPL
+Startwert: €100.000,00
+Endwert: €321.345,91
+Gewinn/Verlust: €221.345,91
+Prozentuale Veränderung: 221,35 %
+
+Symbol: ABT
+Startwert: €100.000,00
+Endwert: €241.051,00
+Gewinn/Verlust: €141.051,00
+Prozentuale Veränderung: 141,05 %
+
+Symbol: ADBE
+Startwert: €100.000,00
+Endwert: €613.370,69
+Gewinn/Verlust: €513.370,69
+Prozentuale Veränderung: 513,37 %
+
+Symbol: AMD
+Startwert: €100.000,00
+Endwert: €187.591,24
+Gewinn/Verlust: €87.591,24
+Prozentuale Veränderung: 87,59 %
+
+Symbol: AMGN
+Startwert: €100.000,00
+Endwert: €308.948,35
+Gewinn/Verlust: €208.948,35
+Prozentuale Veränderung: 208,95 %
+
+Symbol: AMZN
+Startwert: €100.000,00
+Endwert: €653.225,71
+Gewinn/Verlust: €553.225,71
+Prozentuale Veränderung: 553,23 %
+
+Symbol: AVGO
+Startwert: €100.000,00
+Endwert: €982.022,23
+Gewinn/Verlust: €882.022,23
+Prozentuale Veränderung: 882,02 %
+
+Symbol: BA
+Startwert: €100.000,00
+Endwert: €462.773,03
+Gewinn/Verlust: €362.773,03
+Prozentuale Veränderung: 362,77 %
+
+Symbol: BAC
+Startwert: €100.000,00
+Endwert: €539.585,17
+Gewinn/Verlust: €439.585,17
+Prozentuale Veränderung: 439,59 %
+
+Symbol: CMCSA
+Startwert: €100.000,00
+Endwert: €361.495,78
+Gewinn/Verlust: €261.495,78
+Prozentuale Veränderung: 261,50 %
+
+Symbol: COST
+Startwert: €100.000,00
+Endwert: €270.879,58
+Gewinn/Verlust: €170.879,58
+Prozentuale Veränderung: 170,88 %
+
+Symbol: CRM
+Startwert: €100.000,00
+Endwert: €404.071,20
+Gewinn/Verlust: €304.071,20
+Prozentuale Veränderung: 304,07 %
+
+Symbol: CSCO
+Startwert: €100.000,00
+Endwert: €245.227,95
+Gewinn/Verlust: €145.227,95
+Prozentuale Veränderung: 145,23 %
+
+Symbol: CVX
+Startwert: €100.000,00
+Endwert: €142.395,76
+Gewinn/Verlust: €42.395,76
+Prozentuale Veränderung: 42,40 %
+
+Symbol: DIS
+Startwert: €100.000,00
+Endwert: €304.816,69
+Gewinn/Verlust: €204.816,69
+Prozentuale Veränderung: 204,82 %
+
+Symbol: GOOGL
+Startwert: €100.000,00
+Endwert: €316.300,17
+Gewinn/Verlust: €216.300,17
+Prozentuale Veränderung: 216,30 %
+
+Symbol: HD
+Startwert: €100.000,00
+Endwert: €510.851,15
+Gewinn/Verlust: €410.851,15
+Prozentuale Veränderung: 410,85 %
+
+Symbol: HON
+Startwert: €100.000,00
+Endwert: €315.852,15
+Gewinn/Verlust: €215.852,15
+Prozentuale Veränderung: 215,85 %
+
+Symbol: IBM
+Startwert: €100.000,00
+Endwert: €97.366,14
+Gewinn/Verlust: €-2.633,86
+Prozentuale Veränderung: -2,63 %
+
+Symbol: INTC
+Startwert: €100.000,00
+Endwert: €228.488,19
+Gewinn/Verlust: €128.488,19
+Prozentuale Veränderung: 128,49 %
+
+Symbol: JNJ
+Startwert: €100.000,00
+Endwert: €252.978,29
+Gewinn/Verlust: €152.978,29
+Prozentuale Veränderung: 152,98 %
+
+Symbol: JPM
+Startwert: €100.000,00
+Endwert: €359.441,52
+Gewinn/Verlust: €259.441,52
+Prozentuale Veränderung: 259,44 %
+
+Symbol: KO
+Startwert: €100.000,00
+Endwert: €157.151,46
+Gewinn/Verlust: €57.151,46
+Prozentuale Veränderung: 57,15 %
+
+Symbol: LIN
+Startwert: €100.000,00
+Endwert: €164.320,35
+Gewinn/Verlust: €64.320,35
+Prozentuale Veränderung: 64,32 %
+
+Symbol: LLY
+Startwert: €100.000,00
+Endwert: €245.284,02
+Gewinn/Verlust: €145.284,02
+Prozentuale Veränderung: 145,28 %
+
+Symbol: MA
+Startwert: €100.000,00
+Endwert: €425.285,48
+Gewinn/Verlust: €325.285,48
+Prozentuale Veränderung: 325,29 %
+
+Symbol: MCD
+Startwert: €100.000,00
+Endwert: €210.019,10
+Gewinn/Verlust: €110.019,10
+Prozentuale Veränderung: 110,02 %
+
+Symbol: MDT
+Startwert: €100.000,00
+Endwert: €238.425,55
+Gewinn/Verlust: €138.425,55
+Prozentuale Veränderung: 138,43 %
+
+Symbol: META
+Startwert: €100.000,00
+Endwert: €461.574,68
+Gewinn/Verlust: €361.574,68
+Prozentuale Veränderung: 361,57 %
+
+Symbol: MRK
+Startwert: €100.000,00
+Endwert: €179.913,95
+Gewinn/Verlust: €79.913,95
+Prozentuale Veränderung: 79,91 %
+
+Symbol: MSFT
+Startwert: €100.000,00
+Endwert: €375.252,44
+Gewinn/Verlust: €275.252,44
+Prozentuale Veränderung: 275,25 %
+
+Symbol: NEE
+Startwert: €100.000,00
+Endwert: €319.771,38
+Gewinn/Verlust: €219.771,38
+Prozentuale Veränderung: 219,77 %
+
+Symbol: NFLX
+Startwert: €100.000,00
+Endwert: €1.860.077,64
+Gewinn/Verlust: €1.760.077,64
+Prozentuale Veränderung: 1.760,08 %
+
+Symbol: NKE
+Startwert: €100.000,00
+Endwert: €278.879,54
+Gewinn/Verlust: €178.879,54
+Prozentuale Veränderung: 178,88 %
+
+Symbol: NVDA
+Startwert: €100.000,00
+Endwert: €1.486.566,78
+Gewinn/Verlust: €1.386.566,78
+Prozentuale Veränderung: 1.386,57 %
+
+Symbol: ORCL
+Startwert: €100.000,00
+Endwert: €197.788,04
+Gewinn/Verlust: €97.788,04
+Prozentuale Veränderung: 97,79 %
+
+Symbol: PEP
+Startwert: €100.000,00
+Endwert: €214.629,82
+Gewinn/Verlust: €114.629,82
+Prozentuale Veränderung: 114,63 %
+
+Symbol: PFE
+Startwert: €100.000,00
+Endwert: €204.263,76
+Gewinn/Verlust: €104.263,76
+Prozentuale Veränderung: 104,26 %
+
+Symbol: PG
+Startwert: €100.000,00
+Endwert: €166.295,99
+Gewinn/Verlust: €66.295,99
+Prozentuale Veränderung: 66,30 %
+
+Symbol: PM
+Startwert: €100.000,00
+Endwert: €171.552,74
+Gewinn/Verlust: €71.552,74
+Prozentuale Veränderung: 71,55 %
+
+Symbol: QCOM
+Startwert: €100.000,00
+Endwert: €136.047,27
+Gewinn/Verlust: €36.047,27
+Prozentuale Veränderung: 36,05 %
+
+Symbol: SPGI
+Startwert: €100.000,00
+Endwert: €426.694,83
+Gewinn/Verlust: €326.694,83
+Prozentuale Veränderung: 326,69 %
+
+Symbol: T
+Startwert: €100.000,00
+Endwert: €193.000,05
+Gewinn/Verlust: €93.000,05
+Prozentuale Veränderung: 93,00 %
+
+Symbol: TSLA
+Startwert: €100.000,00
+Endwert: €1.108.796,28
+Gewinn/Verlust: €1.008.796,28
+Prozentuale Veränderung: 1.008,80 %
+
+Symbol: TXN
+Startwert: €100.000,00
+Endwert: €410.588,12
+Gewinn/Verlust: €310.588,12
+Prozentuale Veränderung: 310,59 %
+
+Symbol: UNH
+Startwert: €100.000,00
+Endwert: €470.929,58
+Gewinn/Verlust: €370.929,58
+Prozentuale Veränderung: 370,93 %
+
+Symbol: UPS
+Startwert: €100.000,00
+Endwert: €191.130,25
+Gewinn/Verlust: €91.130,25
+Prozentuale Veränderung: 91,13 %
+
+Symbol: V
+Startwert: €100.000,00
+Endwert: €463.110,38
+Gewinn/Verlust: €363.110,38
+Prozentuale Veränderung: 363,11 %
+
+Symbol: WMT
+Startwert: €100.000,00
+Endwert: €191.115,23
+Gewinn/Verlust: €91.115,23
+Prozentuale Veränderung: 91,12 %
+
+Symbol: XOM
+Startwert: €100.000,00
+Endwert: €117.106,02
+Gewinn/Verlust: €17.106,02
+Prozentuale Veränderung: 17,11 %
+
+Durchschnittswerte:
+Durchschnittlicher Endwert: €383.712,97
+Durchschnittlicher Gewinn/Verlust: €283.712,97
+Durchschnittliche Prozentuale Veränderung: 283,71 %
