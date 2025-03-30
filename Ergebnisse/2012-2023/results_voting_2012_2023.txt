@@ -1,0 +1,303 @@
+Handelszeitraum: 2012-01-01 bis 2023-12-31
+Gehandelte Aktien: AAPL, ABT, ADBE, AMD, AMGN, AMZN, AVGO, BA, BAC, CMCSA, COST, CRM, CSCO, CVX, DIS, GOOGL, HD, HON, IBM, INTC, JNJ, JPM, KO, LIN, LLY, MA, MCD, MDT, META, MRK, MSFT, NEE, NFLX, NKE, NVDA, ORCL, PEP, PFE, PG, PM, QCOM, SPGI, T, TSLA, TXN, UNH, UPS, V, WMT, XOM
+
+Ergebnisse für verschiedene Vote‑Thresholds:
+============================================
+
+Vote‑Threshold = 1
+--------------------------------------------
+  Durchschnittlicher Endwert: €156.072,00
+  Durchschnittlicher Gewinn: €56.072,00
+  Durchschnittliche Veränderung: 56,07 %
+
+  Ergebnisse pro Aktie:
+    AAPL: Endwert = €208.630,04, Gewinn = €108.630,04, Veränderung = 108,63 %
+    ABT: Endwert = €115.434,95, Gewinn = €15.434,95, Veränderung = 15,43 %
+    ADBE: Endwert = €145.927,37, Gewinn = €45.927,37, Veränderung = 45,93 %
+    AMD: Endwert = €307.513,40, Gewinn = €207.513,40, Veränderung = 207,51 %
+    AMGN: Endwert = €127.441,75, Gewinn = €27.441,75, Veränderung = 27,44 %
+    AMZN: Endwert = €426.802,47, Gewinn = €326.802,47, Veränderung = 326,80 %
+    AVGO: Endwert = €140.786,47, Gewinn = €40.786,47, Veränderung = 40,79 %
+    BA: Endwert = €95.980,11, Gewinn = €-4.019,89, Veränderung = -4,02 %
+    BAC: Endwert = €181.468,66, Gewinn = €81.468,66, Veränderung = 81,47 %
+    CMCSA: Endwert = €143.684,65, Gewinn = €43.684,65, Veränderung = 43,68 %
+    COST: Endwert = €163.867,51, Gewinn = €63.867,51, Veränderung = 63,87 %
+    CRM: Endwert = €183.121,33, Gewinn = €83.121,33, Veränderung = 83,12 %
+    CSCO: Endwert = €92.662,89, Gewinn = €-7.337,11, Veränderung = -7,34 %
+    CVX: Endwert = €149.340,40, Gewinn = €49.340,40, Veränderung = 49,34 %
+    DIS: Endwert = €135.649,72, Gewinn = €35.649,72, Veränderung = 35,65 %
+    GOOGL: Endwert = €214.481,83, Gewinn = €114.481,83, Veränderung = 114,48 %
+    HD: Endwert = €145.171,54, Gewinn = €45.171,54, Veränderung = 45,17 %
+    HON: Endwert = €174.070,88, Gewinn = €74.070,88, Veränderung = 74,07 %
+    IBM: Endwert = €76.668,90, Gewinn = €-23.331,10, Veränderung = -23,33 %
+    INTC: Endwert = €74.424,43, Gewinn = €-25.575,57, Veränderung = -25,58 %
+    JNJ: Endwert = €107.792,75, Gewinn = €7.792,75, Veränderung = 7,79 %
+    JPM: Endwert = €122.494,77, Gewinn = €22.494,77, Veränderung = 22,49 %
+    KO: Endwert = €118.130,59, Gewinn = €18.130,59, Veränderung = 18,13 %
+    LIN: Endwert = €153.070,07, Gewinn = €53.070,07, Veränderung = 53,07 %
+    LLY: Endwert = €141.151,86, Gewinn = €41.151,86, Veränderung = 41,15 %
+    MA: Endwert = €164.844,46, Gewinn = €64.844,46, Veränderung = 64,84 %
+    MCD: Endwert = €131.948,97, Gewinn = €31.948,97, Veränderung = 31,95 %
+    MDT: Endwert = €98.467,49, Gewinn = €-1.532,51, Veränderung = -1,53 %
+    META: Endwert = €210.307,84, Gewinn = €110.307,84, Veränderung = 110,31 %
+    MRK: Endwert = €123.517,62, Gewinn = €23.517,62, Veränderung = 23,52 %
+    MSFT: Endwert = €119.249,33, Gewinn = €19.249,33, Veränderung = 19,25 %
+    NEE: Endwert = €219.239,31, Gewinn = €119.239,31, Veränderung = 119,24 %
+    NFLX: Endwert = €248.122,87, Gewinn = €148.122,87, Veränderung = 148,12 %
+    NKE: Endwert = €119.700,29, Gewinn = €19.700,29, Veränderung = 19,70 %
+    NVDA: Endwert = €412.370,24, Gewinn = €312.370,24, Veränderung = 312,37 %
+    ORCL: Endwert = €110.781,31, Gewinn = €10.781,31, Veränderung = 10,78 %
+    PEP: Endwert = €131.212,92, Gewinn = €31.212,92, Veränderung = 31,21 %
+    PFE: Endwert = €110.778,99, Gewinn = €10.778,99, Veränderung = 10,78 %
+    PG: Endwert = €117.845,13, Gewinn = €17.845,13, Veränderung = 17,85 %
+    PM: Endwert = €119.429,16, Gewinn = €19.429,16, Veränderung = 19,43 %
+    QCOM: Endwert = €74.416,28, Gewinn = €-25.583,72, Veränderung = -25,58 %
+    SPGI: Endwert = €280.917,40, Gewinn = €180.917,40, Veränderung = 180,92 %
+    T: Endwert = €153.326,59, Gewinn = €53.326,59, Veränderung = 53,33 %
+    TSLA: Endwert = €146.690,51, Gewinn = €46.690,51, Veränderung = 46,69 %
+    TXN: Endwert = €78.048,74, Gewinn = €-21.951,26, Veränderung = -21,95 %
+    UNH: Endwert = €238.552,37, Gewinn = €138.552,37, Veränderung = 138,55 %
+    UPS: Endwert = €107.720,19, Gewinn = €7.720,19, Veränderung = 7,72 %
+    V: Endwert = €129.324,72, Gewinn = €29.324,72, Veränderung = 29,32 %
+    WMT: Endwert = €97.866,27, Gewinn = €-2.133,73, Veränderung = -2,13 %
+    XOM: Endwert = €113.151,48, Gewinn = €13.151,48, Veränderung = 13,15 %
+
+Vote‑Threshold = 2
+--------------------------------------------
+  Durchschnittlicher Endwert: €198.656,87
+  Durchschnittlicher Gewinn: €98.656,87
+  Durchschnittliche Veränderung: 98,66 %
+
+  Ergebnisse pro Aktie:
+    AAPL: Endwert = €409.169,74, Gewinn = €309.169,74, Veränderung = 309,17 %
+    ABT: Endwert = €133.821,37, Gewinn = €33.821,37, Veränderung = 33,82 %
+    ADBE: Endwert = €192.679,30, Gewinn = €92.679,30, Veränderung = 92,68 %
+    AMD: Endwert = €685.653,21, Gewinn = €585.653,21, Veränderung = 585,65 %
+    AMGN: Endwert = €167.206,09, Gewinn = €67.206,09, Veränderung = 67,21 %
+    AMZN: Endwert = €570.146,92, Gewinn = €470.146,92, Veränderung = 470,15 %
+    AVGO: Endwert = €168.281,29, Gewinn = €68.281,29, Veränderung = 68,28 %
+    BA: Endwert = €184.326,35, Gewinn = €84.326,35, Veränderung = 84,33 %
+    BAC: Endwert = €225.348,40, Gewinn = €125.348,40, Veränderung = 125,35 %
+    CMCSA: Endwert = €110.190,23, Gewinn = €10.190,23, Veränderung = 10,19 %
+    COST: Endwert = €207.324,55, Gewinn = €107.324,55, Veränderung = 107,32 %
+    CRM: Endwert = €297.432,47, Gewinn = €197.432,47, Veränderung = 197,43 %
+    CSCO: Endwert = €137.296,34, Gewinn = €37.296,34, Veränderung = 37,30 %
+    CVX: Endwert = €146.162,38, Gewinn = €46.162,38, Veränderung = 46,16 %
+    DIS: Endwert = €135.974,22, Gewinn = €35.974,22, Veränderung = 35,97 %
+    GOOGL: Endwert = €172.823,32, Gewinn = €72.823,32, Veränderung = 72,82 %
+    HD: Endwert = €207.310,74, Gewinn = €107.310,74, Veränderung = 107,31 %
+    HON: Endwert = €220.000,24, Gewinn = €120.000,24, Veränderung = 120,00 %
+    IBM: Endwert = €86.744,07, Gewinn = €-13.255,93, Veränderung = -13,26 %
+    INTC: Endwert = €104.251,36, Gewinn = €4.251,36, Veränderung = 4,25 %
+    JNJ: Endwert = €101.859,42, Gewinn = €1.859,42, Veränderung = 1,86 %
+    JPM: Endwert = €153.970,69, Gewinn = €53.970,69, Veränderung = 53,97 %
+    KO: Endwert = €112.286,97, Gewinn = €12.286,97, Veränderung = 12,29 %
+    LIN: Endwert = €116.388,79, Gewinn = €16.388,79, Veränderung = 16,39 %
+    LLY: Endwert = €144.868,87, Gewinn = €44.868,87, Veränderung = 44,87 %
+    MA: Endwert = €140.001,03, Gewinn = €40.001,03, Veränderung = 40,00 %
+    MCD: Endwert = €137.089,86, Gewinn = €37.089,86, Veränderung = 37,09 %
+    MDT: Endwert = €102.959,08, Gewinn = €2.959,08, Veränderung = 2,96 %
+    META: Endwert = €273.510,25, Gewinn = €173.510,25, Veränderung = 173,51 %
+    MRK: Endwert = €103.288,04, Gewinn = €3.288,04, Veränderung = 3,29 %
+    MSFT: Endwert = €128.089,45, Gewinn = €28.089,45, Veränderung = 28,09 %
+    NEE: Endwert = €163.002,96, Gewinn = €63.002,96, Veränderung = 63,00 %
+    NFLX: Endwert = €397.226,83, Gewinn = €297.226,83, Veränderung = 297,23 %
+    NKE: Endwert = €156.156,18, Gewinn = €56.156,18, Veränderung = 56,16 %
+    NVDA: Endwert = €890.438,61, Gewinn = €790.438,61, Veränderung = 790,44 %
+    ORCL: Endwert = €91.825,02, Gewinn = €-8.174,98, Veränderung = -8,17 %
+    PEP: Endwert = €85.949,69, Gewinn = €-14.050,31, Veränderung = -14,05 %
+    PFE: Endwert = €136.186,64, Gewinn = €36.186,64, Veränderung = 36,19 %
+    PG: Endwert = €114.434,05, Gewinn = €14.434,05, Veränderung = 14,43 %
+    PM: Endwert = €125.536,60, Gewinn = €25.536,60, Veränderung = 25,54 %
+    QCOM: Endwert = €78.418,93, Gewinn = €-21.581,07, Veränderung = -21,58 %
+    SPGI: Endwert = €333.324,32, Gewinn = €233.324,32, Veränderung = 233,32 %
+    T: Endwert = €160.079,47, Gewinn = €60.079,47, Veränderung = 60,08 %
+    TSLA: Endwert = €322.484,19, Gewinn = €222.484,19, Veränderung = 222,48 %
+    TXN: Endwert = €80.045,28, Gewinn = €-19.954,72, Veränderung = -19,95 %
+    UNH: Endwert = €177.647,70, Gewinn = €77.647,70, Veränderung = 77,65 %
+    UPS: Endwert = €118.356,57, Gewinn = €18.356,57, Veränderung = 18,36 %
+    V: Endwert = €162.659,06, Gewinn = €62.659,06, Veränderung = 62,66 %
+    WMT: Endwert = €111.304,22, Gewinn = €11.304,22, Veränderung = 11,30 %
+    XOM: Endwert = €151.312,05, Gewinn = €51.312,05, Veränderung = 51,31 %
+
+Vote‑Threshold = 3
+--------------------------------------------
+  Durchschnittlicher Endwert: €212.076,30
+  Durchschnittlicher Gewinn: €112.076,30
+  Durchschnittliche Veränderung: 112,08 %
+
+  Ergebnisse pro Aktie:
+    AAPL: Endwert = €399.540,00, Gewinn = €299.540,00, Veränderung = 299,54 %
+    ABT: Endwert = €134.180,59, Gewinn = €34.180,59, Veränderung = 34,18 %
+    ADBE: Endwert = €171.979,55, Gewinn = €71.979,55, Veränderung = 71,98 %
+    AMD: Endwert = €826.707,07, Gewinn = €726.707,07, Veränderung = 726,71 %
+    AMGN: Endwert = €191.988,28, Gewinn = €91.988,28, Veränderung = 91,99 %
+    AMZN: Endwert = €713.654,34, Gewinn = €613.654,34, Veränderung = 613,65 %
+    AVGO: Endwert = €182.557,20, Gewinn = €82.557,20, Veränderung = 82,56 %
+    BA: Endwert = €225.038,40, Gewinn = €125.038,40, Veränderung = 125,04 %
+    BAC: Endwert = €296.400,85, Gewinn = €196.400,85, Veränderung = 196,40 %
+    CMCSA: Endwert = €109.478,27, Gewinn = €9.478,27, Veränderung = 9,48 %
+    COST: Endwert = €189.234,95, Gewinn = €89.234,95, Veränderung = 89,23 %
+    CRM: Endwert = €294.356,92, Gewinn = €194.356,92, Veränderung = 194,36 %
+    CSCO: Endwert = €147.164,44, Gewinn = €47.164,44, Veränderung = 47,16 %
+    CVX: Endwert = €175.956,94, Gewinn = €75.956,94, Veränderung = 75,96 %
+    DIS: Endwert = €128.512,58, Gewinn = €28.512,58, Veränderung = 28,51 %
+    GOOGL: Endwert = €141.250,82, Gewinn = €41.250,82, Veränderung = 41,25 %
+    HD: Endwert = €212.341,20, Gewinn = €112.341,20, Veränderung = 112,34 %
+    HON: Endwert = €204.058,86, Gewinn = €104.058,86, Veränderung = 104,06 %
+    IBM: Endwert = €88.333,91, Gewinn = €-11.666,09, Veränderung = -11,67 %
+    INTC: Endwert = €81.145,52, Gewinn = €-18.854,48, Veränderung = -18,85 %
+    JNJ: Endwert = €105.026,66, Gewinn = €5.026,66, Veränderung = 5,03 %
+    JPM: Endwert = €158.727,90, Gewinn = €58.727,90, Veränderung = 58,73 %
+    KO: Endwert = €122.227,33, Gewinn = €22.227,33, Veränderung = 22,23 %
+    LIN: Endwert = €102.274,57, Gewinn = €2.274,57, Veränderung = 2,27 %
+    LLY: Endwert = €172.522,66, Gewinn = €72.522,66, Veränderung = 72,52 %
+    MA: Endwert = €152.955,59, Gewinn = €52.955,59, Veränderung = 52,96 %
+    MCD: Endwert = €125.711,37, Gewinn = €25.711,37, Veränderung = 25,71 %
+    MDT: Endwert = €106.986,48, Gewinn = €6.986,48, Veränderung = 6,99 %
+    META: Endwert = €209.311,30, Gewinn = €109.311,30, Veränderung = 109,31 %
+    MRK: Endwert = €89.396,23, Gewinn = €-10.603,77, Veränderung = -10,60 %
+    MSFT: Endwert = €138.317,96, Gewinn = €38.317,96, Veränderung = 38,32 %
+    NEE: Endwert = €150.710,32, Gewinn = €50.710,32, Veränderung = 50,71 %
+    NFLX: Endwert = €511.664,06, Gewinn = €411.664,06, Veränderung = 411,66 %
+    NKE: Endwert = €146.944,79, Gewinn = €46.944,79, Veränderung = 46,94 %
+    NVDA: Endwert = €935.196,77, Gewinn = €835.196,77, Veränderung = 835,20 %
+    ORCL: Endwert = €118.626,21, Gewinn = €18.626,21, Veränderung = 18,63 %
+    PEP: Endwert = €85.452,07, Gewinn = €-14.547,93, Veränderung = -14,55 %
+    PFE: Endwert = €122.353,13, Gewinn = €22.353,13, Veränderung = 22,35 %
+    PG: Endwert = €101.587,70, Gewinn = €1.587,70, Veränderung = 1,59 %
+    PM: Endwert = €130.792,57, Gewinn = €30.792,57, Veränderung = 30,79 %
+    QCOM: Endwert = €76.435,96, Gewinn = €-23.564,04, Veränderung = -23,56 %
+    SPGI: Endwert = €325.094,77, Gewinn = €225.094,77, Veränderung = 225,09 %
+    T: Endwert = €174.033,38, Gewinn = €74.033,38, Veränderung = 74,03 %
+    TSLA: Endwert = €475.066,19, Gewinn = €375.066,19, Veränderung = 375,07 %
+    TXN: Endwert = €83.313,52, Gewinn = €-16.686,48, Veränderung = -16,69 %
+    UNH: Endwert = €224.667,48, Gewinn = €124.667,48, Veränderung = 124,67 %
+    UPS: Endwert = €129.403,45, Gewinn = €29.403,45, Veränderung = 29,40 %
+    V: Endwert = €166.776,01, Gewinn = €66.776,01, Veränderung = 66,78 %
+    WMT: Endwert = €109.997,34, Gewinn = €9.997,34, Veränderung = 10,00 %
+    XOM: Endwert = €138.360,73, Gewinn = €38.360,73, Veränderung = 38,36 %
+
+Vote‑Threshold = 4
+--------------------------------------------
+  Durchschnittlicher Endwert: €212.076,30
+  Durchschnittlicher Gewinn: €112.076,30
+  Durchschnittliche Veränderung: 112,08 %
+
+  Ergebnisse pro Aktie:
+    AAPL: Endwert = €399.540,00, Gewinn = €299.540,00, Veränderung = 299,54 %
+    ABT: Endwert = €134.180,59, Gewinn = €34.180,59, Veränderung = 34,18 %
+    ADBE: Endwert = €171.979,55, Gewinn = €71.979,55, Veränderung = 71,98 %
+    AMD: Endwert = €826.707,07, Gewinn = €726.707,07, Veränderung = 726,71 %
+    AMGN: Endwert = €191.988,28, Gewinn = €91.988,28, Veränderung = 91,99 %
+    AMZN: Endwert = €713.654,34, Gewinn = €613.654,34, Veränderung = 613,65 %
+    AVGO: Endwert = €182.557,20, Gewinn = €82.557,20, Veränderung = 82,56 %
+    BA: Endwert = €225.038,40, Gewinn = €125.038,40, Veränderung = 125,04 %
+    BAC: Endwert = €296.400,85, Gewinn = €196.400,85, Veränderung = 196,40 %
+    CMCSA: Endwert = €109.478,27, Gewinn = €9.478,27, Veränderung = 9,48 %
+    COST: Endwert = €189.234,95, Gewinn = €89.234,95, Veränderung = 89,23 %
+    CRM: Endwert = €294.356,92, Gewinn = €194.356,92, Veränderung = 194,36 %
+    CSCO: Endwert = €147.164,44, Gewinn = €47.164,44, Veränderung = 47,16 %
+    CVX: Endwert = €175.956,94, Gewinn = €75.956,94, Veränderung = 75,96 %
+    DIS: Endwert = €128.512,58, Gewinn = €28.512,58, Veränderung = 28,51 %
+    GOOGL: Endwert = €141.250,82, Gewinn = €41.250,82, Veränderung = 41,25 %
+    HD: Endwert = €212.341,20, Gewinn = €112.341,20, Veränderung = 112,34 %
+    HON: Endwert = €204.058,86, Gewinn = €104.058,86, Veränderung = 104,06 %
+    IBM: Endwert = €88.333,91, Gewinn = €-11.666,09, Veränderung = -11,67 %
+    INTC: Endwert = €81.145,52, Gewinn = €-18.854,48, Veränderung = -18,85 %
+    JNJ: Endwert = €105.026,66, Gewinn = €5.026,66, Veränderung = 5,03 %
+    JPM: Endwert = €158.727,90, Gewinn = €58.727,90, Veränderung = 58,73 %
+    KO: Endwert = €122.227,33, Gewinn = €22.227,33, Veränderung = 22,23 %
+    LIN: Endwert = €102.274,57, Gewinn = €2.274,57, Veränderung = 2,27 %
+    LLY: Endwert = €172.522,66, Gewinn = €72.522,66, Veränderung = 72,52 %
+    MA: Endwert = €152.955,59, Gewinn = €52.955,59, Veränderung = 52,96 %
+    MCD: Endwert = €125.711,37, Gewinn = €25.711,37, Veränderung = 25,71 %
+    MDT: Endwert = €106.986,48, Gewinn = €6.986,48, Veränderung = 6,99 %
+    META: Endwert = €209.311,30, Gewinn = €109.311,30, Veränderung = 109,31 %
+    MRK: Endwert = €89.396,23, Gewinn = €-10.603,77, Veränderung = -10,60 %
+    MSFT: Endwert = €138.317,96, Gewinn = €38.317,96, Veränderung = 38,32 %
+    NEE: Endwert = €150.710,32, Gewinn = €50.710,32, Veränderung = 50,71 %
+    NFLX: Endwert = €511.664,06, Gewinn = €411.664,06, Veränderung = 411,66 %
+    NKE: Endwert = €146.944,79, Gewinn = €46.944,79, Veränderung = 46,94 %
+    NVDA: Endwert = €935.196,77, Gewinn = €835.196,77, Veränderung = 835,20 %
+    ORCL: Endwert = €118.626,21, Gewinn = €18.626,21, Veränderung = 18,63 %
+    PEP: Endwert = €85.452,07, Gewinn = €-14.547,93, Veränderung = -14,55 %
+    PFE: Endwert = €122.353,13, Gewinn = €22.353,13, Veränderung = 22,35 %
+    PG: Endwert = €101.587,70, Gewinn = €1.587,70, Veränderung = 1,59 %
+    PM: Endwert = €130.792,57, Gewinn = €30.792,57, Veränderung = 30,79 %
+    QCOM: Endwert = €76.435,96, Gewinn = €-23.564,04, Veränderung = -23,56 %
+    SPGI: Endwert = €325.094,77, Gewinn = €225.094,77, Veränderung = 225,09 %
+    T: Endwert = €174.033,38, Gewinn = €74.033,38, Veränderung = 74,03 %
+    TSLA: Endwert = €475.066,19, Gewinn = €375.066,19, Veränderung = 375,07 %
+    TXN: Endwert = €83.313,52, Gewinn = €-16.686,48, Veränderung = -16,69 %
+    UNH: Endwert = €224.667,48, Gewinn = €124.667,48, Veränderung = 124,67 %
+    UPS: Endwert = €129.403,45, Gewinn = €29.403,45, Veränderung = 29,40 %
+    V: Endwert = €166.776,01, Gewinn = €66.776,01, Veränderung = 66,78 %
+    WMT: Endwert = €109.997,34, Gewinn = €9.997,34, Veränderung = 10,00 %
+    XOM: Endwert = €138.360,73, Gewinn = €38.360,73, Veränderung = 38,36 %
+
+Vote‑Threshold = 5
+--------------------------------------------
+  Durchschnittlicher Endwert: €212.076,30
+  Durchschnittlicher Gewinn: €112.076,30
+  Durchschnittliche Veränderung: 112,08 %
+
+  Ergebnisse pro Aktie:
+    AAPL: Endwert = €399.540,00, Gewinn = €299.540,00, Veränderung = 299,54 %
+    ABT: Endwert = €134.180,59, Gewinn = €34.180,59, Veränderung = 34,18 %
+    ADBE: Endwert = €171.979,55, Gewinn = €71.979,55, Veränderung = 71,98 %
+    AMD: Endwert = €826.707,07, Gewinn = €726.707,07, Veränderung = 726,71 %
+    AMGN: Endwert = €191.988,28, Gewinn = €91.988,28, Veränderung = 91,99 %
+    AMZN: Endwert = €713.654,34, Gewinn = €613.654,34, Veränderung = 613,65 %
+    AVGO: Endwert = €182.557,20, Gewinn = €82.557,20, Veränderung = 82,56 %
+    BA: Endwert = €225.038,40, Gewinn = €125.038,40, Veränderung = 125,04 %
+    BAC: Endwert = €296.400,85, Gewinn = €196.400,85, Veränderung = 196,40 %
+    CMCSA: Endwert = €109.478,27, Gewinn = €9.478,27, Veränderung = 9,48 %
+    COST: Endwert = €189.234,95, Gewinn = €89.234,95, Veränderung = 89,23 %
+    CRM: Endwert = €294.356,92, Gewinn = €194.356,92, Veränderung = 194,36 %
+    CSCO: Endwert = €147.164,44, Gewinn = €47.164,44, Veränderung = 47,16 %
+    CVX: Endwert = €175.956,94, Gewinn = €75.956,94, Veränderung = 75,96 %
+    DIS: Endwert = €128.512,58, Gewinn = €28.512,58, Veränderung = 28,51 %
+    GOOGL: Endwert = €141.250,82, Gewinn = €41.250,82, Veränderung = 41,25 %
+    HD: Endwert = €212.341,20, Gewinn = €112.341,20, Veränderung = 112,34 %
+    HON: Endwert = €204.058,86, Gewinn = €104.058,86, Veränderung = 104,06 %
+    IBM: Endwert = €88.333,91, Gewinn = €-11.666,09, Veränderung = -11,67 %
+    INTC: Endwert = €81.145,52, Gewinn = €-18.854,48, Veränderung = -18,85 %
+    JNJ: Endwert = €105.026,66, Gewinn = €5.026,66, Veränderung = 5,03 %
+    JPM: Endwert = €158.727,90, Gewinn = €58.727,90, Veränderung = 58,73 %
+    KO: Endwert = €122.227,33, Gewinn = €22.227,33, Veränderung = 22,23 %
+    LIN: Endwert = €102.274,57, Gewinn = €2.274,57, Veränderung = 2,27 %
+    LLY: Endwert = €172.522,66, Gewinn = €72.522,66, Veränderung = 72,52 %
+    MA: Endwert = €152.955,59, Gewinn = €52.955,59, Veränderung = 52,96 %
+    MCD: Endwert = €125.711,37, Gewinn = €25.711,37, Veränderung = 25,71 %
+    MDT: Endwert = €106.986,48, Gewinn = €6.986,48, Veränderung = 6,99 %
+    META: Endwert = €209.311,30, Gewinn = €109.311,30, Veränderung = 109,31 %
+    MRK: Endwert = €89.396,23, Gewinn = €-10.603,77, Veränderung = -10,60 %
+    MSFT: Endwert = €138.317,96, Gewinn = €38.317,96, Veränderung = 38,32 %
+    NEE: Endwert = €150.710,32, Gewinn = €50.710,32, Veränderung = 50,71 %
+    NFLX: Endwert = €511.664,06, Gewinn = €411.664,06, Veränderung = 411,66 %
+    NKE: Endwert = €146.944,79, Gewinn = €46.944,79, Veränderung = 46,94 %
+    NVDA: Endwert = €935.196,77, Gewinn = €835.196,77, Veränderung = 835,20 %
+    ORCL: Endwert = €118.626,21, Gewinn = €18.626,21, Veränderung = 18,63 %
+    PEP: Endwert = €85.452,07, Gewinn = €-14.547,93, Veränderung = -14,55 %
+    PFE: Endwert = €122.353,13, Gewinn = €22.353,13, Veränderung = 22,35 %
+    PG: Endwert = €101.587,70, Gewinn = €1.587,70, Veränderung = 1,59 %
+    PM: Endwert = €130.792,57, Gewinn = €30.792,57, Veränderung = 30,79 %
+    QCOM: Endwert = €76.435,96, Gewinn = €-23.564,04, Veränderung = -23,56 %
+    SPGI: Endwert = €325.094,77, Gewinn = €225.094,77, Veränderung = 225,09 %
+    T: Endwert = €174.033,38, Gewinn = €74.033,38, Veränderung = 74,03 %
+    TSLA: Endwert = €475.066,19, Gewinn = €375.066,19, Veränderung = 375,07 %
+    TXN: Endwert = €83.313,52, Gewinn = €-16.686,48, Veränderung = -16,69 %
+    UNH: Endwert = €224.667,48, Gewinn = €124.667,48, Veränderung = 124,67 %
+    UPS: Endwert = €129.403,45, Gewinn = €29.403,45, Veränderung = 29,40 %
+    V: Endwert = €166.776,01, Gewinn = €66.776,01, Veränderung = 66,78 %
+    WMT: Endwert = €109.997,34, Gewinn = €9.997,34, Veränderung = 10,00 %
+    XOM: Endwert = €138.360,73, Gewinn = €38.360,73, Veränderung = 38,36 %
+
+Beste Vote‑Threshold (basierend auf durchschnittlichem Endwert):
+============================================
+  Vote‑Threshold = 3
+  Durchschnittlicher Endwert: €212.076,30
+  Durchschnittlicher Gewinn: €112.076,30
+  Durchschnittliche Veränderung: 112,08 %
+
