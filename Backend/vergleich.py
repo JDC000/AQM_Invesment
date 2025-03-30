@@ -58,7 +58,7 @@ def filter_stocks(tickers):
                  "ATOM", "TRX", "ETC", "NEAR", "XMR", "VET", "EOS", "FIL", "CRO", "DAI", "DASH", "ENJ"}
     VT wird hier absichtlich nicht mit aufgenommen, damit die Strategien nicht darauf angewendet werden.
     """
-    ETFS = {"XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE", "VT"}
+    ETFS = {"XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE"}
     CRYPTOS = {"BNB", "XRP", "SOL", "DOT", "LTC",
                "USDC", "LINK", "BCH", "XLM", "UNI", "ATOM", "TRX",
                "ETC", "NEAR", "XMR", "VET", "EOS", "FIL", "CRO", "DAI", "DASH", "ENJ"}

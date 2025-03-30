@@ -1,18 +1,18 @@
 Handelszeitraum: 2012-01-01 bis 2023-12-31
-Verwendete Aktien: AAPL, ABT, ADBE, AMD, AMGN, AMZN, AVGO, BA, BAC, CMCSA, COST, CRM, CSCO, CVX, DIS, GOOGL, HD, HON, IBM, INTC, JNJ, JPM, KO, LIN, LLY, MA, MCD, MDT, META, MRK, MSFT, NEE, NFLX, NKE, NVDA, ORCL, PEP, PFE, PG, PM, QCOM, SPGI, T, TSLA, TXN, UNH, UPS, V, WMT, XOM
+Verwendete Aktien: AAPL, ABT, ADBE, AMD, AMGN, AMZN, AVGO, BA, BAC, CMCSA, COST, CRM, CSCO, CVX, DIS, GOOGL, HD, HON, IBM, INTC, JNJ, JPM, KO, LIN, LLY, MA, MCD, MDT, META, MRK, MSFT, NEE, NFLX, NKE, NVDA, ORCL, PEP, PFE, PG, PM, QCOM, SPGI, T, TSLA, TXN, UNH, UPS, V, VT, WMT, XOM
 
 Ergebnisse pro Strategie:
-  Momentum: Durchschnittlicher Gesamtwert = 173,522.75 €, Durchschnittlicher prozentualer Gewinn = 73.52 %
-  Moving Average: Durchschnittlicher Gesamtwert = 440,528.76 €, Durchschnittlicher prozentualer Gewinn = 340.53 %
-  Bollinger Bands: Durchschnittlicher Gesamtwert = 263,805.46 €, Durchschnittlicher prozentualer Gewinn = 163.81 %
-  Breakout Strategie: Durchschnittlicher Gesamtwert = 292,183.13 €, Durchschnittlicher prozentualer Gewinn = 192.18 %
-  Fibonacci: Durchschnittlicher Gesamtwert = 378,204.06 €, Durchschnittlicher prozentualer Gewinn = 278.20 %
-  Relative Strength: Durchschnittlicher Gesamtwert = 221,270.90 €, Durchschnittlicher prozentualer Gewinn = 121.27 %
-  Buy & Hold: Durchschnittlicher Gesamtwert = 980,720.37 €, Durchschnittlicher prozentualer Gewinn = 880.72 %
-  September/December: Durchschnittlicher Gesamtwert = 165,506.70 €, Durchschnittlicher prozentualer Gewinn = 65.51 %
+  Momentum: Durchschnittlicher Gesamtwert = 211,414.94 €, Durchschnittlicher prozentualer Gewinn = 111.41 %
+  Moving Average: Durchschnittlicher Gesamtwert = 789,281.58 €, Durchschnittlicher prozentualer Gewinn = 689.28 %
+  Bollinger Bands: Durchschnittlicher Gesamtwert = 322,129.75 €, Durchschnittlicher prozentualer Gewinn = 222.13 %
+  Breakout Strategie: Durchschnittlicher Gesamtwert = 372,941.02 €, Durchschnittlicher prozentualer Gewinn = 272.94 %
+  Fibonacci: Durchschnittlicher Gesamtwert = 386,275.59 €, Durchschnittlicher prozentualer Gewinn = 286.28 %
+  Relative Strength: Durchschnittlicher Gesamtwert = 269,945.66 €, Durchschnittlicher prozentualer Gewinn = 169.95 %
+  Buy & Hold: Durchschnittlicher Gesamtwert = 1,422,766.74 €, Durchschnittlicher prozentualer Gewinn = 1,322.77 %
+  September/December: Durchschnittlicher Gesamtwert = 180,622.01 €, Durchschnittlicher prozentualer Gewinn = 80.62 %
 
 Beste Strategie (basierend auf durchschnittlichem Gesamtwert):
-  Buy & Hold mit einem durchschnittlichen Gesamtwert von 980,720.37 €
+  Buy & Hold mit einem durchschnittlichen Gesamtwert von 1,422,766.74 €
 
 Buy & Hold Vergleich (VT):
-  VT-Daten konnten nicht geladen werden.
+  VT: Gesamtwert = 306,671.27 €, Prozentualer Gewinn = 206.67 %

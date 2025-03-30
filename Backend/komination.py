@@ -69,7 +69,7 @@ def filter_stocks(tickers):
     Filtert die Tickerliste, sodass nur Aktien (Stocks) enthalten sind.
     ETFs und Cryptos werden ausgeklammert.
     """
-    ETFS = {"XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE", "VT"}
+    ETFS = {"XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE"}
     CRYPTOS = {"BNB", "XRP", "SOL", "DOT", "LTC", "USDC", "LINK", "BCH", "XLM", "UNI",
                "ATOM", "TRX", "ETC", "NEAR", "XMR", "VET", "EOS", "FIL", "CRO", "DAI", "DASH", "ENJ"}
     return [ticker for ticker in tickers if ticker not in ETFS and ticker not in CRYPTOS]
@@ -88,31 +88,48 @@ def extract_numeric_result(result):
             return result
     raise ValueError("Unbekanntes Rückgabeformat der Strategie.")
 
+# Tee-Klasse, die Ausgaben an zwei Streams leitet
+class Tee:
+    def __init__(self, stream1, stream2):
+        self.stream1 = stream1
+        self.stream2 = stream2
+
+    def write(self, message):
+        self.stream1.write(message)
+        self.stream2.write(message)
+
+    def flush(self):
+        self.stream1.flush()
+        self.stream2.flush()
+
 def main():
     # Ausgabe-Datei definieren
     output_filename = "results_kombination.txt"
     with open(output_filename, "w", encoding="utf-8") as f:
+        # Erstelle einen Tee, der sys.stdout und die Datei f verwendet
+        tee = Tee(sys.stdout, f)
+        
         # Alle verfügbaren Ticker abrufen
         available_tickers = get_available_stocks()
         if not available_tickers:
-            print("Keine Ticker verfügbar!", file=f)
+            print("Keine Ticker verfügbar!", file=tee)
             return
 
         # Filtere nur Aktien (Stocks)
         tickers_to_test = filter_stocks(available_tickers)
         if not tickers_to_test:
-            print("Nach Filterung sind keine Aktien (Stocks) verfügbar!", file=f)
+            print("Nach Filterung sind keine Aktien (Stocks) verfügbar!", file=tee)
             return
 
-        # Zeitraum und Startkapital festlegen (diese Werte sollten vor der Ausgabe definiert werden)
-        start_date = "2010-01-01"
-        end_date = "2020-12-31"
+        # Zeitraum und Startkapital festlegen
+        start_date = "2018-01-01"
+        end_date = "2023-12-31"
         start_kapital = 100000
 
-        # Header in der Datei: Handelszeitraum und gehandelten Aktien
-        print("Handelszeitraum: {} bis {}".format(start_date, end_date), file=f)
-        print("Gehandelte Aktien: {}\n".format(", ".join(tickers_to_test)), file=f)
-        print("Vergleiche kombinierte Strategien für die Ticker: {}\n".format(", ".join(tickers_to_test)), file=f)
+        # Header in der Ausgabe: Handelszeitraum und gehandelten Aktien
+        print("Handelszeitraum: {} bis {}".format(start_date, end_date), file=tee)
+        print("Gehandelte Aktien: {}\n".format(", ".join(tickers_to_test)), file=tee)
+        print("Vergleiche kombinierte Strategien für die Ticker: {}\n".format(", ".join(tickers_to_test)), file=tee)
 
         # Hole alle Strategien aus dem STRATEGIES-Dictionary
         strategy_names = list(STRATEGIES.keys())
@@ -124,7 +141,7 @@ def main():
 
         # Für jeden Ticker:
         for ticker in tickers_to_test:
-            print("\nBearbeite Ticker: {}".format(ticker), file=f)
+            print("\nBearbeite Ticker: {}".format(ticker), file=tee)
             try:
                 df = load_stock_data(ticker, start_date, end_date)
                 df = ensure_close_column(df)
@@ -134,10 +151,10 @@ def main():
                     df.set_index("date", inplace=True)
                     df.index = df.index.normalize()
             except Exception as e:
-                print("Fehler beim Laden der Daten für {}: {}".format(ticker, e), file=f)
+                print("Fehler beim Laden der Daten für {}: {}".format(ticker, e), file=tee)
                 continue
 
-            # Für jede Kombination: Wir simulieren, dass jeweils die Hälfte des Kapitals in jede Strategie investiert wird.
+            # Für jede Kombination: Investiere jeweils die Hälfte des Kapitals in jede Strategie.
             for combo in strategy_combinations:
                 strat1_name, strat2_name = combo
                 try:
@@ -158,13 +175,13 @@ def main():
                         format_currency(combined_final),
                         format_currency(combined_profit),
                         format_currency(combined_percent)
-                    ), file=f)
+                    ), file=tee)
                 except Exception as e:
                     print("  Fehler bei der Kombination '{} + {}' für {}: {}".format(
-                        strat1_name, strat2_name, ticker, e), file=f)
+                        strat1_name, strat2_name, ticker, e), file=tee)
 
         # Durchschnittliche Performance pro Kombination
-        print("\nDurchschnittliche Performance pro Strategie-Kombination:", file=f)
+        print("\nDurchschnittliche Performance pro Strategie-Kombination:", file=tee)
         average_results = {}
         for combo, data in combined_results.items():
             if data["finals"]:
@@ -178,9 +195,9 @@ def main():
                     format_currency(avg_final),
                     format_currency(avg_profit),
                     format_currency(avg_percent)
-                ), file=f)
+                ), file=tee)
             else:
-                print("  {} + {}: Keine gültigen Ergebnisse.".format(combo[0], combo[1]), file=f)
+                print("  {} + {}: Keine gültigen Ergebnisse.".format(combo[0], combo[1]), file=tee)
 
         # Beste Kombination ermitteln (basierend auf durchschnittlichem Endwert)
         best_combo = None
@@ -190,7 +207,7 @@ def main():
                 best_avg_final = metrics["avg_final"]
                 best_combo = combo
 
-        print("\nBeste Strategie-Kombination (basierend auf durchschnittlichem Endwert):", file=f)
+        print("\nBeste Strategie-Kombination (basierend auf durchschnittlichem Endwert):", file=tee)
         if best_combo:
             metrics = average_results[best_combo]
             print("{} + {} mit einem durchschnittlichen Endwert von €{} (Gewinn: €{}, {} %)".format(
@@ -199,9 +216,9 @@ def main():
                 format_currency(metrics['avg_final']),
                 format_currency(metrics['avg_profit']),
                 format_currency(metrics['avg_percent'])
-            ), file=f)
+            ), file=tee)
         else:
-            print("Keine Kombination konnte erfolgreich ausgewertet werden.", file=f)
+            print("Keine Kombination konnte erfolgreich ausgewertet werden.", file=tee)
 
 if __name__ == "__main__":
     main()

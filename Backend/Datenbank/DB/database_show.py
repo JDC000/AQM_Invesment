@@ -7,7 +7,7 @@ DB_PATH = "/Users/hendrik_liebscher/Desktop/Git/AQM_Invesment/Backend/Datenbank/
 
 # Zeitraum definieren
 start_date = "2010-01-01"
-end_date = "2020-12-31"
+end_date = "2023-12-31"
 
 # Mindestanzahl an Einträgen, die als "genügend" gelten sollen
 min_entries = 200
