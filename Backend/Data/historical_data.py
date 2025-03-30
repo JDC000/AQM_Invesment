@@ -48,7 +48,7 @@ def create_database():
     conn.commit()
     conn.close()
 
-def fetch_yfinance_data(symbol, asset_type, start="2010-01-01", end="2020-12-31"):
+def fetch_yfinance_data(symbol, asset_type, start="2010-01-01", end="2023-12-31"):
     """Holt historische Daten von Yahoo Finance und stellt sicher, dass das Datum korrekt formatiert ist."""
     try:
         df = yf.download(symbol, start=start, end=end, progress=False)
