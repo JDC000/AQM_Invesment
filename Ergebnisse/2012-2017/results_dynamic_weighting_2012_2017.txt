@@ -1,0 +1,64 @@
+Handelszeitraum: 2012-01-01 bis 2017-12-31
+Gehandelte Aktien: AAPL, ABT, ADBE, AMD, AMGN, AMZN, AVGO, BA, BAC, CMCSA, COST, CRM, CSCO, CVX, DIS, GOOGL, HD, HON, IBM, INTC, JNJ, JPM, KO, LIN, LLY, MA, MCD, MDT, META, MRK, MSFT, NEE, NFLX, NKE, NVDA, ORCL, PEP, PFE, PG, PM, QCOM, SPGI, T, TSLA, TXN, UNH, UPS, V, WMT, XOM
+
+Ergebnisse pro Strategie-Kombination:
+Momentum + Moving Average: Durchschnittlicher Endwert = €205.601,30, Gewinn = €105.601,30, Veränderung = 105,60 %
+    Durchschnittliche Gewichte: Momentum = 0.453, Moving Average = 0.547
+Momentum + Bollinger Bands: Durchschnittlicher Endwert = €178.328,83, Gewinn = €78.328,83, Veränderung = 78,33 %
+    Durchschnittliche Gewichte: Momentum = 0.439, Bollinger Bands = 0.561
+Momentum + Breakout Strategie: Durchschnittlicher Endwert = €172.974,16, Gewinn = €72.974,16, Veränderung = 72,97 %
+    Durchschnittliche Gewichte: Momentum = 0.459, Breakout Strategie = 0.541
+Momentum + Fibonacci: Durchschnittlicher Endwert = €181.596,09, Gewinn = €81.596,09, Veränderung = 81,60 %
+    Durchschnittliche Gewichte: Momentum = 0.444, Fibonacci = 0.556
+Momentum + Relative Strength: Durchschnittlicher Endwert = €169.863,06, Gewinn = €69.863,06, Veränderung = 69,86 %
+    Durchschnittliche Gewichte: Momentum = 0.455, Relative Strength = 0.545
+Momentum + Buy & Hold: Durchschnittlicher Endwert = €329.539,68, Gewinn = €229.539,68, Veränderung = 229,54 %
+    Durchschnittliche Gewichte: Momentum = 0.320, Buy & Hold = 0.680
+Momentum + September/December: Durchschnittlicher Endwert = €159.177,19, Gewinn = €59.177,19, Veränderung = 59,18 %
+    Durchschnittliche Gewichte: Momentum = 0.489, September/December = 0.511
+Moving Average + Bollinger Bands: Durchschnittlicher Endwert = €222.952,60, Gewinn = €122.952,60, Veränderung = 122,95 %
+    Durchschnittliche Gewichte: Moving Average = 0.487, Bollinger Bands = 0.513
+Moving Average + Breakout Strategie: Durchschnittlicher Endwert = €214.711,92, Gewinn = €114.711,92, Veränderung = 114,71 %
+    Durchschnittliche Gewichte: Moving Average = 0.508, Breakout Strategie = 0.492
+Moving Average + Fibonacci: Durchschnittlicher Endwert = €221.211,20, Gewinn = €121.211,20, Veränderung = 121,21 %
+    Durchschnittliche Gewichte: Moving Average = 0.491, Fibonacci = 0.509
+Moving Average + Relative Strength: Durchschnittlicher Endwert = €219.229,71, Gewinn = €119.229,71, Veränderung = 119,23 %
+    Durchschnittliche Gewichte: Moving Average = 0.501, Relative Strength = 0.499
+Moving Average + Buy & Hold: Durchschnittlicher Endwert = €333.630,54, Gewinn = €233.630,54, Veränderung = 233,63 %
+    Durchschnittliche Gewichte: Moving Average = 0.363, Buy & Hold = 0.637
+Moving Average + September/December: Durchschnittlicher Endwert = €210.549,51, Gewinn = €110.549,51, Veränderung = 110,55 %
+    Durchschnittliche Gewichte: Moving Average = 0.535, September/December = 0.465
+Bollinger Bands + Breakout Strategie: Durchschnittlicher Endwert = €193.559,03, Gewinn = €93.559,03, Veränderung = 93,56 %
+    Durchschnittliche Gewichte: Bollinger Bands = 0.520, Breakout Strategie = 0.480
+Bollinger Bands + Fibonacci: Durchschnittlicher Endwert = €199.863,77, Gewinn = €99.863,77, Veränderung = 99,86 %
+    Durchschnittliche Gewichte: Bollinger Bands = 0.504, Fibonacci = 0.496
+Bollinger Bands + Relative Strength: Durchschnittlicher Endwert = €182.333,91, Gewinn = €82.333,91, Veränderung = 82,33 %
+    Durchschnittliche Gewichte: Bollinger Bands = 0.516, Relative Strength = 0.484
+Bollinger Bands + Buy & Hold: Durchschnittlicher Endwert = €333.545,90, Gewinn = €233.545,90, Veränderung = 233,55 %
+    Durchschnittliche Gewichte: Bollinger Bands = 0.375, Buy & Hold = 0.625
+Bollinger Bands + September/December: Durchschnittlicher Endwert = €175.209,27, Gewinn = €75.209,27, Veränderung = 75,21 %
+    Durchschnittliche Gewichte: Bollinger Bands = 0.552, September/December = 0.448
+Breakout Strategie + Fibonacci: Durchschnittlicher Endwert = €195.432,98, Gewinn = €95.432,98, Veränderung = 95,43 %
+    Durchschnittliche Gewichte: Breakout Strategie = 0.483, Fibonacci = 0.517
+Breakout Strategie + Relative Strength: Durchschnittlicher Endwert = €186.153,64, Gewinn = €86.153,64, Veränderung = 86,15 %
+    Durchschnittliche Gewichte: Breakout Strategie = 0.495, Relative Strength = 0.505
+Breakout Strategie + Buy & Hold: Durchschnittlicher Endwert = €326.056,07, Gewinn = €226.056,07, Veränderung = 226,06 %
+    Durchschnittliche Gewichte: Breakout Strategie = 0.353, Buy & Hold = 0.647
+Breakout Strategie + September/December: Durchschnittlicher Endwert = €175.344,16, Gewinn = €75.344,16, Veränderung = 75,34 %
+    Durchschnittliche Gewichte: Breakout Strategie = 0.531, September/December = 0.469
+Fibonacci + Relative Strength: Durchschnittlicher Endwert = €194.037,43, Gewinn = €94.037,43, Veränderung = 94,04 %
+    Durchschnittliche Gewichte: Fibonacci = 0.511, Relative Strength = 0.489
+Fibonacci + Buy & Hold: Durchschnittlicher Endwert = €331.555,31, Gewinn = €231.555,31, Veränderung = 231,56 %
+    Durchschnittliche Gewichte: Fibonacci = 0.370, Buy & Hold = 0.630
+Fibonacci + September/December: Durchschnittlicher Endwert = €183.530,22, Gewinn = €83.530,22, Veränderung = 83,53 %
+    Durchschnittliche Gewichte: Fibonacci = 0.545, September/December = 0.455
+Relative Strength + Buy & Hold: Durchschnittlicher Endwert = €334.562,13, Gewinn = €234.562,13, Veränderung = 234,56 %
+    Durchschnittliche Gewichte: Relative Strength = 0.363, Buy & Hold = 0.637
+Relative Strength + September/December: Durchschnittlicher Endwert = €165.482,02, Gewinn = €65.482,02, Veränderung = 65,48 %
+    Durchschnittliche Gewichte: Relative Strength = 0.537, September/December = 0.463
+Buy & Hold + September/December: Durchschnittlicher Endwert = €331.814,65, Gewinn = €231.814,65, Veränderung = 231,81 %
+    Durchschnittliche Gewichte: Buy & Hold = 0.670, September/December = 0.330
+
+Beste Strategie-Kombination:
+Relative Strength + Buy & Hold mit einem durchschnittlichen Endwert von €334.562,13 (Gewinn: €234.562,13, 234,56 %)
+Durchschnittliche Gewichte: Relative Strength = 0.363, Buy & Hold = 0.637

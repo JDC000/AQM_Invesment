@@ -89,53 +89,58 @@ def extract_numeric_result(result):
             return result
     raise ValueError("Unbekanntes Rückgabeformat der Strategie.")
 
-def save_results(average_results, best_combo, best_metrics, start_date, end_date, traded_stocks, output_path="results_dynamic_weighting.txt"):
+def save_results(average_results, best_combo, best_metrics, start_date, end_date, traded_stocks, output_path):
     """
     Speichert die durchschnittlichen Ergebnisse, den Handelszeitraum, die gehandelten Aktien 
     und die beste Strategie-Kombination in eine Textdatei.
-    Existierende Dateien werden gelöscht bzw. überschrieben.
+    Existierende Dateien werden überschrieben.
     """
-    if os.path.exists(output_path):
-        os.remove(output_path)
+    results_lines = []
+    results_lines.append(f"Handelszeitraum: {start_date} bis {end_date}\n")
+    results_lines.append(f"Gehandelte Aktien: {', '.join(traded_stocks)}\n\n")
+    results_lines.append("Ergebnisse pro Strategie-Kombination:\n")
+    for combo, data in average_results.items():
+        results_lines.append(
+            f"{combo[0]} + {combo[1]}: Durchschnittlicher Endwert = €{format_currency(data['avg_final'])}, "
+            f"Gewinn = €{format_currency(data['avg_profit'])}, Veränderung = {format_currency(data['avg_percent'])} %\n"
+        )
+        results_lines.append(
+            f"    Durchschnittliche Gewichte: {combo[0]} = {data['avg_weights'][0]:.3f}, {combo[1]} = {data['avg_weights'][1]:.3f}\n"
+        )
+    results_lines.append("\nBeste Strategie-Kombination:\n")
+    if best_combo:
+        results_lines.append(
+            f"{best_combo[0]} + {best_combo[1]} mit einem durchschnittlichen Endwert von €{format_currency(best_metrics['avg_final'])} "
+            f"(Gewinn: €{format_currency(best_metrics['avg_profit'])}, {format_currency(best_metrics['avg_percent'])} %)\n"
+        )
+        results_lines.append(
+            f"Durchschnittliche Gewichte: {best_combo[0]} = {best_metrics['avg_weights'][0]:.3f}, {best_combo[1]} = {best_metrics['avg_weights'][1]:.3f}\n"
+        )
+    else:
+        results_lines.append("Keine Kombination konnte erfolgreich ausgewertet werden.\n")
     
     with open(output_path, "w", encoding="utf-8") as f:
-        # Ausgabe des Handelszeitraums und der gehandelten Aktien
-        f.write(f"Handelszeitraum: {start_date} - {end_date}\n")
-        f.write("Gehandelte Aktien: " + ", ".join(traded_stocks) + "\n\n")
-        
-        f.write("Durchschnittliche Performance pro Strategie-Kombination:\n")
-        for combo, data in average_results.items():
-            f.write(f"{combo[0]} + {combo[1]}: Durchschnittlicher Endwert = €{format_currency(data['avg_final'])}, "
-                    f"Gewinn = €{format_currency(data['avg_profit'])}, Veränderung = {format_currency(data['avg_percent'])} %\n")
-            f.write(f"    Durchschnittliche Gewichte: {combo[0]} = {data['avg_weights'][0]:.3f}, {combo[1]} = {data['avg_weights'][1]:.3f}\n")
-        f.write("\nBeste Strategie-Kombination:\n")
-        if best_combo:
-            f.write(f"{best_combo[0]} + {best_combo[1]} mit einem durchschnittlichen Endwert von €{format_currency(best_metrics['avg_final'])} "
-                    f"(Gewinn: €{format_currency(best_metrics['avg_profit'])}, {format_currency(best_metrics['avg_percent'])} %)\n")
-            f.write(f"Durchschnittliche Gewichte: {best_combo[0]} = {best_metrics['avg_weights'][0]:.3f}, {best_combo[1]} = {best_metrics['avg_weights'][1]:.3f}\n")
-        else:
-            f.write("Keine Kombination konnte erfolgreich ausgewertet werden.\n")
+        f.writelines(results_lines)
     
     print(f"Ergebnisse wurden in '{output_path}' gespeichert.")
 
-
-def main():
-    # Alle verfügbaren Ticker aus der Datenbank abrufen
+def run_for_period(start_date, end_date, output_path):
+    """
+    Führt den dynamischen Weighting-Backtest für den angegebenen Zeitraum aus
+    und speichert die Ergebnisse in der angegebenen Datei.
+    """
+    print(f"\n*** Starte Backtest für Zeitraum: {start_date} bis {end_date} ***")
     available_tickers = get_available_stocks()
     if not available_tickers:
         print("Keine Ticker verfügbar!")
         return
 
-    # Filtere nur Aktien (Stocks)
     tickers_to_test = filter_stocks(available_tickers)
     if not tickers_to_test:
         print("Nach Filterung sind keine Aktien (Stocks) verfügbar!")
         return
     print(f"Vergleiche kombinierte Strategien für die Ticker: {', '.join(tickers_to_test)}")
 
-    # Zeitraum und Startkapital
-    start_date = "2012-01-01"
-    end_date = "2023-12-31"
     start_kapital = 100000
 
     # Erstelle alle paarweisen Kombinationen (ohne Wiederholung)
@@ -164,24 +169,20 @@ def main():
         for combo in strategy_combinations:
             strat1_name, strat2_name = combo
             try:
-                # Jede Strategie wird auf das volle Startkapital simuliert (die Daten stammen aus der DB)
                 res1 = STRATEGIES[strat1_name](df, start_kapital=start_kapital)
                 res2 = STRATEGIES[strat2_name](df, start_kapital=start_kapital)
                 final1, profit1 = extract_numeric_result(res1)
                 final2, profit2 = extract_numeric_result(res2)
 
-                # Berechne die Returns (Multiplikatoren)
                 ret1 = final1 / start_kapital
                 ret2 = final2 / start_kapital
 
-                # Dynamische Gewichte basierend auf den Returns
                 if (ret1 + ret2) == 0:
                     w1, w2 = 0.5, 0.5
                 else:
                     w1 = ret1 / (ret1 + ret2)
                     w2 = ret2 / (ret1 + ret2)
 
-                # Kombinierter Endwert über dynamisches Weighting
                 combined_final = w1 * final1 + w2 * final2
                 combined_profit = combined_final - start_kapital
                 combined_percent = (combined_final - start_kapital) / start_kapital * 100
@@ -191,7 +192,6 @@ def main():
                 combined_results[combo]["percents"].append(combined_percent)
                 combined_results[combo]["weights"].append((w1, w2))
                 
-                # Detaillierte Ausgabe zur Analyse
                 print(f"  {strat1_name} + {strat2_name}:")
                 print(f"    {strat1_name}: final = {final1:,.2f} ({ret1:.3f}x), {strat2_name}: final = {final2:,.2f} ({ret2:.3f}x)")
                 print(f"    Gewichte: {strat1_name} = {w1:.3f}, {strat2_name} = {w2:.3f}")
@@ -217,7 +217,6 @@ def main():
         else:
             print(f"  {combo[0]} + {combo[1]}: Keine gültigen Ergebnisse.")
 
-    # Beste Kombination ermitteln (basierend auf durchschnittlichem Endwert)
     best_combo = None
     best_avg_final = -float("inf")
     for combo, metrics in average_results.items():
@@ -233,9 +232,22 @@ def main():
         print(f"Durchschnittliche Gewichte: {best_combo[0]} = {best_metrics['avg_weights'][0]:.3f}, {best_combo[1]} = {best_metrics['avg_weights'][1]:.3f}")
     else:
         print("Keine Kombination konnte erfolgreich ausgewertet werden.")
+        best_metrics = {}
 
-    # Ergebnisse in der Datei "results_dynamic_weighting.txt" speichern
-    save_results(average_results, best_combo, average_results[best_combo] if best_combo in average_results else {}, output_path="results_dynamic_weighting.txt")
+    save_results(average_results, best_combo, best_metrics, start_date, end_date, tickers_to_test, output_path)
+
+def main():
+    # Definiere die drei gewünschten Zeiträume und die zugehörigen Output-Dateinamen
+    date_periods = {
+        "2012_2023": ("2012-01-01", "2023-12-31"),
+        "2012_2017": ("2012-01-01", "2017-12-31"),
+        "2018_2023": ("2018-01-01", "2023-12-31")
+    }
+
+    for label, (start_date, end_date) in date_periods.items():
+        output_file = f"results_dynamic_weighting_{label}.txt"
+        run_for_period(start_date, end_date, output_file)
 
 if __name__ == "__main__":
     main()
+
