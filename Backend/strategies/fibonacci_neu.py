@@ -15,7 +15,6 @@ def run_strategy(df: pd.DataFrame, fenster: int = 50, tolerance: float = 0.01, s
 
     df["fib_38"] = df["rolling_max"] - 0.382 * df["diff"]
     df["fib_62"] = df["rolling_max"] - 0.618 * df["diff"]
-
     def get_signal(row):
         if pd.isna(row["fib_38"]) or pd.isna(row["fib_62"]):
             return 0
@@ -24,9 +23,7 @@ def run_strategy(df: pd.DataFrame, fenster: int = 50, tolerance: float = 0.01, s
         elif abs(row["close"] - row["fib_62"]) / row["fib_62"] < tolerance:
             return -1
         return 0
-
     df["signal"] = df.apply(get_signal, axis=1)
-
     kapital = start_kapital
     position = 0
     equity_curve = []

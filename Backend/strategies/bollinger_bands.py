@@ -2,13 +2,6 @@ import pandas as pd
 import plotly.graph_objects as go
 
 def run_strategy(df: pd.DataFrame, window: int = 20, num_std: int = 2, start_kapital: float = 100000):
-    """
-    Bollinger-Bands-Strategie:
-    - Berechnet Bollinger-Bands (gleitender Durchschnitt + Standardabweichung)
-    - Generiert Signale: 1 = Kaufsignal (close unter unterem Band), -1 = Verkaufssignal (close über oberem Band)
-    - Simuliert Trades (alles rein, alles raus) und berechnet die Equity-Kurve
-    - Gibt 2 Plotly-Figuren + final_value + profit zurück
-    """
     df = df.copy()
     df["MA"] = df["close"].rolling(window=window).mean()
     df["std"] = df["close"].rolling(window=window).std()
@@ -67,9 +60,6 @@ def run_strategy(df: pd.DataFrame, window: int = 20, num_std: int = 2, start_kap
 
     return fig1, fig2, final_value, profit
 
-# -------------------------
-# Test-Main in der Strategie
-# -------------------------
 def main():
     import sys, os, sqlite3, pandas as pd
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
