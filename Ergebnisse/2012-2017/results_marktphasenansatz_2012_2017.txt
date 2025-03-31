@@ -1,0 +1,158 @@
+*** Backtest Zeitraum: 2012-01-01 bis 2017-12-31 ***
+
+Ticker: AAPL
+Endgültiger Portfolio-Wert: €156,425.41 (Return: 56.43 %)
+
+Ticker: ABT
+Endgültiger Portfolio-Wert: €116,578.00 (Return: 16.58 %)
+
+Ticker: ADBE
+Endgültiger Portfolio-Wert: €141,652.38 (Return: 41.65 %)
+
+Ticker: AMD
+Endgültiger Portfolio-Wert: €507,520.01 (Return: 407.52 %)
+
+Ticker: AMGN
+Endgültiger Portfolio-Wert: €167,787.60 (Return: 67.79 %)
+
+Ticker: AMZN
+Endgültiger Portfolio-Wert: €271,399.07 (Return: 171.40 %)
+
+Ticker: AVGO
+Endgültiger Portfolio-Wert: €189,836.09 (Return: 89.84 %)
+
+Ticker: BA
+Endgültiger Portfolio-Wert: €227,730.57 (Return: 127.73 %)
+
+Ticker: BAC
+Endgültiger Portfolio-Wert: €188,668.93 (Return: 88.67 %)
+
+Ticker: CMCSA
+Endgültiger Portfolio-Wert: €140,469.10 (Return: 40.47 %)
+
+Ticker: COST
+Endgültiger Portfolio-Wert: €102,023.06 (Return: 2.02 %)
+
+Ticker: CRM
+Endgültiger Portfolio-Wert: €167,260.30 (Return: 67.26 %)
+
+Ticker: CSCO
+Endgültiger Portfolio-Wert: €135,792.74 (Return: 35.79 %)
+
+Ticker: CVX
+Endgültiger Portfolio-Wert: €146,450.86 (Return: 46.45 %)
+
+Ticker: DIS
+Endgültiger Portfolio-Wert: €165,731.50 (Return: 65.73 %)
+
+Ticker: GOOGL
+Endgültiger Portfolio-Wert: €135,688.04 (Return: 35.69 %)
+
+Ticker: HD
+Endgültiger Portfolio-Wert: €183,347.87 (Return: 83.35 %)
+
+Ticker: HON
+Endgültiger Portfolio-Wert: €135,650.75 (Return: 35.65 %)
+
+Ticker: IBM
+Endgültiger Portfolio-Wert: €116,437.70 (Return: 16.44 %)
+
+Ticker: INTC
+Endgültiger Portfolio-Wert: €181,701.37 (Return: 81.70 %)
+
+Ticker: JNJ
+Endgültiger Portfolio-Wert: €136,102.30 (Return: 36.10 %)
+
+Ticker: JPM
+Endgültiger Portfolio-Wert: €154,830.58 (Return: 54.83 %)
+
+Ticker: KO
+Endgültiger Portfolio-Wert: €108,272.43 (Return: 8.27 %)
+
+Ticker: LIN
+Endgültiger Portfolio-Wert: €105,233.17 (Return: 5.23 %)
+
+Ticker: LLY
+Endgültiger Portfolio-Wert: €152,670.65 (Return: 52.67 %)
+
+Ticker: MA
+Endgültiger Portfolio-Wert: €167,421.09 (Return: 67.42 %)
+
+Ticker: MCD
+Endgültiger Portfolio-Wert: €143,144.13 (Return: 43.14 %)
+
+Ticker: MDT
+Endgültiger Portfolio-Wert: €132,319.72 (Return: 32.32 %)
+
+Ticker: META
+Endgültiger Portfolio-Wert: €163,237.54 (Return: 63.24 %)
+
+Ticker: MRK
+Endgültiger Portfolio-Wert: €108,820.59 (Return: 8.82 %)
+
+Ticker: MSFT
+Endgültiger Portfolio-Wert: €212,465.25 (Return: 112.47 %)
+
+Ticker: NEE
+Endgültiger Portfolio-Wert: €134,377.17 (Return: 34.38 %)
+
+Ticker: NFLX
+Endgültiger Portfolio-Wert: €541,629.08 (Return: 441.63 %)
+
+Ticker: NKE
+Endgültiger Portfolio-Wert: €151,595.89 (Return: 51.60 %)
+
+Ticker: NVDA
+Endgültiger Portfolio-Wert: €481,003.29 (Return: 381.00 %)
+
+Ticker: ORCL
+Endgültiger Portfolio-Wert: €145,901.62 (Return: 45.90 %)
+
+Ticker: PEP
+Endgültiger Portfolio-Wert: €139,478.26 (Return: 39.48 %)
+
+Ticker: PFE
+Endgültiger Portfolio-Wert: €118,751.16 (Return: 18.75 %)
+
+Ticker: PG
+Endgültiger Portfolio-Wert: €105,491.85 (Return: 5.49 %)
+
+Ticker: PM
+Endgültiger Portfolio-Wert: €118,763.71 (Return: 18.76 %)
+
+Ticker: QCOM
+Endgültiger Portfolio-Wert: €116,797.71 (Return: 16.80 %)
+
+Ticker: SPGI
+Endgültiger Portfolio-Wert: €161,598.55 (Return: 61.60 %)
+
+Ticker: T
+Endgültiger Portfolio-Wert: €193,904.36 (Return: 93.90 %)
+
+Ticker: TSLA
+Endgültiger Portfolio-Wert: €651,379.54 (Return: 551.38 %)
+
+Ticker: TXN
+Endgültiger Portfolio-Wert: €125,436.37 (Return: 25.44 %)
+
+Ticker: UNH
+Endgültiger Portfolio-Wert: €166,287.06 (Return: 66.29 %)
+
+Ticker: UPS
+Endgültiger Portfolio-Wert: €115,422.16 (Return: 15.42 %)
+
+Ticker: V
+Endgültiger Portfolio-Wert: €149,524.53 (Return: 49.52 %)
+
+Ticker: WMT
+Endgültiger Portfolio-Wert: €143,599.26 (Return: 43.60 %)
+
+Ticker: XOM
+Endgültiger Portfolio-Wert: €132,139.70 (Return: 32.14 %)
+
+
+*** Zusammenfassung ***
+Anzahl ausgewerteter Ticker: 50
+Durchschnittlicher Endwert: €181,115.00
+Bestes Ergebnis: TSLA mit €651,379.54
+Schlechtestes Ergebnis: COST mit €102,023.06
