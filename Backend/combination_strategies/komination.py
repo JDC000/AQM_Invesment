@@ -177,7 +177,7 @@ def main():
                         format_currency(combined_percent)
                     ), file=tee)
                 except Exception as e:
-                    print("  Fehler bei der Kombination '{} + {}' für {}: {}".format(
+                    print("Fehler bei der Kombination '{} + {}' für {}: {}".format(
                         strat1_name, strat2_name, ticker, e), file=tee)
 
         # Durchschnittliche Performance pro Kombination

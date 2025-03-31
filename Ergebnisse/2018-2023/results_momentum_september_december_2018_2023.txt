@@ -2,6 +2,6 @@ Handelszeitraum: 2018-01-01 bis 2023-12-31
 Gehandelte Aktien: AAPL, ABT, ADBE, AMD, AMGN, AMZN, AVGO, BA, BAC, CMCSA, COST, CRM, CSCO, CVX, DIS, GOOGL, HD, HON, IBM, INTC, JNJ, JPM, KO, LIN, LLY, MA, MCD, MDT, META, MRK, MSFT, NEE, NFLX, NKE, NVDA, ORCL, PEP, PFE, PG, PM, QCOM, SPGI, T, TSLA, TXN, UNH, UPS, V, WMT, XOM
 
 Durchschnittliche Performance:
-  Durchschnittlicher Endwert = €114.622,62
-  Durchschnittlicher Gewinn = €14.622,62
-  Durchschnittliche Veränderung = 14,62 %
+  Durchschnittlicher Endwert = €118.038,31
+  Durchschnittlicher Gewinn = €18.038,31
+  Durchschnittliche Veränderung = 18,04 %

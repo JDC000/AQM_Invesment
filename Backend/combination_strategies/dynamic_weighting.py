@@ -173,31 +173,26 @@ def run_for_period(start_date, end_date, output_path):
                 res2 = STRATEGIES[strat2_name](df, start_kapital=start_kapital)
                 final1, profit1 = extract_numeric_result(res1)
                 final2, profit2 = extract_numeric_result(res2)
-
                 ret1 = final1 / start_kapital
                 ret2 = final2 / start_kapital
-
                 if (ret1 + ret2) == 0:
                     w1, w2 = 0.5, 0.5
                 else:
                     w1 = ret1 / (ret1 + ret2)
                     w2 = ret2 / (ret1 + ret2)
-
                 combined_final = w1 * final1 + w2 * final2
                 combined_profit = combined_final - start_kapital
                 combined_percent = (combined_final - start_kapital) / start_kapital * 100
-
                 combined_results[combo]["finals"].append(combined_final)
                 combined_results[combo]["profits"].append(combined_profit)
                 combined_results[combo]["percents"].append(combined_percent)
                 combined_results[combo]["weights"].append((w1, w2))
-                
-                print(f"  {strat1_name} + {strat2_name}:")
-                print(f"    {strat1_name}: final = {final1:,.2f} ({ret1:.3f}x), {strat2_name}: final = {final2:,.2f} ({ret2:.3f}x)")
-                print(f"    Gewichte: {strat1_name} = {w1:.3f}, {strat2_name} = {w2:.3f}")
-                print(f"    Kombinierter Endwert = €{combined_final:,.2f}, Gewinn = €{combined_profit:,.2f}, Veränderung = {combined_percent:,.2f} %")
+                print(f"{strat1_name} + {strat2_name}:")
+                print(f"{strat1_name}: final = {final1:,.2f} ({ret1:.3f}x), {strat2_name}: final = {final2:,.2f} ({ret2:.3f}x)")
+                print(f"Gewichte: {strat1_name} = {w1:.3f}, {strat2_name} = {w2:.3f}")
+                print(f"Kombinierter Endwert = €{combined_final:,.2f}, Gewinn = €{combined_profit:,.2f}, Veränderung = {combined_percent:,.2f} %")
             except Exception as e:
-                print(f"  Fehler bei der Kombination '{strat1_name} + {strat2_name}' für {ticker}: {e}")
+                print(f"Fehler bei der Kombination '{strat1_name} + {strat2_name}' für {ticker}: {e}")
 
     # Durchschnittliche Performance pro Kombination berechnen
     print("\nDurchschnittliche Performance pro Strategie-Kombination:")

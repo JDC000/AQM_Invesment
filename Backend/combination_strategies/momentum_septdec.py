@@ -116,7 +116,7 @@ def run_for_period(start_date, end_date, output_path):
             dec_mask = (df.index.year == year) & (df.index.month == 12)
             if sep_mask.any() and dec_mask.any():
                 sep_day = df[sep_mask].index.min()
-                dec_day = df[dec_mask].index.min()
+                dec_day = df[dec_mask].index.max()
                 three_months_ago = sep_day - pd.DateOffset(months=3)
                 df_before = df[df.index <= three_months_ago]
                 if df_before.empty:
@@ -167,7 +167,6 @@ def run_for_period(start_date, end_date, output_path):
     save_results(avg_final, avg_profit, avg_percent, start_date, end_date, tickers_to_test, output_path)
 
 def main():
-    # Definiere die gewünschten Zeiträume und zugehörigen Output-Dateinamen
     date_periods = {
         "2012_2023": ("2012-01-01", "2023-12-31"),
         "2012_2017": ("2012-01-01", "2017-12-31"),
