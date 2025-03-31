@@ -1,0 +1,68 @@
+Handelszeitraum: 2012-01-01 bis 2017-12-31
+Gehandelte Aktien: VT
+
+Vergleiche kombinierte Strategien für die Ticker: VT
+
+
+Bearbeite Ticker: VT
+  Momentum + Moving Average: Endwert = €108.568,09, Gewinn = €8.568,09, 8,57 %
+  Momentum + Bollinger Bands: Endwert = €124.398,03, Gewinn = €24.398,03, 24,40 %
+  Momentum + Breakout Strategie: Endwert = €108.923,24, Gewinn = €8.923,24, 8,92 %
+  Momentum + Fibonacci: Endwert = €114.926,78, Gewinn = €14.926,78, 14,93 %
+  Momentum + Relative Strength: Endwert = €125.091,77, Gewinn = €25.091,77, 25,09 %
+  Momentum + Buy & Hold: Endwert = €144.610,92, Gewinn = €44.610,92, 44,61 %
+  Momentum + September/December: Endwert = €114.007,23, Gewinn = €14.007,23, 14,01 %
+  Moving Average + Bollinger Bands: Endwert = €138.000,48, Gewinn = €38.000,48, 38,00 %
+  Moving Average + Breakout Strategie: Endwert = €122.525,69, Gewinn = €22.525,69, 22,53 %
+  Moving Average + Fibonacci: Endwert = €128.529,22, Gewinn = €28.529,22, 28,53 %
+  Moving Average + Relative Strength: Endwert = €138.694,22, Gewinn = €38.694,22, 38,69 %
+  Moving Average + Buy & Hold: Endwert = €158.213,37, Gewinn = €58.213,37, 58,21 %
+  Moving Average + September/December: Endwert = €127.609,67, Gewinn = €27.609,67, 27,61 %
+  Bollinger Bands + Breakout Strategie: Endwert = €138.355,63, Gewinn = €38.355,63, 38,36 %
+  Bollinger Bands + Fibonacci: Endwert = €144.359,17, Gewinn = €44.359,17, 44,36 %
+  Bollinger Bands + Relative Strength: Endwert = €154.524,16, Gewinn = €54.524,16, 54,52 %
+  Bollinger Bands + Buy & Hold: Endwert = €174.043,31, Gewinn = €74.043,31, 74,04 %
+  Bollinger Bands + September/December: Endwert = €143.439,61, Gewinn = €43.439,61, 43,44 %
+  Breakout Strategie + Fibonacci: Endwert = €128.884,37, Gewinn = €28.884,37, 28,88 %
+  Breakout Strategie + Relative Strength: Endwert = €139.049,37, Gewinn = €39.049,37, 39,05 %
+  Breakout Strategie + Buy & Hold: Endwert = €158.568,52, Gewinn = €58.568,52, 58,57 %
+  Breakout Strategie + September/December: Endwert = €127.964,82, Gewinn = €27.964,82, 27,96 %
+  Fibonacci + Relative Strength: Endwert = €145.052,90, Gewinn = €45.052,90, 45,05 %
+  Fibonacci + Buy & Hold: Endwert = €164.572,05, Gewinn = €64.572,05, 64,57 %
+  Fibonacci + September/December: Endwert = €133.968,36, Gewinn = €33.968,36, 33,97 %
+  Relative Strength + Buy & Hold: Endwert = €174.737,05, Gewinn = €74.737,05, 74,74 %
+  Relative Strength + September/December: Endwert = €144.133,35, Gewinn = €44.133,35, 44,13 %
+  Buy & Hold + September/December: Endwert = €163.652,50, Gewinn = €63.652,50, 63,65 %
+
+Durchschnittliche Performance pro Strategie-Kombination:
+  Momentum + Moving Average: Durchschnittlicher Endwert = €108.568,09, Gewinn = €8.568,09, Veränderung = 8,57 %
+  Momentum + Bollinger Bands: Durchschnittlicher Endwert = €124.398,03, Gewinn = €24.398,03, Veränderung = 24,40 %
+  Momentum + Breakout Strategie: Durchschnittlicher Endwert = €108.923,24, Gewinn = €8.923,24, Veränderung = 8,92 %
+  Momentum + Fibonacci: Durchschnittlicher Endwert = €114.926,78, Gewinn = €14.926,78, Veränderung = 14,93 %
+  Momentum + Relative Strength: Durchschnittlicher Endwert = €125.091,77, Gewinn = €25.091,77, Veränderung = 25,09 %
+  Momentum + Buy & Hold: Durchschnittlicher Endwert = €144.610,92, Gewinn = €44.610,92, Veränderung = 44,61 %
+  Momentum + September/December: Durchschnittlicher Endwert = €114.007,23, Gewinn = €14.007,23, Veränderung = 14,01 %
+  Moving Average + Bollinger Bands: Durchschnittlicher Endwert = €138.000,48, Gewinn = €38.000,48, Veränderung = 38,00 %
+  Moving Average + Breakout Strategie: Durchschnittlicher Endwert = €122.525,69, Gewinn = €22.525,69, Veränderung = 22,53 %
+  Moving Average + Fibonacci: Durchschnittlicher Endwert = €128.529,22, Gewinn = €28.529,22, Veränderung = 28,53 %
+  Moving Average + Relative Strength: Durchschnittlicher Endwert = €138.694,22, Gewinn = €38.694,22, Veränderung = 38,69 %
+  Moving Average + Buy & Hold: Durchschnittlicher Endwert = €158.213,37, Gewinn = €58.213,37, Veränderung = 58,21 %
+  Moving Average + September/December: Durchschnittlicher Endwert = €127.609,67, Gewinn = €27.609,67, Veränderung = 27,61 %
+  Bollinger Bands + Breakout Strategie: Durchschnittlicher Endwert = €138.355,63, Gewinn = €38.355,63, Veränderung = 38,36 %
+  Bollinger Bands + Fibonacci: Durchschnittlicher Endwert = €144.359,17, Gewinn = €44.359,17, Veränderung = 44,36 %
+  Bollinger Bands + Relative Strength: Durchschnittlicher Endwert = €154.524,16, Gewinn = €54.524,16, Veränderung = 54,52 %
+  Bollinger Bands + Buy & Hold: Durchschnittlicher Endwert = €174.043,31, Gewinn = €74.043,31, Veränderung = 74,04 %
+  Bollinger Bands + September/December: Durchschnittlicher Endwert = €143.439,61, Gewinn = €43.439,61, Veränderung = 43,44 %
+  Breakout Strategie + Fibonacci: Durchschnittlicher Endwert = €128.884,37, Gewinn = €28.884,37, Veränderung = 28,88 %
+  Breakout Strategie + Relative Strength: Durchschnittlicher Endwert = €139.049,37, Gewinn = €39.049,37, Veränderung = 39,05 %
+  Breakout Strategie + Buy & Hold: Durchschnittlicher Endwert = €158.568,52, Gewinn = €58.568,52, Veränderung = 58,57 %
+  Breakout Strategie + September/December: Durchschnittlicher Endwert = €127.964,82, Gewinn = €27.964,82, Veränderung = 27,96 %
+  Fibonacci + Relative Strength: Durchschnittlicher Endwert = €145.052,90, Gewinn = €45.052,90, Veränderung = 45,05 %
+  Fibonacci + Buy & Hold: Durchschnittlicher Endwert = €164.572,05, Gewinn = €64.572,05, Veränderung = 64,57 %
+  Fibonacci + September/December: Durchschnittlicher Endwert = €133.968,36, Gewinn = €33.968,36, Veränderung = 33,97 %
+  Relative Strength + Buy & Hold: Durchschnittlicher Endwert = €174.737,05, Gewinn = €74.737,05, Veränderung = 74,74 %
+  Relative Strength + September/December: Durchschnittlicher Endwert = €144.133,35, Gewinn = €44.133,35, Veränderung = 44,13 %
+  Buy & Hold + September/December: Durchschnittlicher Endwert = €163.652,50, Gewinn = €63.652,50, Veränderung = 63,65 %
+
+Beste Strategie-Kombination (basierend auf durchschnittlichem Endwert):
+Relative Strength + Buy & Hold mit einem durchschnittlichen Endwert von €174.737,05 (Gewinn: €74.737,05, 74,74 %)

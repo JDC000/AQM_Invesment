@@ -1,0 +1,16 @@
+Ergebnisse für VT
+Handelszeitraum: 2010-01-01 bis 2023-12-31
+Startkapital: €100.000,00
+
+=== Einzelstrategien ===
+Momentum: Endwert = €123.035,94, Gewinn = €23.035,94, Prozentuale Veränderung = 23,04 %
+Moving Average: Endwert = €193.578,24, Gewinn = €93.578,24, Prozentuale Veränderung = 93,58 %
+Bollinger Bands: Endwert = €266.738,59, Gewinn = €166.738,59, Prozentuale Veränderung = 166,74 %
+Breakout Strategie: Endwert = €198.676,42, Gewinn = €98.676,42, Prozentuale Veränderung = 98,68 %
+Fibonacci: Endwert = €195.646,54, Gewinn = €95.646,54, Prozentuale Veränderung = 95,65 %
+Relative Strength: Endwert = €212.871,79, Gewinn = €112.871,79, Prozentuale Veränderung = 112,87 %
+Buy & Hold: Endwert = €319.285,37, Gewinn = €219.285,37, Prozentuale Veränderung = 219,29 %
+September/December: Endwert = €177.599,51, Gewinn = €77.599,51, Prozentuale Veränderung = 77,60 %
+
+=== VT Performance (Buy & Hold) ===
+VT: Endwert = €319.285,37, Gewinn = €219.285,37, Prozentuale Veränderung = 219,29 %

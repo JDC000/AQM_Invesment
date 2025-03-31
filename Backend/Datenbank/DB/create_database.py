@@ -1,10 +1,8 @@
 import sqlite3
 
-# Name der Datenbank
 DB_NAME = "investment.db"
 
 def create_database():
-    """Erstellt die SQLite-Datenbank und die Tabelle market_data"""
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
 
@@ -27,6 +25,5 @@ def create_database():
     conn.close()
     print("Die Datenbank 'investment.db' wurde erfolgreich erstellt!")
 
-# Datenbank erstellen
 if __name__ == "__main__":
     create_database()

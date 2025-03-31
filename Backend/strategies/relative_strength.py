@@ -2,17 +2,11 @@ import pandas as pd
 import sqlite3
 import os
 import sys
-from .common import ensure_close_column, ensure_datetime_index, format_currency
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from strategies.common import ensure_close_column, ensure_datetime_index, format_currency
 import plotly.graph_objects as go
 
 def run_strategy(df: pd.DataFrame, fenster: int = 14, overkauft: float = 70, oversold: float = 30, start_kapital: float = 100000):
-    """
-    RSI-Strategie:
-    - Berechnet den RSI
-    - Generiert Kaufsignale bei RSI unter 'oversold' und Verkaufssignale bei RSI über 'overkauft'
-    - Simuliert Trades (alles rein, alles raus) und baut eine Equity-Kurve auf
-    - Gibt 2 Plotly-Figuren + gesamtwert + gewinn zurück
-    """
     df = df.copy()
     delta = df["close"].diff()
     gain = delta.clip(lower=0)
@@ -115,5 +109,5 @@ if __name__ == "__main__":
     print("Endwert: €" + format_currency(gesamtwert))
     print("Gewinn/Verlust: €" + format_currency(profit))
     print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")
-    fig1.show()
-    fig2.show()
+    #fig1.show()
+    #fig2.show()

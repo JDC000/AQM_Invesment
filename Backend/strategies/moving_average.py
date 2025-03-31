@@ -2,17 +2,11 @@ import pandas as pd
 import sqlite3
 import os
 import sys
-from .common import ensure_close_column, ensure_datetime_index, format_currency
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from strategies.common import ensure_close_column, ensure_datetime_index, format_currency
 import plotly.graph_objects as go
 
 def run_strategy(df: pd.DataFrame, kurz_fenster: int = 50, lang_fenster: int = 200, start_kapital: float = 100000):
-    """
-    MA Crossover Strategie:
-    - Berechnet kurzfristigen und langfristigen gleitenden Durchschnitt (SMA)
-    - Generiert Kauf-/Verkaufssignale anhand des Schnitts der SMAs
-    - Simuliert Trades (alles rein, alles raus) und baut eine Equity-Kurve auf
-    - Gibt 2 Plotly-Figuren + gesamtwert + gewinn zurück
-    """
     df = df.copy()
     df["SMA_kurz"] = df["close"].rolling(window=kurz_fenster).mean()
     df["SMA_lang"] = df["close"].rolling(window=lang_fenster).mean()
@@ -75,9 +69,7 @@ def run_strategy(df: pd.DataFrame, kurz_fenster: int = 50, lang_fenster: int = 2
 
     return fig1, fig2, gesamtwert, gewinn
 
-# -------------------------
-# Test-Main MA Crossover
-# -------------------------
+
 if __name__ == "__main__":
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     BASE_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
@@ -120,5 +112,5 @@ if __name__ == "__main__":
     print("Endwert: €" + format_currency(gesamtwert))
     print("Gewinn/Verlust: €" + format_currency(profit))
     print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")
-    fig1.show()
-    fig2.show()
+    #fig1.show()
+    #fig2.show()

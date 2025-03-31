@@ -2,18 +2,11 @@ import pandas as pd
 import sqlite3
 import os
 import sys
-from .common import ensure_close_column, ensure_datetime_index, format_currency
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from strategies.common import ensure_close_column, ensure_datetime_index, format_currency
 import plotly.graph_objects as go
 
 def run_strategy(df: pd.DataFrame, window: int = 20, start_kapital: float = 100000):
-    """
-    Momentum-Strategie:
-    - Berechnet das Momentum als relative Kursänderung über ein Fenster
-    - Generiert ein Kaufsignal, wenn das Momentum positiv und steigend ist,
-      ansonsten wird verkauft.
-    - Simuliert Trades (alles rein, alles raus), baut eine Equity-Kurve auf
-    - Gibt 2 Plotly-Figuren + final_value + gewinn zurück
-    """
     df = df.copy()
     df['Momentum'] = df['close'] / df['close'].shift(window) - 1
     df['Signal'] = ((df['Momentum'] > 0) & (df['Momentum'] > df['Momentum'].shift(1))).astype(int)
@@ -27,12 +20,10 @@ def run_strategy(df: pd.DataFrame, window: int = 20, start_kapital: float = 1000
     for i in range(len(df)):
         preis = df.iloc[i]['close']
         signal = df.iloc[i]['Signal']
-        # Bei Signal==1 und keiner Position: kaufen
         if signal == 1 and position == 0:
             position = kapital / preis
             kapital = 0
             buy_indices.append(i)
-        # Wenn Signal nicht 1 (also 0) und Position vorhanden: verkaufen
         elif signal == 0 and position > 0:
             kapital = position * preis
             position = 0
@@ -47,7 +38,6 @@ def run_strategy(df: pd.DataFrame, window: int = 20, start_kapital: float = 1000
 
     fig1 = go.Figure()
     fig1.add_trace(go.Scatter(x=x_values, y=df["close"], mode="lines", name="Schlusskurs"))
-    # Marker für Kauf- und Verkaufspunkte
     if "date" in df.columns:
         fig1.add_trace(go.Scatter(x=[x_values[i] for i in buy_indices],
                                   y=[df.iloc[i]["close"] for i in buy_indices],
@@ -112,5 +102,5 @@ if __name__ == "__main__":
     print("Endwert: €" + format_currency(final_value))
     print("Gewinn/Verlust: €" + format_currency(profit))
     print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")
-    fig1.show()
-    fig2.show()
+    #fig1.show()
+    #fig2.show()

@@ -3,68 +3,20 @@ import os
 import sqlite3
 import pandas as pd
 
-# Füge den übergeordneten Ordner zum Suchpfad hinzu, damit Module aus dem Projekt-Root gefunden werden
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from strategies.common import ensure_close_column, ensure_datetime_index, filter_stocks, format_currency
 from Datenbank.api import get_available_stocks, load_stock_data
 
-# Gemeinsame Hilfsfunktionen
-def ensure_close_column(df):
-    """
-    Überprüft, ob das DataFrame die Spalte 'close' enthält.
-    Falls stattdessen 'Price' vorhanden ist, wird diese umbenannt.
-    """
-    if "close" not in df.columns:
-        if "Price" in df.columns:
-            df = df.rename(columns={"Price": "close"})
-        else:
-            raise ValueError("Das DataFrame enthält weder 'close' noch 'Price'")
-    return df
-
-def ensure_datetime_index(df):
-    """
-    Stellt sicher, dass der Index des DataFrames ein DatetimeIndex ist.
-    Falls nicht, wird versucht, den Index in einen DatetimeIndex zu konvertieren.
-    """
-    if not isinstance(df.index, pd.DatetimeIndex):
-        try:
-            df.index = pd.to_datetime(df.index)
-        except Exception as e:
-            raise ValueError("Index konnte nicht in datetime konvertiert werden: " + str(e))
-    return df
-
-def format_currency(value):
-    """
-    Formatiert einen Zahlenwert als Währung:
-    Tausender werden mit einem Punkt getrennt und Dezimalstellen mit einem Komma.
-    Beispiel: 100000 -> "100.000,00"
-    """
-    s = f"{value:,.2f}"
-    s = s.replace(",", "X").replace(".", ",").replace("X", ".")
-    return s
-
-def filter_stocks(tickers):
-    """
-    Filtert die Tickerliste, sodass nur Aktien (Stocks) enthalten sind.
-    ETFs und Cryptos werden ausgeklammert.
-    """
-    ETFS = {"XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE", "VT"}
-    CRYPTOS = {"BNB", "XRP", "SOL", "DOT", "LTC", "USDC", "LINK", "BCH", "XLM", "UNI",
-               "ATOM", "TRX", "ETC", "NEAR", "XMR", "VET", "EOS", "FIL", "CRO", "DAI", "DASH", "ENJ"}
-    return [ticker for ticker in tickers if ticker not in ETFS and ticker not in CRYPTOS]
 
 def save_results(average_final, average_profit, average_percent, start_date, end_date, traded_stocks, output_path):
-    """
-    Speichert die durchschnittlichen Ergebnisse, den Handelszeitraum und die gehandelten Aktien in eine Textdatei.
-    Existierende Dateien werden überschrieben.
-    """
     results_lines = []
     results_lines.append(f"Handelszeitraum: {start_date} bis {end_date}\n")
     results_lines.append(f"Gehandelte Aktien: {', '.join(traded_stocks)}\n\n")
     results_lines.append("Durchschnittliche Performance:\n")
-    results_lines.append(f"  Durchschnittlicher Endwert = €{format_currency(average_final)}\n")
-    results_lines.append(f"  Durchschnittlicher Gewinn = €{format_currency(average_profit)}\n")
-    results_lines.append(f"  Durchschnittliche Veränderung = {format_currency(average_percent)} %\n")
+    results_lines.append(f"Durchschnittlicher Endwert = €{format_currency(average_final)}\n")
+    results_lines.append(f"Durchschnittlicher Gewinn = €{format_currency(average_profit)}\n")
+    results_lines.append(f"Durchschnittliche Veränderung = {format_currency(average_percent)} %\n")
     
     with open(output_path, "w", encoding="utf-8") as f:
         f.writelines(results_lines)
@@ -72,18 +24,13 @@ def save_results(average_final, average_profit, average_percent, start_date, end
     print(f"Ergebnisse wurden in '{output_path}' gespeichert.")
 
 def run_for_period(start_date, end_date, output_path):
-    """
-    Führt den Backtest für den angegebenen Zeitraum über alle gefilterten Aktien durch.
-    Für jedes Jahr wird vor dem Einstieg in den September geprüft, ob das 3-Monats-Momentum positiv ist.
-    Ist dies der Fall, wird am ersten September-Tag gekauft und am ersten Dezember-Tag verkauft.
-    Andernfalls bleibt das Kapital unberührt.
-    """
     print(f"\n*** Starte Backtest für Zeitraum: {start_date} bis {end_date} ***")
     available_tickers = get_available_stocks()
     if not available_tickers:
         print("Keine Ticker verfügbar!")
         return
     tickers_to_test = filter_stocks(available_tickers)
+    print(tickers_to_test)
     if not tickers_to_test:
         print("Nach Filterung sind keine Aktien (Stocks) verfügbar!")
         return
@@ -104,12 +51,9 @@ def run_for_period(start_date, end_date, output_path):
         except Exception as e:
             print(f"Fehler beim Laden der Daten für {ticker}: {e}")
             continue
-        
-        # Setze standardmäßig Signal-Spalte auf 0
         df['signal'] = 0
         
-        # Iteriere über jedes Jahr und prüfe, ob für das jeweilige Jahr ein positiver 3-Monats-Momentum
-        # vor dem 1. September vorliegt.
+        # Iteriere über jedes Jahr und prüfe, ob für das jeweilige Jahr ein positiver 3-Monats-Momentum vor dem 1. September ist
         years = df.index.year.unique()
         for year in years:
             sep_mask = (df.index.year == year) & (df.index.month == 9)
@@ -120,7 +64,7 @@ def run_for_period(start_date, end_date, output_path):
                 three_months_ago = sep_day - pd.DateOffset(months=3)
                 df_before = df[df.index <= three_months_ago]
                 if df_before.empty:
-                    continue  # nicht genügend Daten
+                    continue  
                 price_before = df_before.iloc[-1]['close']
                 price_sep = df.loc[sep_day, 'close']
                 momentum_val = (price_sep - price_before) / price_before
@@ -128,8 +72,7 @@ def run_for_period(start_date, end_date, output_path):
                     # Bei positivem 3-Monats-Momentum: volles Investment in September/December
                     df.loc[sep_day, 'signal'] = 1
                     df.loc[dec_day, 'signal'] = -1
-        
-        # Simuliere die Trades
+    
         kapital = start_kapital
         position = 0
         equity_curve = []
@@ -137,11 +80,9 @@ def run_for_period(start_date, end_date, output_path):
             preis = df.iloc[i]['close']
             signal = df.iloc[i]['signal']
             if signal == 1 and position == 0:
-                # Kaufe mit 100% des Kapitals
                 position = kapital / preis
                 kapital = 0
             elif signal == -1 and position > 0:
-                # Verkauf
                 kapital = position * preis
                 position = 0
             equity_curve.append(kapital + position * preis)

@@ -21,7 +21,6 @@ def print_tree(startpath, prefix=""):
             extension = "    " if is_last else "│   "
             print_tree(path, prefix + extension)
 
-# Dein Projektordner (z. B. "." oder genauer Pfad)
 project_path = "Backend"
 print("Project/")
 print_tree(project_path)

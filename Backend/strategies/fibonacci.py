@@ -3,22 +3,11 @@ import sqlite3
 import os
 import sys
 
-try:
-    from .common import ensure_close_column, ensure_datetime_index, format_currency
-except ImportError:
-    from common import ensure_close_column, ensure_datetime_index, format_currency
-
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from strategies.common import ensure_close_column, ensure_datetime_index, format_currency
 import plotly.graph_objects as go
 
 def run_strategy(df: pd.DataFrame, fenster: int = 50, tolerance: float = 0.01, start_kapital: float = 100000):
-    """
-    Fibonacci-Retracement-Strategie:
-    - Berechnet Fibonacci-Level basierend auf rollierenden Hochs/Tiefs
-    - Generiert Kaufsignale, wenn der Kurs nahe dem 38,2%-Level liegt,
-      und Verkaufssignale, wenn der Kurs nahe dem 61,8%-Level liegt.
-    - Simuliert Trades (alles rein, alles raus), baut eine Equity-Kurve auf
-    - Gibt 2 Plotly-Figuren, final_value und gewinn zurück.
-    """
     df = df.copy()
     df["rolling_max"] = df["close"].rolling(window=fenster).max().shift(1)
     df["rolling_min"] = df["close"].rolling(window=fenster).min().shift(1)
@@ -60,7 +49,6 @@ def run_strategy(df: pd.DataFrame, fenster: int = 50, tolerance: float = 0.01, s
     final_value = equity_curve[-1] if equity_curve else start_kapital
     gewinn = final_value - start_kapital
 
-    # Erstelle Figur 1: Kursentwicklung mit Fibonacci-Level und Kauf-/Verkaufspunkten
     x_values = df["date"] if "date" in df.columns else df.index
     fig1 = go.Figure()
     fig1.add_trace(go.Scatter(x=x_values, y=df["close"], mode="lines", name="Schlusskurs"))
@@ -76,16 +64,13 @@ def run_strategy(df: pd.DataFrame, fenster: int = 50, tolerance: float = 0.01, s
         mode="markers", marker=dict(color="red", size=8), name="Verkaufen"))
     fig1.update_layout(title="Fibonacci-Retracement Strategie", xaxis_title="Datum", yaxis_title="Preis", xaxis_type="date")
 
-    # Erstelle Figur 2: Equity-Kurve
     fig2 = go.Figure()
     fig2.add_trace(go.Scatter(x=x_values, y=equity_curve, mode="lines", name="Equity"))
     fig2.update_layout(title="Kapitalentwicklung", xaxis_title="Datum", yaxis_title="Kapital", xaxis_type="date")
 
     return fig1, fig2, final_value, gewinn
 
-# -------------------------
-# Test-Main Fibonacci
-# -------------------------
+
 if __name__ == "__main__":
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     BASE_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
@@ -127,5 +112,5 @@ if __name__ == "__main__":
     print("Endwert: €" + format_currency(final_value))
     print("Gewinn/Verlust: €" + format_currency(profit))
     print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")
-    fig1.show()
-    fig2.show()
+    #fig1.show()
+    #fig2.show()

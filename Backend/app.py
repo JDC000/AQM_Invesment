@@ -9,16 +9,12 @@ from dash import dcc, html, Input, Output
 from Datenbank.api import get_available_stocks, load_stock_data
 from strategies import STRATEGIES
 
-# === Dash App initialisieren ===
 app = dash.Dash(__name__)
 app.title = "Investment Strategien"
 
-# === Liste der Ticker und Strategien abrufen ===
 TICKERS = get_available_stocks()
 STRATEGY_NAMES = list(STRATEGIES.keys())
 
-# === Layout der Benutzeroberfläche ===
-# Dashboard-Layout
 app.layout = html.Div([
     html.H1(id="dashboard-title", style={"textAlign": "center"}),
 
@@ -59,7 +55,6 @@ app.layout = html.Div([
     ], style={"textAlign": "left", "marginTop": "20px"}),
 ])
 
-# === Callback, um die Diagramme zu aktualisieren, wenn der Benutzer eine Auswahl trifft ===
 @app.callback(
     Output('signal-graph', 'figure'),
     Output('equity-graph', 'figure'),
@@ -85,6 +80,6 @@ def update_graphs(strategy_name, ticker):
 )
 def update_title(strategy_name):
     return f"{strategy_name}"
-# === App starten ===
+
 if __name__ == '__main__':
     app.run()

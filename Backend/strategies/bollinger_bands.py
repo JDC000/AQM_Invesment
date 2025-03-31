@@ -71,8 +71,10 @@ def run_strategy(df: pd.DataFrame, window: int = 20, num_std: int = 2, start_kap
 # Test-Main in der Strategie
 # -------------------------
 def main():
-    from common import ensure_close_column, ensure_datetime_index, format_currency
     import sys, os, sqlite3, pandas as pd
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+    from strategies.common import ensure_close_column, ensure_datetime_index, format_currency
+    
 
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     BASE_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
@@ -113,8 +115,8 @@ def main():
     print("Endwert: €" + format_currency(final_value))
     print("Gewinn/Verlust: €" + format_currency(profit))
     print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")
-    fig1.show()
-    fig2.show()
+    #fig1.show()
+    #fig2.show()
 
 if __name__ == "__main__":
     main()

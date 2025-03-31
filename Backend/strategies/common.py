@@ -1,10 +1,6 @@
 import pandas as pd
 
 def ensure_close_column(df):
-    """
-    Überprüft, ob das DataFrame die Spalte 'close' enthält.
-    Falls stattdessen 'Price' vorhanden ist, wird diese umbenannt.
-    """
     if "close" not in df.columns:
         if "Price" in df.columns:
             df = df.rename(columns={"Price": "close"})
@@ -13,10 +9,6 @@ def ensure_close_column(df):
     return df
 
 def ensure_datetime_index(df):
-    """
-    Stellt sicher, dass der Index des DataFrames ein DatetimeIndex ist.
-    Falls nicht, wird versucht, den Index in einen DatetimeIndex zu konvertieren.
-    """
     if not isinstance(df.index, pd.DatetimeIndex):
         try:
             df.index = pd.to_datetime(df.index)
@@ -25,12 +17,6 @@ def ensure_datetime_index(df):
     return df
 
 def calculate_buy_and_hold_performance(df, start_kapital):
-    """
-    Berechnet die Buy-&-Hold-Performance:
-    - Startpreis entspricht dem ersten 'close'-Wert,
-    - Endpreis dem letzten 'close'-Wert.
-    Es wird der Endkapitalwert sowie der prozentuale Gewinn zurückgegeben.
-    """
     start_price = df.iloc[0]["close"]
     end_price = df.iloc[-1]["close"]
     total = start_kapital * (end_price / start_price)
@@ -38,13 +24,6 @@ def calculate_buy_and_hold_performance(df, start_kapital):
     return total, percent_gain
 
 def filter_stocks(tickers):
-    """
-    Filtert die Tickerliste, sodass nur Aktien (Stocks) enthalten sind.
-    Folgende ETFs und Cryptos werden ausgelassen:
-      ETFS = {"XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE", "VT"}
-      CRYPTOS = {"BNB", "XRP", "SOL", "DOT", "LTC", "USDC", "LINK", "BCH", "XLM", "UNI",
-                 "ATOM", "TRX", "ETC", "NEAR", "XMR", "VET", "EOS", "FIL", "CRO", "DAI", "DASH", "ENJ"}
-    """
     ETFS = {"XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE", "VT"}
     CRYPTOS = {"BNB", "XRP", "SOL", "DOT", "LTC",
                "USDC", "LINK", "BCH", "XLM", "UNI", "ATOM", "TRX",
@@ -53,12 +32,22 @@ def filter_stocks(tickers):
 
 
 def format_currency(value):
-    """
-    Formatiert einen Zahlenwert als Währung:
-    Tausender werden mit einem Punkt getrennt und die Nachkommastellen mit einem Komma.
-    Beispiel: 100000 -> "100.000,00"
-    """
-    s = f"{value:,.2f}"  # Beispiel: 100,000.00 (englisches Format)
-    # Tauschen: Komma -> Temporärmarke, Punkt -> Komma, Temporärmarke -> Punkt
+    s = f"{value:,.2f}" 
     s = s.replace(",", "X").replace(".", ",").replace("X", ".")
     return s
+
+def extract_numeric_result(result):
+    if isinstance(result, tuple):
+        if len(result) == 4:
+            return result[2], result[3]
+        elif len(result) == 2:
+            return result
+    raise ValueError("Unbekanntes Rückgabeformat der Strategie.")
+
+def calculate_vt_performance(df,START_CAPITAL):
+    initial_price = df.iloc[0]['close']
+    final_price = df.iloc[-1]['close']
+    final_value = (final_price / initial_price) * START_CAPITAL
+    profit = final_value - START_CAPITAL
+    percent = (profit / START_CAPITAL) * 100
+    return {"final_value": final_value, "profit": profit, "percent": percent}

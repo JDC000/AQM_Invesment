@@ -4,13 +4,6 @@ import os
 import plotly.graph_objects as go
 
 def run_strategy(df: pd.DataFrame, fenster: int = 20, start_kapital: float = 100000):
-    """
-    Breakout-Strategie:
-    - Kauft, wenn der Schlusskurs das bisherige Hoch (letzte 'fenster' Tage, um 1 Tag verschoben) überschreitet
-    - Verkauft, wenn der Schlusskurs das bisherige Tief unterschreitet
-    - Simuliert Trades (alles rein, alles raus) und berechnet die Equity-Kurve
-    - Gibt 2 Plotly-Figuren + final_value + gewinn zurück
-    """
     df = df.copy()
     
     # Berechne Highest und Lowest der letzten 'fenster' Tage (um 1 Tag verschoben)
@@ -21,8 +14,7 @@ def run_strategy(df: pd.DataFrame, fenster: int = 20, start_kapital: float = 100
     df["signal"] = 0
     df.loc[df["close"] > df["highest"], "signal"] = 1
     df.loc[df["close"] < df["lowest"], "signal"] = -1
-    
-    # Trade-Simulation
+
     kapital = start_kapital
     position = 0
     equity_curve = []
@@ -43,7 +35,6 @@ def run_strategy(df: pd.DataFrame, fenster: int = 20, start_kapital: float = 100
 
     x_values = df["date"] if "date" in df.columns else df.index
 
-    # Graph 1: Kurschart mit Highest/Lowest und Signalen
     fig1 = go.Figure()
     fig1.add_trace(go.Scatter(x=x_values, y=df["close"], mode="lines", name="Schlusskurs"))
     fig1.add_trace(go.Scatter(x=x_values, y=df["highest"], mode="lines", name="Highest (verschoben)",
@@ -64,19 +55,17 @@ def run_strategy(df: pd.DataFrame, fenster: int = 20, start_kapital: float = 100
                                   marker=dict(color="red", size=8), name="Verkaufen"))
     fig1.update_layout(title="Breakout Strategie", xaxis_title="Datum", yaxis_title="Preis", xaxis_type="date")
 
-    # Graph 2: Equity-Kurve
     fig2 = go.Figure()
     fig2.add_trace(go.Scatter(x=x_values, y=equity_curve, mode="lines", name="Equity"))
     fig2.update_layout(title="Kapitalentwicklung", xaxis_title="Datum", yaxis_title="Kapital", xaxis_type="date")
     
     return fig1, fig2, final_value, gewinn
 
-# -------------------------
-# Test-Main in der Strategie
-# -------------------------
+
 if __name__ == "__main__":
     import sys
-    from common import ensure_close_column, ensure_datetime_index, format_currency
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+    from strategies.common import ensure_close_column, ensure_datetime_index, format_currency
     import sqlite3
     import pandas as pd
     import os
@@ -120,5 +109,5 @@ if __name__ == "__main__":
     print("Endwert: €" + format_currency(final_value))
     print("Gewinn/Verlust: €" + format_currency(gewinn))
     print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")
-    fig1.show()
-    fig2.show()
+    #fig1.show()
+    #fig2.show()

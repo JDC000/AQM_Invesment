@@ -4,12 +4,10 @@ import sqlite3
 import pandas as pd
 import itertools
 
-# Füge den übergeordneten Ordner zum Suchpfad hinzu, damit Module aus dem Projekt-Root gefunden werden
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 from Datenbank.api import get_available_stocks, load_stock_data
+from strategies.common import ensure_close_column, ensure_datetime_index, filter_stocks, extract_numeric_result, format_currency
 
-# Importiere die echten Strategien aus dem Ordner "strategies" (diese liegen im Projekt-Root)
 from strategies.moving_average import run_strategy as strat_ma
 from strategies.momentum import run_strategy as strat_momentum
 from strategies.bollinger_bands import run_strategy as strat_bollinger
@@ -30,71 +28,8 @@ STRATEGIES = {
     "September/December": strat_septdec,
 }
 
-# Gemeinsame Hilfsfunktionen
-def ensure_close_column(df):
-    """
-    Überprüft, ob das DataFrame die Spalte 'close' enthält.
-    Falls stattdessen 'Price' vorhanden ist, wird diese umbenannt.
-    """
-    if "close" not in df.columns:
-        if "Price" in df.columns:
-            df = df.rename(columns={"Price": "close"})
-        else:
-            raise ValueError("Das DataFrame enthält weder 'close' noch 'Price'")
-    return df
-
-def ensure_datetime_index(df):
-    """
-    Stellt sicher, dass der Index des DataFrames ein DatetimeIndex ist.
-    Falls nicht, wird versucht, den Index in einen DatetimeIndex zu konvertieren.
-    """
-    if not isinstance(df.index, pd.DatetimeIndex):
-        try:
-            df.index = pd.to_datetime(df.index)
-        except Exception as e:
-            raise ValueError("Index konnte nicht in datetime konvertiert werden: " + str(e))
-    return df
-
-def format_currency(value):
-    """
-    Formatiert einen Zahlenwert als Währung:
-    Tausender werden mit einem Punkt getrennt und Dezimalstellen mit einem Komma.
-    Beispiel: 100000 -> "100.000,00"
-    """
-    s = f"{value:,.2f}"
-    s = s.replace(",", "X").replace(".", ",").replace("X", ".")
-    return s
-
-def filter_stocks(tickers):
-    """
-    Filtert die Tickerliste, sodass nur Aktien (Stocks) enthalten sind.
-    ETFs und Cryptos werden ausgeklammert.
-    """
-    ETFS = {"XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE", "VT"}
-    CRYPTOS = {"BNB", "XRP", "SOL", "DOT", "LTC", "USDC", "LINK", "BCH", "XLM", "UNI",
-               "ATOM", "TRX", "ETC", "NEAR", "XMR", "VET", "EOS", "FIL", "CRO", "DAI", "DASH", "ENJ"}
-    return [ticker for ticker in tickers if ticker not in ETFS and ticker not in CRYPTOS]
-
-def extract_numeric_result(result):
-    """
-    Extrahiert aus dem Rückgabewert der Strategie die numerischen Ergebnisse.
-    Falls die Funktion 4 Werte zurückgibt (fig1, fig2, final_value, profit),
-    werden nur final_value und profit extrahiert.
-    Falls 2 Werte zurückgegeben werden, wird direkt das Tupel zurückgegeben.
-    """
-    if isinstance(result, tuple):
-        if len(result) == 4:
-            return result[2], result[3]
-        elif len(result) == 2:
-            return result
-    raise ValueError("Unbekanntes Rückgabeformat der Strategie.")
 
 def save_results(average_results, best_combo, best_metrics, start_date, end_date, traded_stocks, output_path):
-    """
-    Speichert die durchschnittlichen Ergebnisse, den Handelszeitraum, die gehandelten Aktien 
-    und die beste Strategie-Kombination in eine Textdatei.
-    Existierende Dateien werden überschrieben.
-    """
     results_lines = []
     results_lines.append(f"Handelszeitraum: {start_date} bis {end_date}\n")
     results_lines.append(f"Gehandelte Aktien: {', '.join(traded_stocks)}\n\n")
@@ -105,7 +40,7 @@ def save_results(average_results, best_combo, best_metrics, start_date, end_date
             f"Gewinn = €{format_currency(data['avg_profit'])}, Veränderung = {format_currency(data['avg_percent'])} %\n"
         )
         results_lines.append(
-            f"    Durchschnittliche Gewichte: {combo[0]} = {data['avg_weights'][0]:.3f}, {combo[1]} = {data['avg_weights'][1]:.3f}\n"
+            f"Durchschnittliche Gewichte: {combo[0]} = {data['avg_weights'][0]:.3f}, {combo[1]} = {data['avg_weights'][1]:.3f}\n"
         )
     results_lines.append("\nBeste Strategie-Kombination:\n")
     if best_combo:
@@ -125,10 +60,6 @@ def save_results(average_results, best_combo, best_metrics, start_date, end_date
     print(f"Ergebnisse wurden in '{output_path}' gespeichert.")
 
 def run_for_period(start_date, end_date, output_path):
-    """
-    Führt den dynamischen Weighting-Backtest für den angegebenen Zeitraum aus
-    und speichert die Ergebnisse in der angegebenen Datei.
-    """
     print(f"\n*** Starte Backtest für Zeitraum: {start_date} bis {end_date} ***")
     available_tickers = get_available_stocks()
     if not available_tickers:
@@ -142,22 +73,16 @@ def run_for_period(start_date, end_date, output_path):
     print(f"Vergleiche kombinierte Strategien für die Ticker: {', '.join(tickers_to_test)}")
 
     start_kapital = 100000
-
-    # Erstelle alle paarweisen Kombinationen (ohne Wiederholung)
     strategy_names = list(STRATEGIES.keys())
     strategy_combinations = list(itertools.combinations(strategy_names, 2))
-
-    # Ergebnis-Dictionary zur Speicherung der Performance jeder Kombination (über alle Ticker)
     combined_results = {combo: {"finals": [], "profits": [], "percents": [], "weights": []} for combo in strategy_combinations}
 
-    # Für jeden Ticker (Daten werden aus der Datenbank geladen)
     for ticker in tickers_to_test:
         print(f"\nBearbeite Ticker: {ticker}")
         try:
             df = load_stock_data(ticker, start_date, end_date)
             df = ensure_close_column(df)
             df = ensure_datetime_index(df)
-            # Falls vorhanden, setze die "date"-Spalte als Index und normalisiere
             if "date" in df.columns:
                 df.set_index("date", inplace=True)
                 df.index = df.index.normalize()
@@ -165,7 +90,6 @@ def run_for_period(start_date, end_date, output_path):
             print(f"Fehler beim Laden der Daten für {ticker}: {e}")
             continue
 
-        # Für jede Kombination: dynamisches Weighting
         for combo in strategy_combinations:
             strat1_name, strat2_name = combo
             try:
@@ -194,7 +118,6 @@ def run_for_period(start_date, end_date, output_path):
             except Exception as e:
                 print(f"Fehler bei der Kombination '{strat1_name} + {strat2_name}' für {ticker}: {e}")
 
-    # Durchschnittliche Performance pro Kombination berechnen
     print("\nDurchschnittliche Performance pro Strategie-Kombination:")
     average_results = {}
     for combo, data in combined_results.items():
@@ -208,9 +131,9 @@ def run_for_period(start_date, end_date, output_path):
                                       "avg_weights": (avg_w1, avg_w2)}
             print(f"  {combo[0]} + {combo[1]}: Durchschnittlicher Endwert = €{format_currency(avg_final)}, "
                   f"Gewinn = €{format_currency(avg_profit)}, Veränderung = {format_currency(avg_percent)} %")
-            print(f"    Durchschnittliche Gewichte: {combo[0]} = {avg_w1:.3f}, {combo[1]} = {avg_w2:.3f}")
+            print(f"Durchschnittliche Gewichte: {combo[0]} = {avg_w1:.3f}, {combo[1]} = {avg_w2:.3f}")
         else:
-            print(f"  {combo[0]} + {combo[1]}: Keine gültigen Ergebnisse.")
+            print(f"{combo[0]} + {combo[1]}: Keine gültigen Ergebnisse.")
 
     best_combo = None
     best_avg_final = -float("inf")
@@ -232,7 +155,6 @@ def run_for_period(start_date, end_date, output_path):
     save_results(average_results, best_combo, best_metrics, start_date, end_date, tickers_to_test, output_path)
 
 def main():
-    # Definiere die drei gewünschten Zeiträume und die zugehörigen Output-Dateinamen
     date_periods = {
         "2012_2023": ("2012-01-01", "2023-12-31"),
         "2012_2017": ("2012-01-01", "2017-12-31"),

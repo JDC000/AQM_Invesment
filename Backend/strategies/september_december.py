@@ -2,19 +2,12 @@ import pandas as pd
 import sqlite3
 import os
 import sys
-from .common import ensure_close_column, ensure_datetime_index, format_currency
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from strategies.common import ensure_close_column, ensure_datetime_index, format_currency
 import plotly.graph_objects as go
 
 def run_strategy(df: pd.DataFrame, start_kapital: float = 100000):
-    """
-    Buy-September / Sell-December Strategie:
-    - Setzt am ersten Handelstag im September ein Kaufsignal und
-      am letzten Handelstag im Dezember ein Verkaufssignal.
-    - Simuliert Trades (alles rein, alles raus) und baut eine Equity-Kurve auf
-    - Gibt 2 Plotly-Figuren + gesamtwert + gewinn zurück
-    """
     df = df.copy()
-    # Falls vorhanden, setze die "date"-Spalte als Index
     if "date" in df.columns:
         df.set_index("date", inplace=True)
     if not isinstance(df.index, pd.DatetimeIndex):
@@ -52,7 +45,6 @@ def run_strategy(df: pd.DataFrame, start_kapital: float = 100000):
 
     fig1 = go.Figure()
     fig1.add_trace(go.Scatter(x=x_values, y=df["close"], mode="lines", name="Schlusskurs"))
-    # Markiere Kauf- und Verkaufssignale
     kauf_signale = df[df["signal"] == 1]
     verkauf_signale = df[df["signal"] == -1]
     fig1.add_trace(go.Scatter(x=kauf_signale.index, y=kauf_signale["close"], mode="markers",
@@ -67,9 +59,6 @@ def run_strategy(df: pd.DataFrame, start_kapital: float = 100000):
 
     return fig1, fig2, gesamtwert, gewinn
 
-# -------------------------
-# Test-Main Buy-September / Sell-December
-# -------------------------
 if __name__ == "__main__":
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     BASE_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
@@ -112,5 +101,5 @@ if __name__ == "__main__":
     print("Endwert: €" + format_currency(gesamtwert))
     print("Gewinn/Verlust: €" + format_currency(profit))
     print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")
-    fig1.show()
-    fig2.show()
+    #fig1.show()
+    #fig2.show()

@@ -1,68 +1,12 @@
 import sys
 import os
-import pandas as pd
-import warnings
-
-# Unterdrücke FutureWarnings (sollte nur als temporäre Maßnahme genutzt werden)
-warnings.simplefilter(action="ignore", category=FutureWarning)
-
-# Erweitere den Pfad, damit Module aus dem übergeordneten Verzeichnis gefunden werden
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from Datenbank.api import get_available_stocks, load_stock_data
 from strategies import STRATEGIES
+from strategies.common import ensure_close_column, ensure_datetime_index, calculate_buy_and_hold_performance, filter_stocks
 
-def ensure_close_column(df):
-    """
-    Überprüft, ob das DataFrame die Spalte 'close' enthält.
-    Falls stattdessen 'Price' vorhanden ist, wird diese umbenannt.
-    """
-    if "close" not in df.columns:
-        if "Price" in df.columns:
-            df = df.rename(columns={"Price": "close"})
-        else:
-            raise ValueError("Das DataFrame enthält weder 'close' noch 'Price'")
-    return df
 
-def ensure_datetime_index(df):
-    """
-    Stellt sicher, dass der Index des DataFrames ein DatetimeIndex ist.
-    Falls nicht, wird versucht, den Index in einen DatetimeIndex zu konvertieren.
-    """
-    if not isinstance(df.index, pd.DatetimeIndex):
-        try:
-            df.index = pd.to_datetime(df.index)
-        except Exception as e:
-            raise ValueError("Index konnte nicht in datetime konvertiert werden: " + str(e))
-    return df
-
-def calculate_buy_and_hold_performance(df, start_kapital):
-    """
-    Berechnet die Buy-&-Hold-Performance:
-    - Startpreis entspricht dem ersten 'close'-Wert,
-    - Endpreis dem letzten 'close'-Wert.
-    Es wird der Endkapitalwert sowie der prozentuale Gewinn zurückgegeben.
-    """
-    start_price = df.iloc[0]["close"]
-    end_price = df.iloc[-1]["close"]
-    total = start_kapital * (end_price / start_price)
-    percent_gain = (total - start_kapital) / start_kapital * 100
-    return total, percent_gain
-
-def filter_stocks(tickers):
-    """
-    Filtert die Tickerliste, sodass nur Aktien (Stocks) enthalten sind.
-    Folgende ETFs und Cryptos werden ausgelassen:
-      ETFS = {"XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE"}
-      CRYPTOS = {"BNB", "XRP", "SOL", "DOT", "LTC", "USDC", "LINK", "BCH", "XLM", "UNI",
-                 "ATOM", "TRX", "ETC", "NEAR", "XMR", "VET", "EOS", "FIL", "CRO", "DAI", "DASH", "ENJ"}
-    VT wird hier absichtlich nicht mit aufgenommen, damit die Strategien nicht darauf angewendet werden.
-    """
-    ETFS = {"XFI", "XIT", "XLB", "XLE", "XLF", "XLI", "XLP", "XLU", "XLV", "XLY", "XSE"}
-    CRYPTOS = {"BNB", "XRP", "SOL", "DOT", "LTC",
-               "USDC", "LINK", "BCH", "XLM", "UNI", "ATOM", "TRX",
-               "ETC", "NEAR", "XMR", "VET", "EOS", "FIL", "CRO", "DAI", "DASH", "ENJ"}
-    return [ticker for ticker in tickers if ticker not in ETFS and ticker not in CRYPTOS]
 
 def main():
     # Alle verfügbaren Ticker abrufen
@@ -78,12 +22,11 @@ def main():
         return
     print(f"Vergleiche Strategien für die Ticker: {', '.join(tickers_to_test)}")
 
-    # Zeitraum und Startkapital für den Backtest (anpassbar)
+    # Zeitraum und Startkapital für den Backtest
     start_date = "2018-01-01"
     end_date = "2023-12-31"
     start_kapital = 100000
 
-    # Ergebnis-Dictionary zur Speicherung der Performance jeder Strategie pro Ticker
     results = {strategy_name: {"totals": [], "profits": []} for strategy_name in STRATEGIES.keys()}
 
     # Iteriere über alle ausgewählten Ticker und wende die Strategien an
@@ -99,7 +42,6 @@ def main():
 
         for strategy_name, run_strategy in STRATEGIES.items():
             try:
-                # Erwartet: (fig1, fig2, total, profit)
                 fig1, fig2, total, profit = run_strategy(df, start_kapital=start_kapital)
                 percent_gain = (total - start_kapital) / start_kapital * 100
                 results[strategy_name]["totals"].append(total)
@@ -139,7 +81,7 @@ def main():
     else:
         print("Keine Strategie konnte erfolgreich ausgewertet werden.")
 
-    # VT als Vergleich: Abruf genau wie bei den anderen Ticker
+    # VT als Vergleich
     vt_total, vt_profit = None, None
     try:
         print("\nVergleiche mit VT (ETF) per Buy & Hold:")
@@ -175,7 +117,7 @@ def main():
     else:
         results_lines.append("  VT-Daten konnten nicht geladen werden.\n")
 
-    # Schreibe die Ergebnisse in eine neue Datei (überschreibt bei jedem Lauf)
+    # Schreibe die Ergebnisse in eine Datei
     with open("results_vergleich.txt", "w", encoding="utf-8") as f:
         f.writelines(results_lines)
 

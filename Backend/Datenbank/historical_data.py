@@ -4,7 +4,6 @@ import yfinance as yf
 import time
 import os
 
-# Name der SQLite-Datenbank
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 db_dir = os.path.join(BASE_DIR, "DB")
 if not os.path.exists(db_dir):
@@ -65,7 +64,7 @@ def fetch_yfinance_data(symbol, asset_type, start="2010-01-01", end="2023-12-31"
         df.rename(columns={"Date": "date", "Open": "open", "High": "high",
                            "Low": "low", "Close": "close", "Volume": "volume"}, inplace=True)
 
-        df["date"] = df["date"].astype(str)  # als TEXT speichern
+        df["date"] = df["date"].astype(str) 
         df["asset_type"] = asset_type
         df["symbol"] = symbol
 
@@ -103,24 +102,19 @@ def get_data_from_db(asset_type, symbol, start_date="2010-01-01", end_date="2020
     return df
 
 if __name__ == "__main__":
-    # Falls die Datenbank bereits existiert, löschen wir sie vorab
     if os.path.exists(DB_NAME):
         os.remove(DB_NAME)
         print(f"Alte Datenbank {DB_NAME} wurde gelöscht.")
-
-    # Datenbank neu erstellen
     create_database()
 
-    # Aktien & ETFs abrufen
     for symbol in stocks + etfs:
         print(f"Abrufen von Daten für {symbol}...")
         df = fetch_yfinance_data(symbol, "Stock/ETF")
         save_to_database(df)
-        time.sleep(2)  # API-Limit vermeiden
+        time.sleep(2)  
 
-    # Kryptowährungen abrufen
     for symbol in cryptos:
         print(f"Abrufen von Daten für Kryptowährung: {symbol}...")
         df = fetch_yfinance_data(symbol, "Crypto")
         save_to_database(df)
-        time.sleep(2)  # API-Limit vermeiden
+        time.sleep(2)  

@@ -2,20 +2,15 @@ import pandas as pd
 import sqlite3
 import os
 import sys
-from .common import ensure_close_column, ensure_datetime_index, format_currency
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from strategies.common import ensure_close_column, ensure_datetime_index, format_currency
+
 import plotly.graph_objects as go
 
 def run_strategy(df: pd.DataFrame, start_kapital: float = 100000):
-    """
-    Buy and Hold Strategie:
-    - Investiert am frühestmöglichen Tag das gesamte Kapital und verkauft am spätesten
-    - Simuliert Trades (alles rein, alles raus) und berechnet die Equity-Kurve
-    - Gibt 2 Plotly-Figuren + gesamtwert + gewinn zurück
-    """
     df = df.copy()
     df["signal"] = 0
     if not df.empty:
-        # Falls 'date'-Spalte vorhanden, verwende diese; ansonsten den Index
         if "date" in df.columns:
             df.iloc[0, df.columns.get_loc("signal")] = 1   # Kauf am ersten Tag
             df.iloc[-1, df.columns.get_loc("signal")] = -1   # Verkauf am letzten Tag
@@ -43,7 +38,6 @@ def run_strategy(df: pd.DataFrame, start_kapital: float = 100000):
 
     x_values = df["date"] if "date" in df.columns else df.index
 
-    # Graph 1: Kurschart mit Kauf-/Verkaufspunkten
     fig1 = go.Figure()
     fig1.add_trace(go.Scatter(x=x_values, y=df["close"], mode="lines", name="Schlusskurs"))
     buy_signale = df[df["signal"] == 1]
@@ -60,7 +54,6 @@ def run_strategy(df: pd.DataFrame, start_kapital: float = 100000):
                                   marker=dict(color="red", size=8), name="Verkaufen"))
     fig1.update_layout(title="Buy and Hold Strategie", xaxis_title="Datum", yaxis_title="Preis", xaxis_type="date")
 
-    # Graph 2: Equity-Kurve
     fig2 = go.Figure()
     fig2.add_trace(go.Scatter(x=x_values, y=equity_curve, mode="lines", name="Equity"))
     fig2.update_layout(title="Kapitalentwicklung", xaxis_title="Datum", yaxis_title="Kapital", xaxis_type="date")
@@ -109,5 +102,5 @@ if __name__ == "__main__":
     print("Endwert: €" + format_currency(gesamtwert))
     print("Gewinn/Verlust: €" + format_currency(gewinn))
     print("Prozentuale Veränderung: " + format_currency(percent_change) + " %")
-    fig1.show()
-    fig2.show()
+    #fig1.show()
+    #fig2.show()
