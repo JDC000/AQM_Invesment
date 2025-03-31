@@ -308,7 +308,7 @@ def run_for_period(start_date, end_date, output_path):
                 results_per_threshold[vt][ticker] = {"final_value": final_value, "profit": profit, "percent": percent}
                 print(f"{ticker} (Threshold {vt}): Endwert = {final_value:,.2f}, Gewinn = {profit:,.2f}, Veränderung = {percent:.2f} %")
             except Exception as e:
-                print(f"Fehler bei der Voting-Strategie für {ticker} mit Threshold {vt}: {e}")
+                print(f"Fehler bei der Signalaggregation für {ticker} mit Threshold {vt}: {e}")
                 continue
 
     if not any(results_per_threshold.values()):
